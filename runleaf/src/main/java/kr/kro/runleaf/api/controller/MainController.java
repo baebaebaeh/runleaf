@@ -1,4 +1,4 @@
-package com.ssafy.myboard.main.controller;
+package kr.kro.runleaf.api.controller;
 
 import java.util.Map;
 
