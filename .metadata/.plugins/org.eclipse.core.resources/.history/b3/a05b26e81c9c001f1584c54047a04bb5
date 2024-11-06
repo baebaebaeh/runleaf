@@ -1,0 +1,7 @@
+package kr.kro.runleaf.member.service;
+
+public interface MemberService {
+
+	void join();
+
+}
