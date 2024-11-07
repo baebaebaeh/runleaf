@@ -8,10 +8,10 @@
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="MemberDto">
 		INSERT INTO member(
-		username, password, nickname, eamil, phone, address, streetAddress,
-		detailAddress, profileImage
+		username, password, nickname, email, phone, address, street_address,
+		detail_address, profile_image
 		) VALUES (
-		#{username}, #{password}, #{nickname}, #{eamil}, #{phone}, #{address},
+		#{username}, #{password}, #{nickname}, #{email}, #{phone}, #{address},
 		#{streetAddress}, #{detailAddress}, #{profileImage}
 		)
 	</insert>
@@ -31,9 +31,9 @@
 		eamil = #{eamil},
 		phone = #{phone},
 		address = #{address},
-		streetAddress = #{streetAddress},
-		detailAddress = #{detailAddress},
-		profileImage = #{profileImage}
+		street_address = #{streetAddress},
+		detail_address = #{detailAddress},
+		profile_image = #{profileImage}
 		WHERE id = #{id}
 	</update>
 	<!-- 회원삭제 -->
