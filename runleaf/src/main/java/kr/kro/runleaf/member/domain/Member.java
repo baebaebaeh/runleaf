@@ -7,6 +7,7 @@ public class Member {
 	private int id;
 	private String username;
 	private String password;
+	private String nickname;
 	private String email;
 	private String phone;
 	private String address;				
@@ -34,6 +35,12 @@ public class Member {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -51,6 +58,18 @@ public class Member {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
 	}
 	public String getProfileImage() {
 		return profileImage;
