@@ -1,26 +1,25 @@
 package kr.kro.runleaf.board.domain;
-
+/**
+ * 여기서 order에관한 작업하면됨.
+ */
 public class BoardSearch {
 	// page는 1부터 시작 
 	private int page; // 한번 부르면 5개 content load
-	private String orderString;
+	private int orderInt;
+	private double latitude;
+	private double longitude;
 	
 	public BoardSearch() {
-		this(0, 1);
+		this(1, 1);
 	}
 	
 	public BoardSearch(int page) {
 		this(page, 1);
 	}
 	
-	public BoardSearch(int page, int order) {
+	public BoardSearch(int page, int orderInt) {
 		this.page = page;
-		if (order == 1) {
-			this.orderString = "distance";
-		}
-		if (order == 2) {
-			this.orderString = "recent";
-		}
+		this.orderInt = orderInt;
 	}
 
 	public int getPage() {
@@ -32,18 +31,36 @@ public class BoardSearch {
 	}
 
 	public int getStartIdx() {
-		return page * 5 - 4;
+		return page * 5 - 5;
 	}
 	
 	public int getEndIdx() {
 		return page * 5;
 	}
-	
-	public String getOrderString() {
-		return orderString;
+
+	public int getOrderInt() {
+		return orderInt;
 	}
-	
-	public void set
+
+	public void setOrderInt(int orderInt) {
+		this.orderInt = orderInt;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 	
 	
 }

@@ -5,22 +5,22 @@
 
 <mapper namespace="kr.kro.runleaf.board.repository.BoardDao">
 	<!-- 게시물 목록 데이터 -->
-	<select id="selectBoardByDistance" resultType="Board" parameterType="BoardSearch">
-		select *
-		  from board
-		 order by no desc
-		 limit #{offset}, #{listSize}
+	<select id="selectBoardByOrder" resultType="Board"
+		parameterType="BoardSearch">
+		<choose>
+			<when test="orderInt == 1">
+				select id, member_id, running_data_id, content, created_date,
+					modifided_date, main_image_path, start_latitude, start_longitude,
+					ST_Distance_Sphere(
+						POINT(start_longitude, start_latitude),
+						POINT(#{longitude}, #{latitude})
+						) AS distance
+				from board
+				order by distance asc
+				limit #{startIdx}, 5
+			</when>
+		</choose>
 	</select>
-	
-	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no">
-		<!-- 
-    	<selectKey keyProperty="no" resultType="int" order="AFTER">
-    		select last_insert_id() from dual
-    	</selectKey>
-		 -->
-    	insert into board (title, writer, content)
-	    values (#{title}, #{writer}, #{content})
-	</insert>	
 
 </mapper>
 

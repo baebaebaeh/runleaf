@@ -41,9 +41,23 @@ public class BoardController {
 	 * 불러오면서 서버 내부오류시 500 ok
 	 */
 	@GetMapping
-	public ResponseEntity<List<Board>> getBoardList(BoardSearch boardSearch) {
-		List<Board> boardList = boardService.getBoardList(boardSearch);
+	public ResponseEntity<List<Board>> getBoardList(BoardSearch boardSearch
+			, @RequestHeader(value = "Longitude", required = false) double longitudeHeader
+			, @RequestHeader(value = "latitude", required = false) double latitudeHeader) {
+		List<Board> boardList;
 		ResponseEntity<List<Board>> responseEntity;
+		// 헤더위치를 제대로 받아왔는지 확인하는 로직
+		if (longitudeHeader == 0 || latitudeHeader == 0) {
+			// 헤더위치 못받아왔으면 정렬은 최신순
+			boardSearch.setOrderInt(2);
+			boardList = boardService.getBoardList(boardSearch);
+		} else {
+			// 헤더위치 못받아왔으면 정렬은 거리순
+			boardSearch.setLongitude(longitudeHeader);
+			boardSearch.setLatitude(latitudeHeader);
+			boardSearch.setOrderInt(1);
+			boardList = boardService.getBoardList(boardSearch);
+		}
 		try {
 			if (boardList.isEmpty()) {
 				responseEntity = new ResponseEntity<>(boardList, HttpStatus.NO_CONTENT);
