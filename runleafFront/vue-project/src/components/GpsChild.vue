@@ -31,8 +31,6 @@ const sendPositionToServer = async (position) => {
   location.value.longitude = longitude;
   location.value.latitude = latitude;
   await axios.post("https://www.runleaf.kro.kr:8080/gps", location.value);
-  console.log(longitude);
-  console.log(latitude);
   locations.value.push(location);
 };
 
