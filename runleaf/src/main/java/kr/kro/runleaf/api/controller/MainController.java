@@ -4,26 +4,22 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import kr.kro.runleaf.board.domain.Location;
 
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/gps")
 public class MainController {
-	@GetMapping("/")
-	public String index() {
-		return "index";
-	}
 
-	@GetMapping("/gps")
-	public String gps() {
-		return "gps";
-	}
-
-	@PostMapping("/location")
-	@ResponseBody
+	@PostMapping
 	public String receiveLocation(@RequestBody Location location) {
 		System.out.println("Received Latitude: " + location.getLatitude());
 		System.out.println("Received Longitude: " + location.getLongitude());
@@ -33,39 +29,18 @@ public class MainController {
 
 		return "{\"status\": \"Location received successfully!\"}";
 	}
+
 }
 
-class Location {
-	private double latitude;
-	private double longitude;
-
-	// Getter and Setter
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	@PostMapping("/savePosition")
-	@ResponseBody
-	public ResponseEntity<String> savePosition(@RequestBody Map<String, Double> coordinates) {
-		Double lat = coordinates.get("lat");
-		Double lng = coordinates.get("lng");
-		System.out.println(1);
-		// 받은 좌표 값을 활용하여 처리
-		System.out.println("Received Latitude: " + lat + ", Longitude: " + lng);
-
-		// 필요한 처리 후 응답 반환
-		return ResponseEntity.ok("Position received");
-	}
-}
+//	@PostMapping("/savePosition")
+//	@ResponseBody
+//	public ResponseEntity<String> savePosition(@RequestBody Map<String, Double> coordinates) {
+//		Double lat = coordinates.get("lat");
+//		Double lng = coordinates.get("lng");
+//		System.out.println(1);
+//		// 받은 좌표 값을 활용하여 처리
+//		System.out.println("Received Latitude: " + lat + ", Longitude: " + lng);
+//
+//		// 필요한 처리 후 응답 반환
+//		return ResponseEntity.ok("Position received");
+//	}

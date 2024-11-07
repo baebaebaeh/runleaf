@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Geolocation Example</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geolocation Example</title>
 </head>
 <body>
-  <h1>Get User Location</h1>
-  <button onclick="getLocation()">Get Location</button>
+	<h1>Get User Location</h1>
+	<button onclick="getLocation()">Get Location</button>
 	<a href="${pageContext.request.contextPath}/">main</a>
-  <script>
+	<script>
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);
