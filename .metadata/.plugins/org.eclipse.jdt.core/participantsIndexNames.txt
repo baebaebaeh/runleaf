@@ -1,5 +1,0 @@
-INDEX VERSION 1.134
-C:\SSAFY\prj\runleaf\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4200737996.index
-\runleaf\src\main\java
-C:\SSAFY\prj\runleaf\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3457213501.index
-\runleaf\src\main\java

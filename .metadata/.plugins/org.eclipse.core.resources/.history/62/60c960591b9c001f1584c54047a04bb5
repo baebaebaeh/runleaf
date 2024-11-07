@@ -1,5 +1,0 @@
-package kr.kro.runleaf.member.domain.dto;
-
-public class MemberJoinDto {
-
-}
