@@ -30,7 +30,7 @@ public class MemberDto {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public String getEamil() {
+	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
