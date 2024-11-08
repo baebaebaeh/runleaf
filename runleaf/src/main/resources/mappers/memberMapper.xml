@@ -8,17 +8,14 @@
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="MemberDto">
 		INSERT INTO member(
-		username, password, nickname, email, phone, address, street_address,
-		detail_address, profile_image
+		username, password, nickname, email, phone, profile_image
 		) VALUES (
-		#{username}, #{password}, #{nickname}, #{email}, #{phone}, #{address},
-		#{streetAddress}, #{detailAddress}, #{profileImage}
+		#{username}, #{password}, #{nickname}, #{email}, #{phone}, #{profileImage}
 		)
 	</insert>
 	<!-- 회원조회 -->
 	<select id="selectMember" parameterType="int" resultType="kr.kro.runleaf.member.domain.Member">
-		SELECT nickname, email, phone, address, streetAddress,
-		detailAddress, profileImage
+		SELECT nickname, email, phone, profileImage
 		FROM member
 		WHERE id = #{id}
 	</select>
@@ -28,11 +25,8 @@
 		SET
 		username = #{username},
 		password = #{password},
-		eamil = #{eamil},
+		email = #{email},
 		phone = #{phone},
-		address = #{address},
-		street_address = #{streetAddress},
-		detail_address = #{detailAddress},
 		profile_image = #{profileImage}
 		WHERE id = #{id}
 	</update>

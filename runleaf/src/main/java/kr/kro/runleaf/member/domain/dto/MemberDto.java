@@ -7,9 +7,6 @@ public class MemberDto {
 	private String nickname;
 	private String email;
 	private String phone;
-	private String address;
-	private String streetAddress;		
-	private String detailAddress;
 	private String profileImage;
 	
 	public String getUsername() {
@@ -41,24 +38,6 @@ public class MemberDto {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getStreetAddress() {
-		return streetAddress;
-	}
-	public void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
-	}
-	public String getDetailAddress() {
-		return detailAddress;
-	}
-	public void setDetailAddress(String detailAddress) {
-		this.detailAddress = detailAddress;
 	}
 	public String getProfileImage() {
 		return profileImage;
