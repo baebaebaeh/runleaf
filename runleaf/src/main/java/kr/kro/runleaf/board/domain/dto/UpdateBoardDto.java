@@ -6,9 +6,36 @@ package kr.kro.runleaf.board.domain.dto;
  */
 public class UpdateBoardDto {
 	private int id;
-	private int memberId;
-	private int runningDataId;
 	private String content;
 	private String mainImagePath;
+	public UpdateBoardDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public UpdateBoardDto(int id, String content, String mainImagePath) {
+		super();
+		this.id = id;
+		this.content = content;
+		this.mainImagePath = mainImagePath;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getMainImagePath() {
+		return mainImagePath;
+	}
+	public void setMainImagePath(String mainImagePath) {
+		this.mainImagePath = mainImagePath;
+	}
+	
 	
 }
