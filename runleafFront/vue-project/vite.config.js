@@ -17,14 +17,14 @@ export default defineConfig({
   },
 
 
-  server: {
-    host: '192.168.219.111',
-    port: 443,
-    https: {
-      key: 'path/to/private.pem',
-      cert: 'path/to/certificate.pem',
-      ca: 'path/to/ca_bundle.pem',
-    },
-  },
+  // server: {
+  //   host: '192.168.219.111',
+  //   port: 443,
+  //   https: {
+  //     key: 'path/to/private.pem',
+  //     cert: 'path/to/certificate.pem',
+  //     ca: 'path/to/ca_bundle.pem',
+  //   },
+  // },
   
 })

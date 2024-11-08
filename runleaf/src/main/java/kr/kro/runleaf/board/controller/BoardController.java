@@ -2,6 +2,7 @@ package kr.kro.runleaf.board.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.kro.runleaf.board.domain.Board;
 import kr.kro.runleaf.board.domain.BoardSearch;
@@ -11,20 +12,24 @@ import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.board.service.BoardService;
 import kr.kro.runleaf.board.util.PageData;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.print.attribute.standard.JobKOctets;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
-
 
 @RestController
 @RequestMapping("/board")
@@ -36,14 +41,12 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시글 모두 불러오기 게시글이 없을시 204
-	 * 게시글이 정상적으로 존재할시 200no content
-	 * 불러오면서 서버 내부오류시 500 ok
+	 * 게시글 모두 불러오기 게시글이 없을시 204 게시글이 정상적으로 존재할시 200no content 불러오면서 서버 내부오류시 500 ok
 	 */
 	@GetMapping
-	public ResponseEntity<List<Board>> getBoardList(BoardSearch boardSearch
-			, @RequestHeader(value = "Longitude", required = false) double longitudeHeader
-			, @RequestHeader(value = "latitude", required = false) double latitudeHeader) {
+	public ResponseEntity<List<Board>> getBoardList(BoardSearch boardSearch,
+			@RequestHeader(value = "Longitude", required = false) double longitudeHeader,
+			@RequestHeader(value = "latitude", required = false) double latitudeHeader) {
 		List<Board> boardList;
 		ResponseEntity<List<Board>> responseEntity;
 		// 헤더위치를 제대로 받아왔는지 확인하는 로직
@@ -91,32 +94,50 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시글 생성하기 게시글 정상적으로 생성시 200 ok
-	 * 게시글 생성못했을시 400오류 bad request
-	 * 중간에 오류 났을시 internal server error
+	 * 게시글 생성하기 게시글 정상적으로 생성시 200 ok 게시글 생성못했을시 400오류 bad request 중간에 오류 났을시
+	 * internal server error
 	 * 
 	 */
+//	@PostMapping
+//	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
+//		int numberOfChange = boardService.addBoard(insertBoardDto);
+//		System.out.println(insertBoardDto.getStartLatitude());
+//		ResponseEntity<Integer> responseEntity;
+//		try {
+//			if (numberOfChange == 1) {
+//				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.OK);
+//			} else {
+//				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.BAD_REQUEST);
+//			}
+//		} catch (Exception e) {
+//			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		return responseEntity;
+//	}
+	@CrossOrigin
 	@PostMapping
-	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
-		int numberOfChange = boardService.addBoard(insertBoardDto);
-		System.out.println(insertBoardDto.getStartLatitude());
-		ResponseEntity<Integer> responseEntity;
+	public ResponseEntity<Object> addBoard(@RequestParam MultipartFile file) {
+		ResponseEntity<Object> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		// 저장할 디렉토리 경로 설정
+		String uploadDir = "/Users/baehanjin/SSAFY/";
+		// 원본 파일명 가져오기
+		String originalFilename = file.getOriginalFilename();
+		// 저장할 파일 객체 생성
+		File destFile = new File(uploadDir + originalFilename);
 		try {
-			if (numberOfChange == 1) {
-				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.OK);
-			} else {
-				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.BAD_REQUEST);
-			}
+			// 파일 저장
+			file.transferTo(destFile);
+			System.out.println(1);
 		} catch (Exception e) {
-			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
 		}
+		System.out.println(file);
 		return responseEntity;
 	}
 
 	/**
-	 * 게시글 수정하기 게시글 정상적으로 수정시 200 ok
-	 * 게시글 수정 못했을시 400오류 bad request
-	 * 중간에 오류 났을시 internal server error
+	 * 게시글 수정하기 게시글 정상적으로 수정시 200 ok 게시글 수정 못했을시 400오류 bad request 중간에 오류 났을시
+	 * internal server error
 	 * 
 	 */
 	@PutMapping("/{id}")
@@ -136,10 +157,8 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시글 삭제하기 게시글 정상적으로 삭제시 200ok
-	 * 권한이 없이 요청들어왔을시 203 non authoritative information
-	 * 게시글 삭제 못했을시 400오류 bad request
-	 * 중간에 오류 났을시 500오류 internal server error
+	 * 게시글 삭제하기 게시글 정상적으로 삭제시 200ok 권한이 없이 요청들어왔을시 203 non authoritative information
+	 * 게시글 삭제 못했을시 400오류 bad request 중간에 오류 났을시 500오류 internal server error
 	 * 
 	 */
 	@DeleteMapping("{id}")
@@ -155,8 +174,7 @@ public class BoardController {
 			responseEntity = new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			return responseEntity;
 		}
-		
-		
+
 		int numberOfChange = 0;
 		// 토큰과 memberId와 비교해서 확인하는 로직
 		if (// deleteBoardDto.getMemberId == jwtToken
@@ -171,24 +189,3 @@ public class BoardController {
 		return responseEntity;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
