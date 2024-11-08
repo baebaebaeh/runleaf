@@ -1,6 +1,5 @@
 package kr.kro.runleaf.member.domain;
 
-import java.time.LocalDateTime;
 
 public class Member {
 	
@@ -10,7 +9,7 @@ public class Member {
 	private String nickname;
 	private String email;
 	private String phone;
-	private String profileImage;
+	private MemberFile memberImage;
 	
 	public int getId() {
 		return id;
@@ -48,16 +47,16 @@ public class Member {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getProfileImage() {
-		return profileImage;
+	public MemberFile getProfileImage() {
+		return memberImage;
 	}
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
+	public void setMemberImage(MemberFile memberImage) {
+		this.memberImage = memberImage;
 	}
 	
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", profileImage=" + profileImage + "]";
+				+ ", phone=" + phone + ", profileImage=" + memberImage + "]";
 	}
 }

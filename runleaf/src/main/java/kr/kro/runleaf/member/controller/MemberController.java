@@ -1,6 +1,12 @@
 package kr.kro.runleaf.member.controller;
 
-import org.springframework.http.HttpStatus;	
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;		
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,8 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.kro.runleaf.member.domain.MemberFile;
 import kr.kro.runleaf.member.domain.dto.MemberDto;
 import kr.kro.runleaf.member.domain.dto.MemberFindDto;
 import kr.kro.runleaf.member.service.MemberService;
@@ -28,7 +37,21 @@ public class MemberController {
 	
 	// 회원 가입
 	@PostMapping
-	public void join(@RequestBody MemberDto memberDto) {
+	public void join(@RequestParam("file") MultipartFile file, @RequestBody MemberDto memberDto) throws IllegalStateException, IOException {
+		String orgName = file.getOriginalFilename();
+		if (orgName.length() > 0) {
+			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
+			File dir = new File("c:/SSAFY/uploads" + subDir);
+			dir.mkdirs();
+			String systemName = UUID.randomUUID().toString() + orgName;
+			file.transferTo(new File(dir, systemName));
+			
+			MemberFile memberImage = new MemberFile();
+			memberImage.setFilePath(subDir);
+			memberImage.setOrgName(orgName);
+			memberImage.setSystemName(systemName);
+			memberDto.setMemberImage(memberImage);
+		}
 		memberService.join(memberDto);
 	}
 	

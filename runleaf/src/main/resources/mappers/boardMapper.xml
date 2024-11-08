@@ -5,7 +5,7 @@
 
 <mapper namespace="kr.kro.runleaf.board.repository.BoardDao">
 	<!-- 게시물 목록 데이터 -->
-	<select id="selectBoardByDistance" resultType="Board" parameterType="BoardSearch">
+	<!-- <select id="selectBoardByDistance" resultType="Board" parameterType="BoardSearch">
 		select *
 		  from board
 		 order by no desc
@@ -13,14 +13,14 @@
 	</select>
 	
 	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no">
-		<!-- 
+		
     	<selectKey keyProperty="no" resultType="int" order="AFTER">
     		select last_insert_id() from dual
     	</selectKey>
-		 -->
+		
     	insert into board (title, writer, content)
 	    values (#{title}, #{writer}, #{content})
-	</insert>	
+	</insert>	 -->
 
 </mapper>
 

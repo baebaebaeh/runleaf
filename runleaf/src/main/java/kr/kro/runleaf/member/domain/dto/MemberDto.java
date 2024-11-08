@@ -1,14 +1,23 @@
 package kr.kro.runleaf.member.domain.dto;
 
+import kr.kro.runleaf.member.domain.MemberFile;
+
 public class MemberDto {
 	
+	private int id;
 	private String username;
 	private String password;
 	private String nickname;
 	private String email;
 	private String phone;
-	private String profileImage;
+	private MemberFile memberImage;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -39,10 +48,10 @@ public class MemberDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getProfileImage() {
-		return profileImage;
+	public MemberFile getProfileImage() {
+		return memberImage;
 	}
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
+	public void setMemberImage(MemberFile memberImage) {
+		this.memberImage = memberImage;
 	}
 }
