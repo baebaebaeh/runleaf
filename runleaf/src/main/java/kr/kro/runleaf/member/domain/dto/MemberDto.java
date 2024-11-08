@@ -4,7 +4,11 @@ import kr.kro.runleaf.member.domain.MemberFile;
 
 public class MemberDto {
 	
-	private int id;
+	/*
+	 * { "username" : "ssafy", "password" : 1234, "nickname" : "김싸피", "email" :
+	 * "ssafy@naver.com", "phone" : "010-0000-0000" }
+	 */
+	
 	private String username;
 	private String password;
 	private String nickname;
@@ -12,12 +16,6 @@ public class MemberDto {
 	private String phone;
 	private MemberFile memberFile;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -48,7 +46,7 @@ public class MemberDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public MemberFile getProfileImage() {
+	public MemberFile getMemberFile() {
 		return memberFile;
 	}
 	public void setMemberFile(MemberFile memberFile) {
