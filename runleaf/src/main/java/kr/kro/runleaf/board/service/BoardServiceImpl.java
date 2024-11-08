@@ -23,6 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> getBoardList(BoardSearch boardSearch) {
 		List<Board> boardList = null;
 		boardList = boardDao.selectBoardByOrder(boardSearch);
+		System.out.println(boardList);
 		return boardList;
 	}
 

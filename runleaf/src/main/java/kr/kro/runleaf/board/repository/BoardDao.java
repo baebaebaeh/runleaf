@@ -2,12 +2,15 @@ package kr.kro.runleaf.board.repository;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import kr.kro.runleaf.board.domain.Board;
 import kr.kro.runleaf.board.domain.BoardSearch;
 import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
 import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
 import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 
+@Repository
 public interface BoardDao {
 
 	List<Board> selectBoardByOrder(BoardSearch boardSearch);
