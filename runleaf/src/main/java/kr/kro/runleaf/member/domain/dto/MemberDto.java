@@ -10,7 +10,7 @@ public class MemberDto {
 	private String nickname;
 	private String email;
 	private String phone;
-	private MemberFile memberImage;
+	private MemberFile memberFile;
 	
 	public int getId() {
 		return id;
@@ -49,9 +49,9 @@ public class MemberDto {
 		this.phone = phone;
 	}
 	public MemberFile getProfileImage() {
-		return memberImage;
+		return memberFile;
 	}
-	public void setMemberImage(MemberFile memberImage) {
-		this.memberImage = memberImage;
+	public void setMemberFile(MemberFile memberFile) {
+		this.memberFile = memberFile;
 	}
 }

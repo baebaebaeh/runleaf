@@ -6,7 +6,7 @@ public class MemberFile {
 	private String filePath;
 	private String orgName;
 	private String systemName;
-	private String memberId;
+	private int memberId;
 	
 	public int getId() {
 		return id;
@@ -32,15 +32,15 @@ public class MemberFile {
 	public void setSystemName(String systemName) {
 		this.systemName = systemName;
 	}
-	public String getUsername() {
-		return username;
+	public int getMemberId() {
+		return memberId;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 	@Override
 	public String toString() {
 		return "MemberFile [id=" + id + ", filePath=" + filePath + ", orgName=" + orgName + ", systemName=" + systemName
-				+ ", username=" + username + "]";
+				+ ", memberId=" + memberId + "]";
 	}
 }

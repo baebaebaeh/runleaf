@@ -7,12 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import kr.kro.runleaf.member.domain.MemberFile;
 import kr.kro.runleaf.member.domain.dto.MemberDto;
 
-@Mapper
+
 public interface MemberRepository {
 	
 	void insertMember(MemberDto memberDto);
 	
-	void insertMemberImage(MemberFile memberImage);
+	void insertMemberFile(MemberFile memberFile);
 
 	MemberFindDto selectMember(int id);
 	
