@@ -19,9 +19,30 @@
 				order by distance asc
 				limit #{startIdx}, 5
 			</when>
+			<when test="orderInt == 2">
+				select id, member_id, running_data_id, content, created_date,
+					modifided_date, main_image_path, start_latitude, start_longitude
+				from board
+				order by created_date asc
+				limit #{startIdx}, 5
+			</when>
 		</choose>
 	</select>
-
+	<select id="selectBoardById" resultType="Board"
+		parameterType="int">
+				select id, member_id, running_data_id, content, created_date,
+					modifided_date, main_image_path, start_latitude, start_longitude
+				from board
+				where id = #{id}
+	</select>
+	<update id="updateBoard" parameterType="UpdateBoardDto">
+				UPDATE board
+				SET 
+					modifided_date = now(),
+					content = #{content}, 
+					main_image_path = #{mainImagePath}
+				WHERE id = #{id}
+	</update>
 </mapper>
 
 

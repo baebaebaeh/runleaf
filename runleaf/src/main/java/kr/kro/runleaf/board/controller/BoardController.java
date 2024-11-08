@@ -99,6 +99,7 @@ public class BoardController {
 	@PostMapping
 	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
 		int numberOfChange = boardService.addBoard(insertBoardDto);
+		System.out.println(insertBoardDto.getStartLatitude());
 		ResponseEntity<Integer> responseEntity;
 		try {
 			if (numberOfChange == 1) {
