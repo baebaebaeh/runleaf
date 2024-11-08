@@ -1,6 +1,7 @@
 package kr.kro.runleaf.member.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.kro.runleaf.member.domain.dto.MemberFindDto;
 import kr.kro.runleaf.member.domain.MemberFile;
@@ -16,15 +17,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void join(MemberDto joinDto) {
 		memberRepository.insertMember(joinDto);
-		System.out.println(joinDto.getId());
-//		memberRepository.selectMember(0)
-		MemberFile memberImage = joinDto.getProfileImage();
-		if (memberImage != null) {
-			memberImage.setUsername(joinDto.getUsername());
-			memberRepository.insertMemberImage(memberImage);
-		}
+		MemberFile memberFile = joinDto.getMemberFile();
+		
+		int memberId = memberRepository.getMemberId(joinDto.getUsername());
+	    memberFile.setMemberId(memberId);
+	    memberRepository.insertMemberFile(memberFile);
 	}
 
 	@Override
@@ -33,11 +33,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void edit(MemberDto memberDto) {
 		memberRepository.updateMember(memberDto);
 	}
 
 	@Override
+	@Transactional
 	public void remove(int id) {
 		memberRepository.deleteMember(id);
 	}
