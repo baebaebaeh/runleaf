@@ -9,7 +9,7 @@ public class Member {
 	private String nickname;
 	private String email;
 	private String phone;
-	private MemberFile memberImage;
+	private MemberFile memberFile;
 	
 	public int getId() {
 		return id;
@@ -47,16 +47,16 @@ public class Member {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public MemberFile getProfileImage() {
-		return memberImage;
+	public MemberFile getProfileFile() {
+		return memberFile;
 	}
-	public void setMemberImage(MemberFile memberImage) {
-		this.memberImage = memberImage;
+	public void setMemberFile(MemberFile memberFile) {
+		this.memberFile = memberFile;
 	}
 	
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", profileImage=" + memberImage + "]";
+				+ ", phone=" + phone + ", memberFile=" + memberFile + "]";
 	}
 }
