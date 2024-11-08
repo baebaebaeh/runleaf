@@ -1,6 +1,5 @@
 package kr.kro.runleaf.member.domain;
 
-import java.time.LocalDateTime;
 
 public class Member {
 	
@@ -10,12 +9,7 @@ public class Member {
 	private String nickname;
 	private String email;
 	private String phone;
-	private String address;				
-	private String streetAddress;		
-	private String detailAddress;		
-	private String profileImage;
-	private LocalDateTime createdDate;
-	private LocalDateTime modifiedDate;
+	private MemberFile memberImage;
 	
 	public int getId() {
 		return id;
@@ -53,47 +47,16 @@ public class Member {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getAddress() {
-		return address;
+	public MemberFile getProfileImage() {
+		return memberImage;
 	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getStreetAddress() {
-		return streetAddress;
-	}
-	public void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
-	}
-	public String getDetailAddress() {
-		return detailAddress;
-	}
-	public void setDetailAddress(String detailAddress) {
-		this.detailAddress = detailAddress;
-	}
-	public String getProfileImage() {
-		return profileImage;
-	}
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
-	}
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-	public LocalDateTime getModifiedDate() {
-		return modifiedDate;
-	}
-	public void setModifiedDate(LocalDateTime modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setMemberImage(MemberFile memberImage) {
+		this.memberImage = memberImage;
 	}
 	
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", address=" + address + ", profileImage=" + profileImage + ", createdDate="
-				+ createdDate + ", modifiedDate=" + modifiedDate + "]";
+				+ ", phone=" + phone + ", profileImage=" + memberImage + "]";
 	}
 }

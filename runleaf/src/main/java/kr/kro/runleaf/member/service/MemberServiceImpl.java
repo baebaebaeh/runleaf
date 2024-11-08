@@ -3,6 +3,7 @@ package kr.kro.runleaf.member.service;
 import org.springframework.stereotype.Service;
 
 import kr.kro.runleaf.member.domain.dto.MemberFindDto;
+import kr.kro.runleaf.member.domain.MemberFile;
 import kr.kro.runleaf.member.domain.dto.MemberDto;
 import kr.kro.runleaf.member.repository.MemberRepository;
 
@@ -17,6 +18,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void join(MemberDto joinDto) {
 		memberRepository.insertMember(joinDto);
+		System.out.println(joinDto.getId());
+//		memberRepository.selectMember(0)
+		MemberFile memberImage = joinDto.getProfileImage();
+		if (memberImage != null) {
+			memberImage.setUsername(joinDto.getUsername());
+			memberRepository.insertMemberImage(memberImage);
+		}
 	}
 
 	@Override
