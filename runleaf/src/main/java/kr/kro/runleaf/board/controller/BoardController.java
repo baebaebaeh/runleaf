@@ -14,7 +14,10 @@ import kr.kro.runleaf.board.util.PageData;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.print.attribute.standard.JobKOctets;
 
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -98,40 +102,21 @@ public class BoardController {
 	 * internal server error
 	 * 
 	 */
-//	@PostMapping
-//	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
-//		int numberOfChange = boardService.addBoard(insertBoardDto);
-//		System.out.println(insertBoardDto.getStartLatitude());
-//		ResponseEntity<Integer> responseEntity;
-//		try {
-//			if (numberOfChange == 1) {
-//				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.OK);
-//			} else {
-//				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.BAD_REQUEST);
-//			}
-//		} catch (Exception e) {
-//			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//		return responseEntity;
-//	}
-	@CrossOrigin
 	@PostMapping
-	public ResponseEntity<Object> addBoard(@RequestParam MultipartFile file) {
-		ResponseEntity<Object> responseEntity = new ResponseEntity<>(HttpStatus.OK);
-		// 저장할 디렉토리 경로 설정
-		String uploadDir = "/Users/baehanjin/SSAFY/";
-		// 원본 파일명 가져오기
-		String originalFilename = file.getOriginalFilename();
-		// 저장할 파일 객체 생성
-		File destFile = new File(uploadDir + originalFilename);
+	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
+		int numberOfChange = boardService.addBoard(insertBoardDto);
+		System.out.println(insertBoardDto.getStartLatitude());
+		ResponseEntity<Integer> responseEntity;
+		System.out.println();
 		try {
-			// 파일 저장
-			file.transferTo(destFile);
-			System.out.println(1);
+			if (numberOfChange == 1) {
+				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.OK);
+			} else {
+				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.BAD_REQUEST);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		System.out.println(file);
 		return responseEntity;
 	}
 

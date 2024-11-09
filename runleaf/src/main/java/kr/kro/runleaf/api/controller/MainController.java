@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.kro.runleaf.board.domain.Location;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/gps")
 public class MainController {

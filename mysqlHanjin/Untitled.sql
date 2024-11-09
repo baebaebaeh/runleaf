@@ -62,8 +62,13 @@ from board
 order by distance asc
 limit 0, 5;
 
-				select id, member_id, running_data_id, content, created_date,
-					modifided_date, main_image_path, start_latitude, start_longitude
-				from board
-				order by created_date asc
-				limit 0, 5;
+select id, member_id, running_data_id, content, created_date,
+	modifided_date, main_image_path, start_latitude, start_longitude
+from board
+order by created_date asc
+limit 0, 5;
+
+
+	
+ALTER USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
+CREATE USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';

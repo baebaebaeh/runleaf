@@ -61,6 +61,12 @@ public class InsertBoardDto {
 	public void setStartLatitude(double startLatitude) {
 		this.startLatitude = startLatitude;
 	}
+	@Override
+	public String toString() {
+		return "InsertBoardDto [memberId=" + memberId + ", runningDataId=" + runningDataId + ", content=" + content
+				+ ", mainImagePath=" + mainImagePath + ", startLongitude=" + startLongitude + ", startLatitude="
+				+ startLatitude + "]";
+	}
 	
 	
 	

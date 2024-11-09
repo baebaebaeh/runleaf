@@ -35,6 +35,24 @@
 				from board
 				where id = #{id}
 	</select>
+	<insert id="insertBoard" parameterType="InsertBoardDto">
+		insert into board (
+			member_id, 
+		    running_data_id, 
+		    content, 
+		    main_image_path,
+		    start_longitude,
+		    start_latitude
+		)
+		VALUES (
+			#{memberId},
+		    #{runningDataId},
+		    #{content},
+		    #{mainImagePath},
+		    #{startLongitude},
+		    #{startLatitude}
+		)
+	</insert>
 	<update id="updateBoard" parameterType="UpdateBoardDto">
 				UPDATE board
 				SET 
