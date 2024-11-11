@@ -11,8 +11,7 @@ create table board (
     created_date timestamp default current_timestamp,
     modifided_date timestamp default current_timestamp, 
     main_image_path varchar(300),
-	now_longitude double default 0,
-    now_latitude double default 0
+    writer varchar(300)
 );
 
 create table running_data (
@@ -60,32 +59,28 @@ insert into board (
     running_data_id, 
     content, 
     main_image_path,
-    now_longitude,
-    now_latitude
+    writer
 )
 VALUES (
 	1,
     1,
     '내용입니다',
     '메인이미지 경로입니다',
-    1,
-    1
+    '배한진'
 ),
 (
 	2,
     2,
     '내용입니다',
     '메인이미지 경로입니다',
-    2,
-    2
+    '이신욱'
 ),
 (
 	3,
     3,
     '내용입니다',
     '메인이미지 경로입니다',
-    3,
-    3
+    '유승호'
 );
 
 select *

@@ -56,8 +56,7 @@ const insertBoardDto = ref({
   runningDataId: '',
   content: '',
   mainImagePath: '',
-  startLongitude: '',
-  startLatitude: '',
+  writer: ''
 })
 
 

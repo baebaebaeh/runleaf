@@ -28,7 +28,7 @@ public class BoardImgController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> addBoard(	@RequestParam List<MultipartFile> file) {
+	public ResponseEntity<Object> addBoard(@RequestParam List<MultipartFile> file) {
 		ResponseEntity<Object> responseEntity = new ResponseEntity<>(HttpStatus.OK);
 		// 저장할 디렉토리 경로 설정
 		for (int index = 0; index < file.size(); index++) {
