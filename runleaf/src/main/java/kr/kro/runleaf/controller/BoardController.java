@@ -4,9 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
-import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
-import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.service.BoardService;
@@ -103,9 +100,9 @@ public class BoardController {
 	 * 
 	 */
 	@PostMapping
-	public ResponseEntity<Integer> addBoard(@RequestBody InsertBoardDto insertBoardDto) {
-		int numberOfChange = boardService.addBoard(insertBoardDto);
-		System.out.println(insertBoardDto.getStartLatitude());
+	public ResponseEntity<Integer> addBoard(@RequestBody Board board) {
+		int numberOfChange = boardService.addBoard(board);
+		System.out.println(board.getStartLatitude());
 		ResponseEntity<Integer> responseEntity;
 		System.out.println();
 		try {
@@ -126,8 +123,8 @@ public class BoardController {
 	 * 
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> modifiyBoard(@RequestBody UpdateBoardDto updateBoardDto) {
-		int numberOfChange = boardService.modifiyBoard(updateBoardDto);
+	public ResponseEntity<Integer> modifiyBoard(@RequestBody Board board) {
+		int numberOfChange = boardService.modifiyBoard(board);
 		ResponseEntity<Integer> responseEntity;
 		try {
 			if (numberOfChange == 1) {
@@ -147,7 +144,7 @@ public class BoardController {
 	 * 
 	 */
 	@DeleteMapping("{id}")
-	public ResponseEntity<Integer> deleteBoard(@RequestBody DeleteBoardDto deleteBoardDto,
+	public ResponseEntity<Integer> deleteBoard(@RequestBody Board board,
 			@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 		ResponseEntity<Integer> responseEntity;
 
@@ -164,7 +161,7 @@ public class BoardController {
 		// 토큰과 memberId와 비교해서 확인하는 로직
 		if (// deleteBoardDto.getMemberId == jwtToken
 		true) {
-			numberOfChange = boardService.deleteBoard(deleteBoardDto);
+			numberOfChange = boardService.deleteBoard(board);
 		}
 		if (numberOfChange == 1) {
 			responseEntity = new ResponseEntity<>(1, HttpStatus.OK);

@@ -2,9 +2,6 @@ package kr.kro.runleaf.service;
 
 import java.util.List;
 
-import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
-import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
-import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.util.PageData;
@@ -15,11 +12,11 @@ public interface BoardService {
 
 	Board getBoardDetail(int id);
 
-	int addBoard(InsertBoardDto createBoardDto);
+	int addBoard(Board board);
 
-	int modifiyBoard(UpdateBoardDto updateBoardDto);
+	int modifiyBoard(Board board);
 
-	int deleteBoard(DeleteBoardDto deleteBoardDto);
+	int deleteBoard(Board board);
 	
 
 }

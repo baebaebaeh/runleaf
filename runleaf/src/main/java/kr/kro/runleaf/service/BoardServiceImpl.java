@@ -36,22 +36,22 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public int addBoard(InsertBoardDto insertBoardDto) {
-		int numberOfChange = boardDao.insertBoard(insertBoardDto);
+	public int addBoard(Board board) {
+		int numberOfChange = boardDao.insertBoard(board);
 		return numberOfChange;
 	}
 
 
 	@Override
-	public int modifiyBoard(UpdateBoardDto updateBoardDto) {
-		int numberOfChange = boardDao.updateBoard(updateBoardDto);
+	public int modifiyBoard(Board board) {
+		int numberOfChange = boardDao.updateBoard(board);
 		return numberOfChange;
 	}
 
 
 	@Override
-	public int deleteBoard(DeleteBoardDto deleteBoardDto) {
-		int numberOfChange = boardDao.deleteBoard(deleteBoardDto);
+	public int deleteBoard(Board board) {
+		int numberOfChange = boardDao.deleteBoard(board);
 		return numberOfChange;
 	}
 }
