@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(basePackages = {
-		"kr.kro.runleaf.board.repository",
-		"kr.kro.runleaf.member.repository"
+		"kr.kro.runleaf.repository"
 })
 public class DBConfig {
 

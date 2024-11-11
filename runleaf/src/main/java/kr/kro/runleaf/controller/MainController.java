@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.kro.runleaf.domain.Location;
 
 @RestController
-@RequestMapping("/gps")
+@RequestMapping("/api/gps")
 public class MainController {
 
 	@PostMapping

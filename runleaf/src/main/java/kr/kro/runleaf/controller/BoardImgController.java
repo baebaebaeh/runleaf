@@ -19,7 +19,7 @@ import kr.kro.runleaf.service.BoardService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/boardImg")
+@RequestMapping("/api/boardImg")
 public class BoardImgController {
 	private final BoardService boardService;
 
