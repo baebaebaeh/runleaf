@@ -1,24 +1,26 @@
 package kr.kro.runleaf.repository;
 
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
 
-import org.apache.ibatis.annotations.Mapper;
-
+<<<<<<< HEAD:runleaf/src/main/java/kr/kro/runleaf/repository/MemberRepository.java
 import kr.kro.runleaf.domain.MemberFile;
 import kr.kro.runleaf.member.domain.dto.MemberDto;
+=======
+import kr.kro.runleaf.member.domain.Member;
+import kr.kro.runleaf.member.domain.MemberFile;
+>>>>>>> 60f9abea388285be61f9329ea876dbc6e80d139d:runleaf/src/main/java/kr/kro/runleaf/member/repository/MemberRepository.java
 
 
 public interface MemberRepository {
 	
-	void insertMember(MemberDto memberDto);
+	void insertMember(Member member);
 	
 	void insertMemberFile(MemberFile memberFile);
 
-	MemberFindDto selectMember(int id);
+	Member selectMember(int id);
 	
 	int getMemberId(String username);
 
-	void updateMember(MemberDto memberDto);
+	void updateMember(Member member);
 
 	void deleteMember(int id);
 }

@@ -1,15 +1,14 @@
 package kr.kro.runleaf.service;
 
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
-import kr.kro.runleaf.member.domain.dto.MemberDto;
+import kr.kro.runleaf.member.domain.Member;
 
 public interface MemberService {
 
-	void join(MemberDto memberDto);
+	void join(Member member);
 
-	MemberFindDto findOne(int id);
+	Member findOne(int id);
 
-	void edit(MemberDto memberDto);
+	void edit(Member member);
 
 	void remove(int id);
 }

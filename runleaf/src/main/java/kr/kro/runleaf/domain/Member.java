@@ -47,7 +47,7 @@ public class Member {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public MemberFile getProfileFile() {
+	public MemberFile getMemberFile() {
 		return memberFile;
 	}
 	public void setMemberFile(MemberFile memberFile) {
