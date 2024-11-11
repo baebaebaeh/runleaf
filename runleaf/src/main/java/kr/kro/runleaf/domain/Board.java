@@ -9,10 +9,10 @@ public class Board {
 	private String createdDate;
 	private String modifidedDate;
 	private String mainImagePath;
-	private String nowLatitude;
-	private String nowLongitude;
 	private String writer;
 	private RunningData runningData;
+	
+	
 	public int getBoardId() {
 		return boardId;
 	}
@@ -55,18 +55,6 @@ public class Board {
 	public void setMainImagePath(String mainImagePath) {
 		this.mainImagePath = mainImagePath;
 	}
-	public String getNowLatitude() {
-		return nowLatitude;
-	}
-	public void setNowLatitude(String nowLatitude) {
-		this.nowLatitude = nowLatitude;
-	}
-	public String getNowLongitude() {
-		return nowLongitude;
-	}
-	public void setNowLongitude(String nowLongitude) {
-		this.nowLongitude = nowLongitude;
-	}
 	public String getWriter() {
 		return writer;
 	}
@@ -78,6 +66,10 @@ public class Board {
 	}
 	public void setRunningData(RunningData runningData) {
 		this.runningData = runningData;
+	}
+	public Board() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	
