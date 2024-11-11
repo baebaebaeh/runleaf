@@ -1,6 +1,6 @@
 package kr.kro.runleaf.member.controller;
 
-import java.io.File;
+import java.io.File;	
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.kro.runleaf.member.domain.Member;
 import kr.kro.runleaf.member.domain.MemberFile;
-import kr.kro.runleaf.member.domain.dto.MemberDto;
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
 import kr.kro.runleaf.member.service.MemberService;
 
 @RestController
@@ -38,7 +37,7 @@ public class MemberController {
 	}
 	
 	@PostMapping(consumes = "multipart/form-data")
-	public void join(@RequestPart(value = "memberDto") MemberDto memberDto, 
+	public void join(@RequestPart(value = "member") Member member, 
 	                 @RequestPart(value = "file", required = false) MultipartFile file) 
 	                 throws IllegalStateException, IOException {
 
@@ -59,25 +58,25 @@ public class MemberController {
 	            memberFile.setFilePath(subDir);
 	            memberFile.setOrgName(orgName);
 	            memberFile.setSystemName(systemName);
-	            memberDto.setMemberFile(memberFile);
+	            member.setMemberFile(memberFile);
 	        }
 	    } else {  // 파일이 없는 경우 기본 프로필 이미지 설정
 	        MemberFile defaultFile = new MemberFile();
 	        defaultFile.setFilePath("/default/path"); // 기본 프로필 이미지 경로 설정
 	        defaultFile.setOrgName("기본 프로필 이미지");
 	        defaultFile.setSystemName("default_profile.jpg");
-	        memberDto.setMemberFile(defaultFile);
+	        member.setMemberFile(defaultFile);
 	    }
 
-	    memberService.join(memberDto);
+	    memberService.join(member);
 	}
 
 
 	
 	// 회원 조회
 	@GetMapping("/{id}")
-	public ResponseEntity<MemberFindDto> findOne(@PathVariable("id") int id) {
-		MemberFindDto member = memberService.findOne(id);
+	public ResponseEntity<Member> findOne(@PathVariable("id") int id) {
+		Member member = memberService.findOne(id);
 		if (member == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -85,7 +84,7 @@ public class MemberController {
 	}
 	
 	@PutMapping("/{id}")
-	public void edit(@PathVariable("id") int id, @RequestBody MemberDto memberDto) {
+	public void edit(@PathVariable("id") int id, @RequestBody Member memberDto) {
 		memberService.edit(memberDto);
 	}
 	

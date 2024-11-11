@@ -1,11 +1,10 @@
 package kr.kro.runleaf.member.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;	
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
+import kr.kro.runleaf.member.domain.Member;
 import kr.kro.runleaf.member.domain.MemberFile;
-import kr.kro.runleaf.member.domain.dto.MemberDto;
 import kr.kro.runleaf.member.repository.MemberRepository;
 
 @Service
@@ -18,24 +17,23 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void join(MemberDto joinDto) {
-		memberRepository.insertMember(joinDto);
-		MemberFile memberFile = joinDto.getMemberFile();
+	public void join(Member member) {
+		memberRepository.insertMember(member);
+		MemberFile memberFile = member.getMemberFile();
 		
-		int memberId = memberRepository.getMemberId(joinDto.getUsername());
-	    memberFile.setMemberId(memberId);
+	    memberFile.setMemberId(member.getId());
 	    memberRepository.insertMemberFile(memberFile);
 	}
 
 	@Override
-	public MemberFindDto findOne(int id) {
+	public Member findOne(int id) {
 		return memberRepository.selectMember(id);
 	}
 
 	@Override
 	@Transactional
-	public void edit(MemberDto memberDto) {
-		memberRepository.updateMember(memberDto);
+	public void edit(Member member) {
+		memberRepository.updateMember(member);
 	}
 
 	@Override
