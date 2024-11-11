@@ -1,6 +1,6 @@
 package kr.kro.runleaf.service;
 
-import kr.kro.runleaf.member.domain.Member;
+import kr.kro.runleaf.domain.Member;
 
 public interface MemberService {
 
