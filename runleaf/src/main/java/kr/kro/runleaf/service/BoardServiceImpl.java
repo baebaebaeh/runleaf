@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
-import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
-import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.repository.BoardDao;

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/board")
 public class BoardController {
 	private final BoardService boardService;
 
@@ -102,7 +102,6 @@ public class BoardController {
 	@PostMapping
 	public ResponseEntity<Integer> addBoard(@RequestBody Board board) {
 		int numberOfChange = boardService.addBoard(board);
-		System.out.println(board.getStartLatitude());
 		ResponseEntity<Integer> responseEntity;
 		System.out.println();
 		try {
