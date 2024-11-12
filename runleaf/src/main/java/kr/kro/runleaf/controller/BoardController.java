@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.kro.runleaf.domain.Board;
-import kr.kro.runleaf.domain.RunningDataImage;
 import kr.kro.runleaf.domain.BoardSearch;
+import kr.kro.runleaf.domain.RunningDataImage;
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.service.BoardService;
 import kr.kro.runleaf.util.PageData;

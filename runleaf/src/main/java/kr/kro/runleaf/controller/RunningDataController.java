@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.boot.SpringApplication.Running;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.kro.runleaf.domain.Board;
+import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.RunningDataImage;
 import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningData;
@@ -38,10 +40,10 @@ public class RunningDataController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<RunningData>> getMethodName() {
-		ResponseEntity responseEntity;
-		int numberOfChange = runningDataService.getRunningDataList();
-		responseEntity = null;
+	public ResponseEntity<List<RunningData>> getMethodName(BoardSearch boardSearch) {
+		ResponseEntity<List<RunningData>> responseEntity;
+		List<RunningData> list = runningDataService.getRunningDataList(boardSearch);
+		responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		return responseEntity;
 	}
 	

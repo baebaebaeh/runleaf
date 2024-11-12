@@ -14,6 +14,6 @@ public interface RunningDataService {
 
 	int addRunningDataImage(RunningDataImage runningDataImage);
 
-	int getRunningDataList();
+	List<RunningData> getRunningDataList(BoardSearch boardSearch);
 
 }

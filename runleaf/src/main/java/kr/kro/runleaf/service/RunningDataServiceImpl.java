@@ -1,7 +1,6 @@
 package kr.kro.runleaf.service;
 
-import java.util.List;
-
+import java.util.List;import org.springframework.boot.SpringApplication.Running;
 import org.springframework.stereotype.Service;
 
 import kr.kro.runleaf.domain.Board;
@@ -31,9 +30,9 @@ public class RunningDataServiceImpl implements RunningDataService {
 	}
 
 	@Override
-	public int getRunningDataList() {
-		int count = runningDataRepository.selectRunningDataList();
-		return count;
+	public List<RunningData> getRunningDataList(BoardSearch boardSearch) {
+		List<RunningData> list = runningDataRepository.selectRunningDataList(boardSearch);
+		return list;
 	}
 
 

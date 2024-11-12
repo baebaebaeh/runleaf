@@ -1,22 +1,25 @@
 <template>
   <div>
     <div>
-      memberId : <input type="text" v-model="insertBoardDto.memberId">
+      memberId : <input type="text" v-model="boardDto.memberId">
     </div>
     <div>
-      runningDataId : <input type="text" v-model="insertBoardDto.runningDataId">
+      difficulty : <input type="text" v-model="boardDto.difficulty">
     </div>
     <div>
-      content : <input type="text" v-model="insertBoardDto.content">
+      runningTime : <input type="text" v-model="boardDto.runningTime">
     </div>
     <div>
-      mainImagePath : <input type="text" v-model="insertBoardDto.mainImagePath">
+      startLatitude : <input type="text" v-model="boardDto.startLatitude">
     </div>
     <div>
-      startLongitude : <input type="text" v-model="insertBoardDto.startLongitude">
+      startLongitude : <input type="text" v-model="boardDto.startLongitude">
     </div>
     <div>
-      startLatitude : <input type="text" v-model="insertBoardDto.startLatitude">
+      title : <input type="text" v-model="boardDto.title">
+    </div>
+    <div>
+      oneLineComment : <input type="text" v-model="boardDto.oneLineComment">
     </div>
     <div>
       <input type="file" id="upload-image" @change="getFileName($event.target.files)" multiple hidden />
@@ -33,8 +36,6 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-
-
 const previews = ref([
   'preview0',
   'preview1',
@@ -42,29 +43,33 @@ const previews = ref([
   'preview3',
   'preview4',
 ])
-const insertBoardDto = ref({
+const boardDto = ref({
   memberId: '',
-  runningDataId: '',
-  content: '',
-  mainImagePath: '',
-  startLongitude: '',
+  difficulty: '',
+  runningTime: '',
   startLatitude: '',
+  startLongitude: '',
+  createdTime: '',
+  title: '',
+  oneLineComment: '',
 })
+let formData = new FormData();
 
 
 const uploadFile = async () => {
-  await axios.post("http://localhost:8080/api/boardImg", formData);
-  console.log(insertBoardDto.value)
-  await axios.post("http://localhost:8080/api/board", insertBoardDto.value);
+  // formData.append(`board`, new Blob([JSON.stringify(boardDto.value)], { type: "application/json" }));
+  formData.append("board", new Blob([JSON.stringify(boardDto.value)], { type: "application/json" })); // board 객체 추가
+  await axios.post("/api/running", formData);
 };
-let formData = new FormData();
+
+
 const getFileName = async(files) => {
   formData = new FormData();
   for (let index = 0; index < previews.value.length; index++) {
     const file = files[index];
     if (file === undefined) {
       const previewImage = document.getElementById('preview' + index)
-      previewImage.src = 'src/assets/images/abcd.PNG';
+      previewImage.src = '/src/assets/images/abcd.PNG';
     } else {
       formData.append(`file`, file);
       const fileName = files[index];
@@ -72,7 +77,9 @@ const getFileName = async(files) => {
     }
     
   }
-}
+};
+
+
 const base64 = (file, index) => {
   // 비동기적으로 동작하기 위하여 promise를 return 해준다.
   const prom = new Promise(resolve => {
@@ -90,7 +97,10 @@ const base64 = (file, index) => {
     a.readAsDataURL(file)
   })
   return prom
-}
+};
+
+
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);

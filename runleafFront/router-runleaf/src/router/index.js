@@ -21,12 +21,12 @@ const router = createRouter({
       component: RunningDataView,
       children: [
         {
-          path: '',
+          path: 'runningDataList',
           name: 'runningDataList',
           component: RunningDataList
         },
         {
-          path: 'runningForm',
+          path: 'runningDataForm',
           name: 'runningDataForm',
           component: RunningDataForm
         },
