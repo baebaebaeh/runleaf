@@ -1,112 +1,40 @@
 <template>
-    <form action="회원가입_처리_페이지_URL" method="POST" enctype="multipart/form-data">
-        <div class="form-container">
-            <div class="header-container">
-                <img class="image-arrow" src="../assets/images/join/icons8-arrow-30.png" alt="다음 아이콘">
-                <div class="div2">회원가입</div>
-            </div>
-
-            <label for="username" class="label">아이디*</label>
-            <input type="text" id="username" name="username" class="input-field" placeholder="영문, 숫자 조합 6~12자" required>
-
-            <label for="password" class="label">비밀번호*</label>
-            <input type="password" id="password" name="password" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
-
-            <label for="confirm_password" class="label">비밀번호 확인*</label>
-            <input type="password" id="confirm_password" name="confirm_password" class="input-field" placeholder="비밀번호를 한 번 더 입력해주세요." required>
-
-            <label for="nickname" class="label">닉네임*</label>
-            <input type="text" id="nickname" name="nickname" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
-
-            <label for="email" class="label">이메일*</label>
-            <input type="email" id="email" name="email" class="input-field" placeholder="예) abc@ssafy.com" required>
-
-            <label for="phone" class="label">연락처*</label>
-            <input type="tel" id="phone" name="phone" class="input-field" placeholder="‘-’을 제외하고 입력해주세요." required>
-
-            <button type="submit" class="submit-button">다음</button>
-        </div>
-    </form>
-</template>
-
-<script setup>
-
-</script>
-
-<style scoped>
-/* 최상위 컨테이너를 화면 중앙에 배치 */
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-/* form-container 요소를 가운데 정렬하고, 왼쪽 정렬 */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 내부 콘텐츠는 왼쪽 정렬 */
-    background: #ffffff;
-    padding: 100px;
-    width: 600px;
-    max-width: 800px;
-    box-sizing: border-box;
-}
-
-.header-container {
-    display: block;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.image-arrow {
-    display: inline-flex;
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-}
-
-.div2 {
-    color: #000000;
-    font-family: "Inter-SemiBold", sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.label {
-    color: #000000;
-    font-family: "Inter-Regular", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.input-field {
-    background: #ffffff;
-    border-radius: 5px;
-    border: 1px solid #aeaeae;
-    width: 100%;
-    height: 50px;
-    padding: 10px;
-    font-size: 14px;
-    box-sizing: border-box;
-    margin-top: 5px;
-}
-
-.submit-button {
-    background: #c5c5c5;
-    width: 100%;
-    height: 55px;
-    margin-top: 20px;
-    color: #ffffff;
-    font-family: "Inter-SemiBold", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-}
-</style>
-
+    <div>
+      <component :is="currentStep" @next="nextStep" @previous="previousStep" />
+    </div>
+  </template>
+  
+  <script>
+  import { ref } from 'vue';
+  import Step1 from './Step1.vue';
+  import Step2 from './Step2.vue';
+  
+  export default {
+    components: { Step1, Step2 },
+    setup() {
+      const steps = [Step1, Step2];
+      const currentStepIndex = ref(0);
+  
+      const nextStep = () => {
+        if (currentStepIndex.value < steps.length - 1) {
+          currentStepIndex.value += 1;
+        }
+      };
+      
+      const previousStep = () => {
+        if (currentStepIndex.value > 0) {
+          currentStepIndex.value -= 1;
+        }
+      };
+  
+      return {
+        steps,
+        currentStepIndex,
+        nextStep,
+        previousStep,
+        currentStep: computed(() => steps[currentStepIndex.value]),
+      };
+    },
+  };
+  </script>
+  
