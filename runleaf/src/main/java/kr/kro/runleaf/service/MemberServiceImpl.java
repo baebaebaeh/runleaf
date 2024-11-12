@@ -1,18 +1,11 @@
 package kr.kro.runleaf.service;
 
-import org.springframework.stereotype.Service;	
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD:runleaf/src/main/java/kr/kro/runleaf/service/MemberServiceImpl.java
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
-import kr.kro.runleaf.repository.MemberRepository;
+import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
-import kr.kro.runleaf.member.domain.dto.MemberDto;
-=======
-import kr.kro.runleaf.member.domain.Member;
-import kr.kro.runleaf.member.domain.MemberFile;
-import kr.kro.runleaf.member.repository.MemberRepository;
->>>>>>> 60f9abea388285be61f9329ea876dbc6e80d139d:runleaf/src/main/java/kr/kro/runleaf/member/service/MemberServiceImpl.java
+import kr.kro.runleaf.repository.MemberRepository;
 
 @Service
 public class MemberServiceImpl implements MemberService {
