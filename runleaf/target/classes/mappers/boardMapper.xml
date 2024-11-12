@@ -3,25 +3,70 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.kro.runleaf.board.repository.BoardDao">
+<mapper namespace="kr.kro.runleaf.repository.BoardDao">
+	<!--  -->
+	<resultMap id="Board" type="Board">
+	    <id property="boardId" column="board_id"/>
+	    <result property="content" column="content"/>	    
+	    <result property="memberId" column="board_member_id"/>
+	    <result property="runningDataId" column="running_data_id"/>
+	    <result property="createdDate" column="created_date"/>
+	    <result property="modifidedDate" column="modifided_date"/>
+	    <result property="mainImagePath" column="main_image_path"/>
+	    <result property="writer" column="writer"/>
+	    <association property="runningData" javaType="RunningData">
+	        <id property="runningDataId" column="running_data_id"/>
+	        <result property="memberId" column="running_member_id"/>
+	        <result property="difficulty" column="difficulty"/>
+	        <result property="runningTime" column="running_time"/>
+	        <result property="startLatitude" column="start_latitude"/>
+	        <result property="startLongitude" column="start_longitude"/>
+	        <result property="createdTime" column="created_time"/>
+	        <result property="evaluation" column="evaluation"/>
+	        <result property="oneLineComment" column="one_line_comment"/>
+	    </association>
+	</resultMap>
+	
+
 	<!-- 게시물 목록 데이터 -->
-	<select id="selectBoardByOrder" resultType="Board"
+	<select id="selectBoardByOrder" resultMap="Board"
 		parameterType="BoardSearch">
 		<choose>
 			<when test="orderInt == 1">
-				select id, member_id, running_data_id, content, created_date,
-					modifided_date, main_image_path, start_latitude, start_longitude,
+				SELECT 	b.board_id, 
+						b.member_id AS board_member_id,
+						b.running_data_id,
+						b.content, 
+						b.created_date,
+						b.modifided_date, 
+						b.main_image_path,
+						b.writer,
+						r.start_latitude, 
+						r.start_longitude,
+						r.difficulty,
+						r.running_time,
+						r.evaluation,	
+						r.one_line_comment AS one_line_comment,
+						r.created_time,
 					ST_Distance_Sphere(
-						POINT(start_longitude, start_latitude),
+						POINT(r.start_longitude, r.start_latitude),
 						POINT(#{longitude}, #{latitude})
 						) AS distance
-				from board
+				FROM board b
+				JOIN running_data r on b.running_data_id = r.running_data_id
 				order by distance asc
-				limit #{startIdx}, 5
+				limit #{startIdx}, 5;
 			</when>
 			<when test="orderInt == 2">
-				select id, member_id, running_data_id, content, created_date,
-					modifided_date, main_image_path, start_latitude, start_longitude
+				select board_id, 
+				member_id, 
+				running_data_id, 
+				content, 
+				created_date,
+				modifided_date, 
+				main_image_path, 
+				now_latitude, 
+				now_longitude
 				from board
 				order by created_date asc
 				limit #{startIdx}, 5
@@ -30,36 +75,43 @@
 	</select>
 	<select id="selectBoardById" resultType="Board"
 		parameterType="int">
-				select id, member_id, running_data_id, content, created_date,
-					modifided_date, main_image_path, start_latitude, start_longitude
+				select 	board_id, 
+						member_id, 
+						running_data_id, 
+						content, 
+						created_date,
+						modifided_date, 
+						main_image_path, 
+						now_latitude, 
+						now_longitude
 				from board
 				where id = #{id}
 	</select>
-	<insert id="insertBoard" parameterType="InsertBoardDto">
+	<insert id="insertBoard" parameterType="Board">
 		insert into board (
 			member_id, 
 		    running_data_id, 
 		    content, 
 		    main_image_path,
-		    start_longitude,
-		    start_latitude
+		    now_longitude,
+		    now_latitude
 		)
 		VALUES (
 			#{memberId},
 		    #{runningDataId},
 		    #{content},
 		    #{mainImagePath},
-		    #{startLongitude},
-		    #{startLatitude}
+		    #{nowLongitude},
+		    #{nowLatitude}
 		)
 	</insert>
-	<update id="updateBoard" parameterType="UpdateBoardDto">
+	<update id="updateBoard" parameterType="Board">
 				UPDATE board
 				SET 
 					modifided_date = now(),
 					content = #{content}, 
 					main_image_path = #{mainImagePath}
-				WHERE id = #{id}
+				WHERE board_id = #{boardId}
 	</update>
 </mapper>
 

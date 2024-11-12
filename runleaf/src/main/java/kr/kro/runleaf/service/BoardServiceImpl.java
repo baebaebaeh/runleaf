@@ -1,12 +1,10 @@
 package kr.kro.runleaf.service;
 
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
-import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
-import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.repository.BoardDao;
@@ -36,22 +34,22 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public int addBoard(InsertBoardDto insertBoardDto) {
-		int numberOfChange = boardDao.insertBoard(insertBoardDto);
+	public int addBoard(Board board) {
+		int numberOfChange = boardDao.insertBoard(board);
 		return numberOfChange;
 	}
 
 
 	@Override
-	public int modifiyBoard(UpdateBoardDto updateBoardDto) {
-		int numberOfChange = boardDao.updateBoard(updateBoardDto);
+	public int modifiyBoard(Board board) {
+		int numberOfChange = boardDao.updateBoard(board);
 		return numberOfChange;
 	}
 
 
 	@Override
-	public int deleteBoard(DeleteBoardDto deleteBoardDto) {
-		int numberOfChange = boardDao.deleteBoard(deleteBoardDto);
+	public int deleteBoard(Board board) {
+		int numberOfChange = boardDao.deleteBoard(board);
 		return numberOfChange;
 	}
 }

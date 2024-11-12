@@ -1,37 +1,28 @@
 package kr.kro.runleaf.controller;
 
-import java.io.File;	
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;		
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD:runleaf/src/main/java/kr/kro/runleaf/controller/MemberController.java
+import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
-import kr.kro.runleaf.member.domain.dto.MemberDto;
-import kr.kro.runleaf.member.domain.dto.MemberFindDto;
 import kr.kro.runleaf.service.MemberService;
-=======
-import kr.kro.runleaf.member.domain.Member;
-import kr.kro.runleaf.member.domain.MemberFile;
-import kr.kro.runleaf.member.service.MemberService;
->>>>>>> 60f9abea388285be61f9329ea876dbc6e80d139d:runleaf/src/main/java/kr/kro/runleaf/member/controller/MemberController.java
 
 @RestController
 @RequestMapping("/member")

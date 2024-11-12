@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import kr.kro.runleaf.board.domain.dto.DeleteBoardDto;
-import kr.kro.runleaf.board.domain.dto.InsertBoardDto;
-import kr.kro.runleaf.board.domain.dto.UpdateBoardDto;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 
@@ -17,11 +14,11 @@ public interface BoardDao {
 
 	Board selectBoardById(int id);
 
-	int insertBoard(InsertBoardDto insertBoardDto);
+	int insertBoard(Board board);
 
-	int updateBoard(UpdateBoardDto updateBoardDto);
+	int updateBoard(Board board);
 
-	int deleteBoard(DeleteBoardDto deleteBoardDto);
+	int deleteBoard(Board board);
 
 
 }

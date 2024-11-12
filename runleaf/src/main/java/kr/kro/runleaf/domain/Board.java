@@ -2,20 +2,22 @@ package kr.kro.runleaf.domain;
 
 
 public class Board {
-	private int id;
+	private int boardId;
 	private int memberId;
 	private int runningDataId;
 	private String content;
 	private String createdDate;
 	private String modifidedDate;
 	private String mainImagePath;
-	private String startLatitude;
-	private String startLongitude;
-	public int getId() {
-		return id;
+	private String writer;
+	private RunningData runningData;
+	
+	
+	public int getBoardId() {
+		return boardId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
 	}
 	public int getMemberId() {
 		return memberId;
@@ -53,35 +55,23 @@ public class Board {
 	public void setMainImagePath(String mainImagePath) {
 		this.mainImagePath = mainImagePath;
 	}
-	public String getStartLatitude() {
-		return startLatitude;
+	public String getWriter() {
+		return writer;
 	}
-	public void setStartLatitude(String startLatitude) {
-		this.startLatitude = startLatitude;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
-	public String getStartLongitude() {
-		return startLongitude;
+	public RunningData getRunningData() {
+		return runningData;
 	}
-	public void setStartLongitude(String startLongitude) {
-		this.startLongitude = startLongitude;
+	public void setRunningData(RunningData runningData) {
+		this.runningData = runningData;
 	}
 	public Board() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Board(int id, int memberId, int runningDataId, String content, String createdDate, String modifidedDate,
-			String mainImagePath, String startLatitude, String startLongitude) {
-		super();
-		this.id = id;
-		this.memberId = memberId;
-		this.runningDataId = runningDataId;
-		this.content = content;
-		this.createdDate = createdDate;
-		this.modifidedDate = modifidedDate;
-		this.mainImagePath = mainImagePath;
-		this.startLatitude = startLatitude;
-		this.startLongitude = startLongitude;
-	}
+
 	
 	
 }
