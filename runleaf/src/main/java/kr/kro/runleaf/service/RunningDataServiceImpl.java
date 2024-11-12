@@ -30,6 +30,12 @@ public class RunningDataServiceImpl implements RunningDataService {
 		return count;
 	}
 
+	@Override
+	public int getRunningDataList() {
+		int count = runningDataRepository.selectRunningDataList();
+		return count;
+	}
+
 
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,24 +29,23 @@ import kr.kro.runleaf.service.RunningDataService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/running")
+@RequestMapping("/running")
 public class RunningDataController {
 	
 	private final RunningDataService runningDataService;
 	public RunningDataController (RunningDataService runningDataService) {
 		this.runningDataService = runningDataService;
 	}
-
-//	@PostMapping
-//	public String receiveLocation(@RequestBody Location location) {
-//		System.out.println("Received Latitude: " + location.getLatitude());
-//		System.out.println("Received Longitude: " + location.getLongitude());
-//
-//		// 받은 위치 정보를 바탕으로 처리 로직을 추가
-//		// 예: 위치 기반 서비스, 데이터베이스 저장 등
-//
-//		return "{\"status\": \"Location received successfully!\"}";
-//	}
+	
+	@GetMapping
+	public ResponseEntity<List<RunningData>> getMethodName() {
+		ResponseEntity responseEntity;
+		int numberOfChange = runningDataService.getRunningDataList();
+		responseEntity = null;
+		return responseEntity;
+	}
+	
+	
 	@PostMapping
 	public ResponseEntity<Integer> addBoard(
 			@RequestPart(value = "board") RunningData runningData,
