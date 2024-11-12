@@ -16,6 +16,8 @@ public interface RunningDataRepository {
 
 	int insertRunningDataImage(RunningDataImage runningDataImage);
 
+	int selectRunningDataList();
+
 
 
 
