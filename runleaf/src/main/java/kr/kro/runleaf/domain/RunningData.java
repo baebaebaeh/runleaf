@@ -8,8 +8,32 @@ public class RunningData {
 	private String startLatitude;
 	private String startLongitude;
 	private String createdTime;
-	private String evaluation;
+	private String title;
 	private String oneLineComment;
+	@Override
+	public String toString() {
+		return "RunningData [runningDataId=" + runningDataId + ", memberId=" + memberId + ", difficulty=" + difficulty
+				+ ", runningTime=" + runningTime + ", startLatitude=" + startLatitude + ", startLongitude="
+				+ startLongitude + ", createdTime=" + createdTime + ", title=" + title + ", oneLineComment="
+				+ oneLineComment + "]";
+	}
+	public RunningData(int runningDataId, int memberId, int difficulty, String runningTime, String startLatitude,
+			String startLongitude, String createdTime, String title, String oneLineComment) {
+		super();
+		this.runningDataId = runningDataId;
+		this.memberId = memberId;
+		this.difficulty = difficulty;
+		this.runningTime = runningTime;
+		this.startLatitude = startLatitude;
+		this.startLongitude = startLongitude;
+		this.createdTime = createdTime;
+		this.title = title;
+		this.oneLineComment = oneLineComment;
+	}
+	public RunningData() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public int getRunningDataId() {
 		return runningDataId;
 	}
@@ -52,11 +76,11 @@ public class RunningData {
 	public void setCreatedTime(String createdTime) {
 		this.createdTime = createdTime;
 	}
-	public String getEvaluation() {
-		return evaluation;
+	public String getTitle() {
+		return title;
 	}
-	public void setEvaluation(String evaluation) {
-		this.evaluation = evaluation;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getOneLineComment() {
 		return oneLineComment;
@@ -64,5 +88,6 @@ public class RunningData {
 	public void setOneLineComment(String oneLineComment) {
 		this.oneLineComment = oneLineComment;
 	}
+	
 	
 }

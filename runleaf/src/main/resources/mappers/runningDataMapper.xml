@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.kro.runleaf.repository.RunningDataRepository">
+	<insert id="insertRunningData" parameterType="RunningData" useGeneratedKeys="true" keyProperty="runningDataId">
+		insert into running_data (
+			member_id, 
+		    difficulty, 
+		    running_time, 
+		    start_latitude,
+		    start_longitude,
+		    title,
+		    one_line_comment
+		    
+		)
+		VALUES (
+			#{memberId},
+		    #{difficulty},
+		    #{runningTime},
+		    #{startLatitude},
+		    #{startLongitude},
+		    #{title},
+		    #{oneLineComment}
+		)
+	</insert>
+	<insert id="insertRunningDataImage" parameterType="RunningDataImage" >
+		insert into running_data_image (
+			running_data_id, 
+		    real_name, 
+		    system_name, 
+		    path
+		)
+		VALUES (
+			#{runningDataId},
+		    #{realName},
+		    #{systemName},
+		    #{path}
+		)
+	</insert>
+</mapper>
+
+
+

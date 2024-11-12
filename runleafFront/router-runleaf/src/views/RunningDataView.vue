@@ -1,28 +1,25 @@
 <template>
   <div>
-    <h1>Get User Location</h1>
-    <button @click="getLocation()">Get Location</button>
-    <a href="${pageContext.request.contextPath}/">main</a>
-    <div>너의 위치</div>
-    <div>경도 : {{ location.longitude }}</div>
-    <div>경도 : {{ location.latitude }}</div>
-  </div>
-  <div>
-
     <div>
       memberId : <input type="text" v-model="boardDto.memberId">
     </div>
     <div>
-      runningDataId : <input type="text" v-model="boardDto.runningDataId">
+      difficulty : <input type="text" v-model="boardDto.difficulty">
     </div>
     <div>
-      content : <input type="text" v-model="boardDto.content">
+      runningTime : <input type="text" v-model="boardDto.runningTime">
     </div>
     <div>
-      mainImagePath : <input type="text" v-model="boardDto.mainImagePath">
+      startLongitude : <input type="text" v-model="boardDto.startLongitude">
     </div>
     <div>
-      writer : <input type="text" v-model="boardDto.writer">
+      startLatitude : <input type="text" v-model="boardDto.startLatitude">
+    </div>
+    <div>
+      title : <input type="text" v-model="boardDto.title">
+    </div>
+    <div>
+      oneLineComment : <input type="text" v-model="boardDto.oneLineComment">
     </div>
     <div>
       <input type="file" id="upload-image" @change="getFileName($event.target.files)" multiple hidden />
@@ -50,18 +47,19 @@ const previews = ref([
 ])
 const boardDto = ref({
   memberId: '',
-  runningDataId: '',
-  content: '',
-  mainImagePath: '',
-  writer: '',
+  difficulty: '',
+  runningTime: '',
+  startLongitude: '',
+  startLatitude: '',
+  title: '',
+  oneLineComment: '',
 })
 let formData = new FormData();
 
 
 const uploadFile = async () => {
-  // formData.append(`board`, new Blob([JSON.stringify(boardDto.value)], { type: "application/json" }));
   formData.append("board", new Blob([JSON.stringify(boardDto.value)], { type: "application/json" })); // board 객체 추가
-  await axios.post("http://localhost:8080/api/board", formData);
+  await axios.post("http://localhost:8080/api/running", formData);
 };
 
 

@@ -1,34 +1,19 @@
 <template>
   <div>
-    <h1>Get User Location</h1>
-    <button @click="getLocation()">Get Location</button>
-    <a href="${pageContext.request.contextPath}/">main</a>
-    <div>너의 위치</div>
-    <div>경도 : {{ location.longitude }}</div>
-    <div>경도 : {{ location.latitude }}</div>
-  </div>
-  <div>
-
     <div>
-      memberId : <input type="text" v-model="insertBoardDto.memberId">
+      memberId : <input type="text" v-model="boardDto.memberId">
     </div>
     <div>
-      runningDataId : <input type="text" v-model="insertBoardDto.runningDataId">
+      runningDataId : <input type="text" v-model="boardDto.runningDataId">
     </div>
     <div>
-      content : <input type="text" v-model="insertBoardDto.content">
+      content 사실상 이거만 작성 : <input type="text" v-model="boardDto.content">
     </div>
     <div>
-      mainImagePath : <input type="text" v-model="insertBoardDto.mainImagePath">
+      mainImagePath : <input type="text" v-model="boardDto.mainImagePath">
     </div>
     <div>
-      startLongitude : <input type="text" v-model="insertBoardDto.startLongitude">
-    </div>
-    <div>
-      startLatitude : <input type="text" v-model="insertBoardDto.startLatitude">
-    </div>
-    <div>
-      <input type="file" id="upload-image" @change="getFileName($event.target.files)" multiple hidden />
+      writer : <input type="text" v-model="boardDto.writer">
     </div>
     <div v-for="(preview, index) in previews" :key="index">
       <label for="upload-image">
@@ -42,8 +27,6 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-
-
 const previews = ref([
   'preview0',
   'preview1',
@@ -51,21 +34,23 @@ const previews = ref([
   'preview3',
   'preview4',
 ])
-const insertBoardDto = ref({
+const boardDto = ref({
   memberId: '',
   runningDataId: '',
   content: '',
   mainImagePath: '',
-  writer: ''
+  writer: '',
 })
+let formData = new FormData();
 
 
 const uploadFile = async () => {
-  await axios.post("http://localhost:8080/api/boardImg", formData);
-  console.log(insertBoardDto.value)
-  await axios.post("http://localhost:8080/api/board", insertBoardDto.value);
+  // formData.append(`board`, new Blob([JSON.stringify(boardDto.value)], { type: "application/json" }));
+  formData.append("board", new Blob([JSON.stringify(boardDto.value)], { type: "application/json" })); // board 객체 추가
+  await axios.post("http://localhost:8080/api/board", formData);
 };
-let formData = new FormData();
+
+
 const getFileName = async(files) => {
   formData = new FormData();
   for (let index = 0; index < previews.value.length; index++) {
@@ -80,7 +65,9 @@ const getFileName = async(files) => {
     }
     
   }
-}
+};
+
+
 const base64 = (file, index) => {
   // 비동기적으로 동작하기 위하여 promise를 return 해준다.
   const prom = new Promise(resolve => {
@@ -98,7 +85,10 @@ const base64 = (file, index) => {
     a.readAsDataURL(file)
   })
   return prom
-}
+};
+
+
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);

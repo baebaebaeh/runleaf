@@ -22,7 +22,7 @@
 	        <result property="startLatitude" column="start_latitude"/>
 	        <result property="startLongitude" column="start_longitude"/>
 	        <result property="createdTime" column="created_time"/>
-	        <result property="evaluation" column="evaluation"/>
+	        <result property="title" column="title"/>
 	        <result property="oneLineComment" column="one_line_comment"/>
 	    </association>
 	</resultMap>
@@ -30,7 +30,7 @@
 
 	<!-- 게시물 목록 데이터 -->
 	<select id="selectBoardByOrder" resultMap="Board"
-		parameterType="BoardSearch">
+		parameterType="BoardSearch" >
 		<choose>
 			<when test="orderInt == 1">
 				SELECT 	b.board_id, 
@@ -45,7 +45,7 @@
 						r.start_longitude,
 						r.difficulty,
 						r.running_time,
-						r.evaluation,	
+						r.title,	
 						r.one_line_comment AS one_line_comment,
 						r.created_time,
 					ST_Distance_Sphere(
@@ -87,22 +87,20 @@
 				from board
 				where id = #{id}
 	</select>
-	<insert id="insertBoard" parameterType="Board">
+	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="boardId">
 		insert into board (
 			member_id, 
 		    running_data_id, 
 		    content, 
 		    main_image_path,
-		    now_longitude,
-		    now_latitude
+		    writer
 		)
 		VALUES (
 			#{memberId},
 		    #{runningDataId},
 		    #{content},
 		    #{mainImagePath},
-		    #{nowLongitude},
-		    #{nowLatitude}
+		    #{writer}
 		)
 	</insert>
 	<update id="updateBoard" parameterType="Board">
