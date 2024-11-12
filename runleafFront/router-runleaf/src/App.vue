@@ -1,18 +1,19 @@
 <template>
   <div>
+      <TheHeaderNav/>
+    </div>
+    <RouterView/>
+    <!--  
       <RouterLink :to="{ name: 'board'}">board</RouterLink>
       <RouterLink :to="{ name: 'runningData'}">runningData</RouterLink>
       <RouterLink :to="{ name: 'gps'}">gps</RouterLink>
       <RouterLink :to="{ name: 'join'}">회원가입</RouterLink>
-
+-->
   </div>
-  <RouterView />
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import { ref } from 'vue';
-const a = ref('')
+  import TheHeaderNav from './components/common/TheHeaderNav.vue';
 </script>
 
 <style scoped>
