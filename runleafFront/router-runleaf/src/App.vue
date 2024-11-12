@@ -1,6 +1,7 @@
 <template>
   <div>
-      <RouterLink :to="{ name: 'gps'}">gps</RouterLink>
+      <RouterLink :to="{ name: 'board'}">board</RouterLink>
+      <RouterLink :to="{ name: 'runningData'}">runningData</RouterLink>
       <RouterLink :to="{ name: 'gps'}">gps</RouterLink>
       <RouterLink :to="{ name: 'join'}">회원가입</RouterLink>
 

@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.kro.runleaf.domain.Board;
+import kr.kro.runleaf.domain.RunningDataImage;
 import kr.kro.runleaf.domain.BoardSearch;
+import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.service.BoardService;
 import kr.kro.runleaf.util.PageData;
 
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -100,10 +103,12 @@ public class BoardController {
 	 * 
 	 */
 	@PostMapping
-	public ResponseEntity<Integer> addBoard(@RequestBody Board board) {
+	public ResponseEntity<Integer> addBoard(
+			@RequestPart(value = "board") Board board,
+			@RequestPart(value = "file", required = false) List<MultipartFile> file) {
 		int numberOfChange = boardService.addBoard(board);
+		System.out.println(board.getBoardId());
 		ResponseEntity<Integer> responseEntity;
-		System.out.println();
 		try {
 			if (numberOfChange == 1) {
 				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.OK);
@@ -113,8 +118,37 @@ public class BoardController {
 		} catch (Exception e) {
 			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
+		// 저장할 디렉토리 경로 설정
+		for (int index = 0; index < file.size(); index++) {
+			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
+//			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
+			String uploadDir = "c:/SSAFY/uploads" + subDir;
+			// 폴더생성
+			File dir = new File(uploadDir);
+			dir.mkdirs();
+			// 원본 파일명 가져오기
+			String originalFilename = file.get(index).getOriginalFilename();
+			String systemName = UUID.randomUUID().toString() + "_" + originalFilename;
+			// 저장할 파일 객체 생성
+			File destFile = new File(dir, systemName);
+			RunningDataImage boardImage = new RunningDataImage(
+					board.getBoardId(),
+					originalFilename,
+					systemName,
+					uploadDir
+					);
+			System.out.println(boardImage);
+			try {
+				// 파일 저장
+				file.get(index).transferTo(destFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return responseEntity;
 	}
+	// board.getBoardId, originalFilename, systemName, uploadDir
 
 	/**
 	 * 게시글 수정하기 게시글 정상적으로 수정시 200 ok 게시글 수정 못했을시 400오류 bad request 중간에 오류 났을시

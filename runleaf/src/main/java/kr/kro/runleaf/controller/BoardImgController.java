@@ -50,7 +50,7 @@ public class BoardImgController {
 			file.get(index).transferTo(destFile);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}			
+		}
 		}
 		return responseEntity;
 	}
