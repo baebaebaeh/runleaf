@@ -1,37 +1,42 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import axios from 'axios';
 
-export const useMemberStore = defineStore('member', {
-  state: () => ({
-    memberInfo: {
+export const useMemberStore = defineStore('member', () => {
+  const memberInfo = ref({
       username: '',
       password: '',
       nickname: '',
       email: '',
       phone: '',
-      memberFile: null,
-    },
-  }),
-  actions: {
-    updateMemberInfo(payload) {
-      this.memberInfo = { ...this.memberInfo, ...payload };
-    },
-    async submitJoinForm() {
-      const formData = new FormData();
-      formData.append('member', JSON.stringify(this.memberInfo));
-      
-      if (this.memberInfo.memberFile) {
-        formData.append('file', this.memberInfo.memberFile);
-      }
+  });
+  const formData = new FormData();
+
+  const updateMemberInfo = (member) => {
+    memberInfo.value.username = member.username;
+    memberInfo.value.password = member.password;
+    memberInfo.value.nickname = member.nickname;
+    memberInfo.value.email = member.email;
+    memberInfo.value.phone = member.phone;
+  };
+  const addFile = (file) => {
+    formData.append("file", file);
+  };
+  const submitJoinForm = async () => {
+      formData.append('member', new Blob([JSON.stringify(memberInfo.value)], { type: 'application/json' }));
 
       try {
-        await axios.post('/api/member', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        alert('회원가입이 완료되었습니다!');
+        const response = await axios.post('/api/member', formData);
+
+        // 회원가입 성공 시
+        if (response.status === 200) {
+          alert('회원가입이 완료되었습니다!');
+        }
       } catch (error) {
         console.error('회원가입 실패:', error);
         alert('회원가입 중 문제가 발생했습니다.');
       }
-    },
-  },
-});
+    };
+    return { memberInfo, updateMemberInfo, addFile, submitJoinForm};
+  }
+);

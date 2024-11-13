@@ -8,23 +8,23 @@
     </div>
 
     <label for="username" class="label">아이디*</label>
-    <input type="text" id="username" name="username" class="input-field" placeholder="영문, 숫자 조합 6~12자" required>
+    <input type="text" id="username" name="username" v-model="member.username" class="input-field" placeholder="영문, 숫자 조합 6~12자" required>
 
     <label for="password" class="label">비밀번호*</label>
-    <input type="password" id="password" name="password" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
+    <input type="password" id="password" name="password" v-model="member.password" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
 
     <label for="confirm_password" class="label">비밀번호 확인*</label>
     <input type="password" id="confirm_password" name="confirm_password" class="input-field"
       placeholder="비밀번호를 한 번 더 입력해주세요." required>
 
     <label for="nickname" class="label">닉네임*</label>
-    <input type="text" id="nickname" name="nickname" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
+    <input type="text" id="nickname" name="nickname" v-model="member.nickname" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
 
     <label for="email" class="label">이메일*</label>
-    <input type="email" id="email" name="email" class="input-field" placeholder="예) abc@ssafy.com" required>
+    <input type="email" id="email" name="email" v-model="member.email" class="input-field" placeholder="예) abc@ssafy.com" required>
 
     <label for="phone" class="label">연락처*</label>
-    <input type="tel" id="phone" name="phone" class="input-field" placeholder="‘-’을 제외하고 입력해주세요." required>
+    <input type="tel" id="phone" name="phone" v-model="member.phone" class="input-field" placeholder="‘-’을 제외하고 입력해주세요." required>
 
     <button @click="saveInfoAndNext" class="next-button">다음</button>
   </div>
@@ -34,10 +34,10 @@
 import { ref } from 'vue';
 import { useMemberStore } from '@/stores/member';
 import { useRouter } from 'vue-router';
-import JoinView from '@/views/JoinView.vue';
 
 const memberStore = useMemberStore();
 const router = useRouter();
+
 const member = ref({
   username: '',
   password: '',
@@ -47,13 +47,8 @@ const member = ref({
 })
 
 const saveInfoAndNext = () => {
-  memberStore.updateMemberInfo({
-    username: member.username,
-    password: member.password,
-    nickname: member.nickname,
-    email: member.email,
-    phone: member.phone
-  });
+  memberStore.updateMemberInfo(member.value);
+  console.log(memberStore.memberInfo)
   router.push('/join/profile');
 };
 
