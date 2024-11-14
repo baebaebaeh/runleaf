@@ -8,7 +8,7 @@
     </div>
 
     <label for="username" class="label">아이디*</label>
-    <input type="text" id="username" name="username" v-model="member.username" class="input-field" placeholder="영문, 숫자 조합 6~12자" required>
+    <input type="text" id="username" name="username" v-model="member.username" class="input-field" placeholder="영문 소문자, 숫자 조합 6~12자" required>
 
     <label for="password" class="label">비밀번호*</label>
     <input type="password" id="password" name="password" v-model="member.password" class="input-field" placeholder="영문, 숫자 조합 8~16자" required>
