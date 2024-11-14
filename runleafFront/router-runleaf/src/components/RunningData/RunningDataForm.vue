@@ -58,7 +58,7 @@
     </div>
     <div v-for="(preview, index) in previews" :key="index">
       <label for="upload-image">
-          <img src="../../assets/images/abcd.PNG" :id="preview" />
+          <img src="http://localhost:8080/uploads/c:/SSAFY/uploads/defaultimg/abcd.PNG" :id="preview" />
       </label>
     </div>
     <button @click="uploadFile">등록</button>
