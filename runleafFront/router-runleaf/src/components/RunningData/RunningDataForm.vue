@@ -1,37 +1,82 @@
 <template>
   <div>
     <div>
-      memberId : <input type="text" v-model="boardDto.memberId">
+      memberId : 
+      <input type="text" v-model="boardDto.memberId">
     </div>
     <div>
-      difficulty : <input type="text" v-model="boardDto.difficulty">
+      difficulty : 
+      <input type="text" v-model="boardDto.difficulty">
     </div>
     <div>
-      runningTime : <input type="text" v-model="boardDto.runningTime">
+      startRunningTs : 
+      <input type="text" v-model="boardDto.startRunningTs" style="display: none">
     </div>
     <div>
-      startLatitude : <input type="text" v-model="boardDto.startLatitude">
+      endRunningTs : 
+      <input type="text" v-model="boardDto.endRunningTs" style="display: none">
     </div>
     <div>
-      startLongitude : <input type="text" v-model="boardDto.startLongitude">
+      startLatitude : 
+      <input type="text" v-model="boardDto.startLatitude">
+    </div>
+
+    <div>
+      startLongitude : 
+      <input type="text" v-model="boardDto.startLongitude">
     </div>
     <div>
-      title : <input type="text" v-model="boardDto.title">
+      createdTs : 
+      <input type="text" v-model="boardDto.createdTs" style="display: none">
     </div>
     <div>
-      oneLineComment : <input type="text" v-model="boardDto.oneLineComment">
+      modifiedTs : 
+      <input type="text" v-model="boardDto.modifiedTs" style="display: none">
+    </div>
+    <div>
+      title : 
+      <input type="text" v-model="boardDto.title">
+    </div>
+    <div>
+      content : 
+      <input type="text" v-model="boardDto.content">
+    </div>
+    <div>
+      mainImagePath : 
+      <input type="text" v-model="boardDto.mainImagePath">
+    </div>
+    <div>
+      writer : 
+      <input type="text" v-model="boardDto.writer">
+    </div>
+    <div>
+      boolean :
+      <input type="text" v-model="boardDto.onBoard" style="display: none">
     </div>
     <div>
       <input type="file" id="upload-image" @change="getFileName($event.target.files)" multiple hidden />
     </div>
     <div v-for="(preview, index) in previews" :key="index">
       <label for="upload-image">
-          <img src="../../assets/images/abcd.PNG" :id="preview" />
+          <img src="http://localhost:8080/uploads/c:/SSAFY/uploads/defaultimg/abcd.PNG" :id="preview" />
       </label>
     </div>
     <button @click="uploadFile">등록</button>
   </div>
+  <!-- 
+  	
+          <img
+            v-if="mainImage(board)"
+            :src="`http://localhost:8080/uploads/${mainImage(board).path}${
+              mainImage(board).systemName
+            }`"
+            alt="Board Image"
+          />
+  
+  -->
 </template>
+
+
 
 <script setup>
 import { ref } from 'vue';
@@ -44,14 +89,19 @@ const previews = ref([
   'preview4',
 ])
 const boardDto = ref({
-  memberId: '',
-  difficulty: '',
-  runningTime: '',
-  startLatitude: '',
-  startLongitude: '',
-  createdTime: '',
-  title: '',
-  oneLineComment: '',
+      memberId: '1',
+      difficulty: '1',
+      startRunningTs: '',
+      endRunningTs: '',
+      startLatitude: '1',
+      startLongitude: '1',
+      createdTs: '',
+      modifiedTs: '',
+      title: '1',
+      content: '1',
+      mainImagePath: '1',
+      writer: '1',
+      onBoard: '',
 })
 let formData = new FormData();
 
@@ -79,7 +129,6 @@ const getFileName = async(files) => {
   }
 };
 
-
 const base64 = (file, index) => {
   // 비동기적으로 동작하기 위하여 promise를 return 해준다.
   const prom = new Promise(resolve => {
@@ -99,8 +148,6 @@ const base64 = (file, index) => {
   return prom
 };
 
-
-
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(sendPositionToServer, showError);
@@ -109,61 +156,6 @@ function getLocation() {
   }
 }
 
-const locations = ref([])
-const location = ref({
-  longitude: 0,
-  latitude: 0,
-});
-const sendPositionToServer = async (position) => {
-  const longitude = position.coords.longitude;
-  const latitude = position.coords.latitude;
-  location.value.longitude = longitude;
-  location.value.latitude = latitude;
-  await axios.post("https://www.runleaf.kro.kr:8080/gps", location.value);
-  locations.value.push(location);
-};
-
-// function sendPositionToServer(position) {
-//   const latitude = position.coords.latitude;
-//   const longitude = position.coords.longitude;
-
-
-//   fetch('/location', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       latitude: latitude,
-//       longitude: longitude
-//     })
-//   }).then(response => {
-//     if (response.ok) {
-//       return response.json();
-//     }
-//   }).then(data => {
-//     console.log('Server Response:', data);
-//   }).catch(error => {
-//     console.error('Error:', error);
-//   });
-// }
-
-function showError(error) {
-  switch (error.code) {
-    case error.PERMISSION_DENIED:
-      alert("User denied the request for Geolocation.");
-      break;
-    case error.POSITION_UNAVAILABLE:
-      alert("Location information is unavailable.");
-      break;
-    case error.TIMEOUT:
-      alert("The request to get user location timed out.");
-      break;
-    case error.UNKNOWN_ERROR:
-      alert("An unknown error occurred.");
-      break;
-  }
-}
 </script>
 
 <style scoped>
