@@ -2,12 +2,15 @@ package kr.kro.runleaf.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +23,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import jakarta.validation.Valid;
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
 import kr.kro.runleaf.service.MemberService;
@@ -40,38 +42,55 @@ public class MemberController {
 	// 회원 가입
 	@PostMapping
 	public ResponseEntity<String> join(
-			@RequestPart(value = "member") Member member,
-			@RequestPart(value = "file", required = false) MultipartFile file)
-			throws IllegalStateException, IOException {
+	        @RequestPart(value = "member") @Valid Member member,
+	        @RequestPart(value = "file", required = false) MultipartFile file)
+	        throws IllegalStateException, IOException {
 
-		try {
-			if (file != null && !file.isEmpty()) { // 파일이 첨부된 경우만 처리
-				String orgName = file.getOriginalFilename();
-				String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
-				File dir = new File("c:/SSAFY/uploads" + subDir);
-				dir.mkdirs();
+	    try {
+	        String orgName;
+	        File savedFile;
+	        
+	        // 기본 이미지 설정
+	        if (file == null || file.isEmpty()) {
+	            orgName = "profile-default.png";
+	            // 서버 내 기본 이미지 파일 경로 설정
+	            File defaultFile = ResourceUtils.getFile("c:/SSAFY/uploads/default/profile-default.png");
+	            
+	            // 기본 이미지를 저장할 위치에 복사
+	            String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
+	            File dir = new File("c:/SSAFY/uploads" + subDir);
+	            dir.mkdirs();
+	            
+	            String systemName = UUID.randomUUID().toString() + "_" + orgName;
+	            savedFile = new File(dir, systemName);
+	            Files.copy(defaultFile.toPath(), savedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	        } else {
+	            // 사용자 업로드 이미지 처리
+	            orgName = file.getOriginalFilename();
+	            String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
+	            File dir = new File("c:/SSAFY/uploads" + subDir);
+	            dir.mkdirs();
 
-				// 저장할 파일명 생성
-				String systemName = UUID.randomUUID().toString() + "_" + orgName;
-				file.transferTo(new File(dir, systemName));
+	            String systemName = UUID.randomUUID().toString() + "_" + orgName;
+	            savedFile = new File(dir, systemName);
+	            file.transferTo(savedFile);
+	        }
 
-				// 파일 정보 세팅
-				MemberFile memberFile = new MemberFile();
-				memberFile.setFilePath(subDir);
-				memberFile.setOrgName(orgName);
-				memberFile.setSystemName(systemName);
-				member.setMemberFile(memberFile);
+	        // 파일 정보 세팅
+	        MemberFile memberFile = new MemberFile();
+	        memberFile.setFilePath(savedFile.getParent()); // 파일 경로
+	        memberFile.setOrgName(orgName);                // 원본 파일명
+	        memberFile.setSystemName(savedFile.getName()); // 시스템 저장 파일명
+	        member.setMemberFile(memberFile);
 
-				if (memberService.join(member)) {
-					return ResponseEntity.ok("회원가입이 완료되었습니다!");
-				}
-				return ResponseEntity.status(HttpStatus.CONFLICT).build();
-			}
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 문제가 발생했습니다.");
-		}
+	        if (memberService.join(member)) {
+	            return ResponseEntity.ok("회원가입이 완료되었습니다!");
+	        }
+	        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 문제가 발생했습니다.");
+	    }
 	}
 
 	// 회원 조회

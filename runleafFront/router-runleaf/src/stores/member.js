@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export const useMemberStore = defineStore('member', () => {
+  const router = useRouter();
+
   const memberInfo = ref({
     username: '',
     password: '',
@@ -33,15 +36,15 @@ export const useMemberStore = defineStore('member', () => {
       // 회원가입 성공 시
       if (response.status === 200) {
         alert('회원가입이 완료되었습니다!');
-      } else {
-        console.log(response.status)
-      }
+        router.push('/');
+      } 
     } catch (error) {
       console.error('회원가입 실패:', error);
       alert('회원가입 중 문제가 발생했습니다.');
+      router.push({ name: 'join' })
     }
   };
 
-  return { memberInfo, formData, updateMemberInfo, addFile, submitJoinForm };
+  return { memberInfo, formData, router, updateMemberInfo, addFile, submitJoinForm };
 }
 );

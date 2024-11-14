@@ -5,9 +5,11 @@ import kr.kro.runleaf.domain.MemberFile;
 
 public interface MemberRepository {
 	
-	int insertMember(Member member);
+	void insertMember(Member member);
 	
 	void insertMemberFile(MemberFile memberFile);
+
+	int existByUsername(String username);
 
 	Member selectMember(int id);
 	
