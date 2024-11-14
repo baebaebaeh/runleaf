@@ -27,6 +27,15 @@ create table running_board_image (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+create table running_coordinate (
+	running_coordinate_id int AUTO_INCREMENT PRIMARY KEY,
+    running_board_id int,
+    latitude DOUBLE,
+    longitude DOUBLE,
+    created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
+    on delete cascade
+);
 
 
 select *
@@ -34,5 +43,7 @@ from running_board;
 
 select *
 from running_board_image;
+select *
+from running_coordinate;
 -- ALTER USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
 -- CREATE USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';

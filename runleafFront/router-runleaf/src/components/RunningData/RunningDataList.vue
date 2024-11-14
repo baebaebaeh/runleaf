@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <div v-for="(runningBoard, index) in runningDataStore.boardDto" :key="runningBoard.runningBoardId">
+    <div v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
       <RouterLink :to="{
         name: 'runningDataDetail',
         params: {
@@ -10,7 +10,7 @@
         <div class="content">
           <!-- @click="runningBoardDetail(runningBoard.runningBoardId)" -->
           <div>title : {{ runningBoard.title }}</div>
-          <img :src="`http://localhost:8080/uploads/${runningBoard.mainImagePath}`" id="preview" />
+          <img :src="`${runningBoard.mainImagePath.replace(/^.*\/src/, '/src')}`" id="preview" />
         </div>
       </RouterLink>
       <RouterView v-if="$route.params.id == runningBoard.runningBoardId" />
@@ -19,11 +19,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted  } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router'
 import { useRunningDataStore } from '@/stores/runningDataStore.js'
 import axios from 'axios';
-
+const boardDto = ref([])
 const runningDataStore = useRunningDataStore();
 let isFetching = false;
 let hasMoreData = true;
@@ -53,7 +53,7 @@ const getRunningBoardList = async () => {
     } else {
       data.forEach((runningBoard) => {
         console.log(2);
-        runningDataStore.addBoard({
+        boardDto.value.push({
           runningBoardId: runningBoard.runningBoardId,
           memberId: runningBoard.memberId,
           difficulty: runningBoard.difficulty,
@@ -82,7 +82,14 @@ const getRunningBoardList = async () => {
 
 // onmount
 window.addEventListener('scroll', infinityScroll);
-getRunningBoardList();
+// onMounted(() => {
+//   if(!runningDataStore.boardDto.value) {
+//     getRunningBoardList();
+//   }
+// });
+onMounted(() => {
+  getRunningBoardList();
+});
 
 onBeforeRouteLeave((to, from, next) => {
   window.removeEventListener('scroll', infinityScroll); // 이벤트 리스너 해제
