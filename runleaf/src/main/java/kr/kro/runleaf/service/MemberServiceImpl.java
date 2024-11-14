@@ -17,12 +17,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void join(Member member) {
-		memberRepository.insertMember(member);
+	public boolean join(Member member) {
+		int result = memberRepository.insertMember(member);
 		MemberFile memberFile = member.getMemberFile();
 		
 	    memberFile.setMemberId(member.getId());
 	    memberRepository.insertMemberFile(memberFile);
+	    
+	    return result == 1;
 	}
 
 	@Override

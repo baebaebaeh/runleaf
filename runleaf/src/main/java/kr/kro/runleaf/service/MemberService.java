@@ -4,7 +4,7 @@ import kr.kro.runleaf.domain.Member;
 
 public interface MemberService {
 
-	void join(Member member);
+	boolean join(Member member);
 
 	Member findOne(int id);
 

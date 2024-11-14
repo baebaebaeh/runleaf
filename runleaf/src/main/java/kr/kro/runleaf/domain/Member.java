@@ -11,6 +11,30 @@ public class Member {
 	private String phone;
 	private MemberFile memberFile;
 	
+	public Member() {
+	}
+
+	public Member(int id, String username, String password, String nickname, String email, String phone) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nickname = nickname;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	public Member(int id, String username, String password, String nickname, String email, String phone,
+			MemberFile memberFile) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nickname = nickname;
+		this.email = email;
+		this.phone = phone;
+		this.memberFile = memberFile;
+	}
+	
 	public int getId() {
 		return id;
 	}
