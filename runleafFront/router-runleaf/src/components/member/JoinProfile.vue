@@ -38,11 +38,7 @@ const onFileChange = (event) => {
     }
 }
 
-const saveAndSubmit = () => {
-    const memberFile = previewImage.value || defaultProfileImage;
-    // memberStore.updateMemberInfo({
-    //     memberFile: memberFile
-    // });
+const saveAndSubmit = async  () => {
     memberStore.submitJoinForm();
 }
 

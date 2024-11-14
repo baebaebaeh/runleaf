@@ -48,7 +48,6 @@ const member = ref({
 
 const saveInfoAndNext = () => {
   memberStore.updateMemberInfo(member.value);
-  console.log(memberStore.memberInfo)
   router.push('/join/profile');
 };
 

@@ -5,7 +5,7 @@ import kr.kro.runleaf.domain.MemberFile;
 
 public interface MemberRepository {
 	
-	void insertMember(Member member);
+	int insertMember(Member member);
 	
 	void insertMemberFile(MemberFile memberFile);
 

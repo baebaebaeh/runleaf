@@ -62,9 +62,12 @@ public class MemberController {
 				memberFile.setSystemName(systemName);
 				member.setMemberFile(memberFile);
 
-				memberService.join(member);
+				if (memberService.join(member)) {
+					return ResponseEntity.ok("회원가입이 완료되었습니다!");
+				}
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
 			}
-			return ResponseEntity.ok("회원가입이 완료되었습니다!");
+			return ResponseEntity.noContent().build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 문제가 발생했습니다.");
