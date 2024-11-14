@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.kro.runleaf.repository.RunningBoardRepository">
+	<resultMap id="RunningBoard" type="RunningBoard">
+	    <id property="runningBoardId" column="r_running_board_id"/>
+	    <result property="memberId" column="member_id"/>	    
+	    <result property="difficulty" column="difficulty"/>
+	    <result property="startRunningTs" column="start_running_ts"/>
+	    <result property="endRunningTs" column="end_running_ts"/>
+	    <result property="startLatitude" column="start_latitude"/>
+	    <result property="startLongitude" column="start_longitude"/>
+	    <result property="createdTs" column="created_ts"/>
+	    <result property="modifiedTs" column="modified_ts"/>
+	    <result property="title" column="title"/>
+	    <result property="content" column="content"/>
+	    <result property="mainImagePath" column="main_image_path"/>
+	    <result property="writer" column="writer"/>
+	    <result property="onBoard" column="on_board"/>
+	    <collection property="runningBoardImage" javaType="java.util.List" ofType="RunningBoardImage">
+	        <id property="runningBoardImageId" column="running_board_image_id"/>
+	        <result property="runningBoardId" column="i_running_board_id"/>
+	        <result property="oriName" column="ori_name"/>
+	        <result property="systemName" column="system_name"/>
+	        <result property="path" column="path"/>
+	    </collection>
+	</resultMap>
+	
+	<select id="selectRunningBoardImageList" resultType="RunningBoardImage"
+			parameterType="int">
+		SELECT	running_board_image_id,
+				running_board_id,
+				ori_name,
+				system_name,
+				path
+		FROM	running_board_image
+		WHERE	running_board_id = #{runningBoardId}
+	</select>
+
+	<select id="selectRunningBoardList" resultType="RunningBoard"
+			parameterType="BoardSearch" >
+		SELECT 	running_board_id, 
+				member_id,
+				difficulty,
+				start_running_ts,
+				end_running_ts,	
+				start_latitude,
+				start_longitude,
+				created_ts,
+				modified_ts,
+				title,
+				content,
+				main_image_path,
+				writer,
+				on_board
+		FROM running_board
+		order by created_ts asc
+		limit #{startIdx}, 10;
+	</select>
+	
+	
+	<select id="selectRunningBoardById" resultMap="RunningBoard"
+			parameterType="int" >
+		SELECT 	r.running_board_id AS r_running_board_id, 
+				r.member_id,
+				r.difficulty,
+				r.start_running_ts,
+				r.end_running_ts,	
+				r.start_latitude,
+				r.start_longitude,
+				r.created_ts,
+				r.modified_ts,
+				r.title,
+				r.content,
+				r.main_image_path,
+				r.writer,
+				r.on_board,
+				i.running_board_image_id,
+				i.running_board_id AS i_running_board_id,
+				i.ori_name,
+				i.system_name,
+				i.path
+		FROM running_board r
+		JOIN running_board_image i on r.running_board_id = i.running_board_id
+		WHERE r.running_board_id = #{runningBoardId}
+	</select>
+	
+	
+	
+	<insert id="insertRunningBoard" parameterType="RunningBoard" useGeneratedKeys="true" keyProperty="runningBoardId">
+		insert into running_board (
+			member_id, 
+		    difficulty, 
+		    start_running_ts, 
+		    end_running_ts,
+		    start_latitude,
+		    start_longitude,
+		    title,
+		    content,
+		    main_image_path,
+		    writer,
+		    on_board
+		)
+		VALUES (
+			#{memberId},
+		    #{difficulty},
+		    #{startRunningTs},
+		    #{endRunningTs},
+		    #{startLatitude},
+		    #{startLongitude},
+		    #{title},
+		    #{content},
+		    #{mainImagePath},
+		    #{writer},
+		    #{onBoard}
+		)
+	</insert>
+	
+	
+	
+	<insert id="insertRunningBoardImage" parameterType="RunningBoardImage" >
+		insert into running_board_image (
+			running_board_id, 
+		    ori_name, 
+		    system_name, 
+		    path
+		)
+		VALUES (
+			#{runningBoardId},
+		    #{oriName},
+		    #{systemName},
+		    #{path}
+		)
+	</insert>
+	
+	
+	
+	<update id="updateRunningBoard" parameterType="RunningBoard">
+		UPDATE running_board
+		SET	
+			<!--
+			running_board_id = #{runningBoardId},
+			member_id = #{memberId},
+			start_running_ts = #{startRunningTs},
+			end_running_ts = #{endRunningTs},
+			start_latitude = #{startLatitude},
+			start_longitude = #{startLongitude},
+			writer = #{writer},
+			-->
+			difficulty = #{difficulty},
+			title = #{title},
+			content = #{content},
+			main_image_path = #{mainImagePath},
+			on_board = #{onBoard}
+		WHERE running_board_id = #{runningBoardId}
+	</update>
+	
+	<update id="updateRunningBoardMainPath" parameterType="RunningBoard">
+		UPDATE	running_board
+		SET		main_image_path = #{mainImagePath}
+		WHERE	running_board_id = #{runningBoardId}
+	</update>
+	
+	
+	<update id="updateRunningBoardImage" parameterType="RunningBoardImage">
+		UPDATE running_board_image
+		SET	
+			<!--
+			running_board_image_id = #{runningBoardImageId},
+			running_board_id = #{runningBoardId},
+			-->
+			ori_name = #{oriName},
+			system_name = #{systemName},
+			path = #{path}
+		WHERE running_board_image_id = #{runningBoardImageId}
+	</update>
+	
+	<delete id="deleteRunningBoard" parameterType="int">
+		DELETE FROM running_board
+		WHERE running_board_id = #{runningBoardId}
+	</delete>
+</mapper>
+
+

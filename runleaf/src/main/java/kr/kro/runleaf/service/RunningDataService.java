@@ -4,16 +4,28 @@ import java.util.List;
 
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
-import kr.kro.runleaf.domain.RunningData;
-import kr.kro.runleaf.domain.RunningDataImage;
+import kr.kro.runleaf.domain.RunningBoard;
+import kr.kro.runleaf.domain.RunningBoardImage;
 import kr.kro.runleaf.util.PageData;
 
 public interface RunningDataService {
 
-	int addRunningData(RunningData runningData);
+	List<RunningBoard> getRunningBoardList(BoardSearch boardSearch);
 
-	int addRunningDataImage(RunningDataImage runningDataImage);
+	RunningBoard getRunningBoardById(int runningBoardId);
 
-	int getRunningDataList();
+	int addRunningBoard(RunningBoard runningBoard);
+
+	int addRunningBoardImage(RunningBoardImage runningBoardImage);
+
+	int modifyRunningBoard(RunningBoard runningBoard);
+
+	int updateRunningBoardImage(RunningBoardImage runningBoardImage);
+
+	List<RunningBoardImage> getRunningBoardImageList(int runningBoardId);
+
+	int updateRunningBoardMainPath(RunningBoard runningBoard);
+
+
 
 }

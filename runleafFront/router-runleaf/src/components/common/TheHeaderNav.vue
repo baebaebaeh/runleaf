@@ -3,8 +3,8 @@
         <nav>
             <RouterLink :to="{ name: 'gps' }">gps</RouterLink>
             <RouterLink :to="{ name: 'board'}">board</RouterLink>
-            <RouterLink :to="{ name: 'runningData'}">runningData</RouterLink>
             <RouterLink :to="{ name: 'joinInfo' }">회원가입</RouterLink>
+            <RouterLink :to="{ name: 'runningDataView'}">runningData</RouterLink>
         </nav>
     </div>
 </template>

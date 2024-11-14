@@ -31,11 +31,11 @@ public class BoardSearch {
 	}
 
 	public int getStartIdx() {
-		return page * 5 - 5;
+		return page * 10 - 10;
 	}
 	
 	public int getEndIdx() {
-		return page * 5;
+		return page * 10;
 	}
 
 	public int getOrderInt() {

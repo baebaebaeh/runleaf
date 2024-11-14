@@ -4,6 +4,7 @@ import BoardView from '@/views/BoardView.vue'
 import RunningDataView from '@/views/RunningDataView.vue'
 import RunningDataForm from '@/components/RunningData/RunningDataForm.vue'
 import RunningDataList from '@/components/RunningData/RunningDataList.vue'
+import RunningDataDetail from '@/components/RunningData/RunningDataDetail.vue'
 
 import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
@@ -20,16 +21,23 @@ const router = createRouter({
     },
     {
       path: '/running',
-      name: 'runningData',
+      name: 'runningDataView',
       component: RunningDataView,
       children: [
         {
-          path: '',
+          path: '5list',
           name: 'runningDataList',
-          component: RunningDataList
+          component: RunningDataList,
+          children: [
+            {
+              path: 'detail',
+              name: 'runningDataDetail',
+              component: RunningDataDetail
+            },
+          ],
         },
         {
-          path: 'runningForm',
+          path: 'form',
           name: 'runningDataForm',
           component: RunningDataForm
         },

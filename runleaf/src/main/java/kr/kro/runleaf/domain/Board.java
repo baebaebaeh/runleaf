@@ -10,7 +10,7 @@ public class Board {
 	private String modifidedDate;
 	private String mainImagePath;
 	private String writer;
-	private RunningData runningData;
+	private RunningBoard runningData;
 	
 	
 	public int getBoardId() {
@@ -61,10 +61,10 @@ public class Board {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public RunningData getRunningData() {
+	public RunningBoard getRunningData() {
 		return runningData;
 	}
-	public void setRunningData(RunningData runningData) {
+	public void setRunningData(RunningBoard runningData) {
 		this.runningData = runningData;
 	}
 	public Board() {
