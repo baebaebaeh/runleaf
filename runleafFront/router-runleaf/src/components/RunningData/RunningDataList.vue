@@ -34,7 +34,7 @@ const boardSearchDto = ref({
 function infinityScroll(e) {
   // console.dir(e);
   // console.log(1111, document.body.scrollHeight, window.innerHeight, document.documentElement.scrollTop);
-  if (document.body.scrollHeight - window.innerHeight - document.documentElement.scrollTop < 500) {
+  if (document.body.scrollHeight - window.innerHeight - document.documentElement.scrollTop < 100) {
     if (!isFetching && hasMoreData) {
       getRunningBoardList();
     }
