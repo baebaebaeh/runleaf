@@ -25,14 +25,15 @@ const router = createRouter({
       component: RunningDataView,
       children: [
         {
-          path: '5list',
+          path: 'list',
           name: 'runningDataList',
           component: RunningDataList,
           children: [
             {
-              path: 'detail',
+              path: 'detail/:id',
               name: 'runningDataDetail',
-              component: RunningDataDetail
+              component: RunningDataDetail,
+              props: true,
             },
           ],
         },

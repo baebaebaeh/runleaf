@@ -63,7 +63,7 @@ const insertBoardDto = ref({
 
 const uploadFile = async () => {
   await axios.post("http://localhost:8080/api/boardImg", formData);
-  await axios.post("http://localhost:8080/api/  board", insertBoardDto.value);
+  await axios.post("http://localhost:8080/api/board", insertBoardDto.value);
 };
 let formData = new FormData();
 const getFileName = async(files) => {

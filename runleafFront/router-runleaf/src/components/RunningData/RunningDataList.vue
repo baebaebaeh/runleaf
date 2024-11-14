@@ -1,29 +1,35 @@
 <template>
   <div class="content-container">
-    <div v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
-      <RouterLink>
-        <div class="content" @click="runningBoardDetail(runningBoard.runningBoardId)">
-          <div>difficulty : {{ runningBoard.difficulty }}</div>
+    <div v-for="(runningBoard, index) in runningDataStore.boardDto" :key="runningBoard.runningBoardId">
+      <RouterLink :to="{
+        name: 'runningDataDetail',
+        params: {
+          id: runningBoard.runningBoardId,
+        }
+      }">
+        <div class="content">
+          <!-- @click="runningBoardDetail(runningBoard.runningBoardId)" -->
           <div>title : {{ runningBoard.title }}</div>
-          <div>content : {{ runningBoard.content }}</div>
-          <div>writer : {{ runningBoard.writer }}</div>
           <img :src="`http://localhost:8080/uploads/${runningBoard.mainImagePath}`" id="preview" />
         </div>
       </RouterLink>
+      <RouterView v-if="$route.params.id == runningBoard.runningBoardId" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router'
+import { useRunningDataStore } from '@/stores/runningDataStore.js'
 import axios from 'axios';
+
+const runningDataStore = useRunningDataStore();
 let isFetching = false;
 let hasMoreData = true;
-const boardDto = ref([])
 const boardSearchDto = ref({
   page: 1,
-})
+});
 
 function infinityScroll(e) {
   // console.dir(e);
@@ -33,13 +39,6 @@ function infinityScroll(e) {
       getRunningBoardList();
     }
   }
-}
-
-
-const runningBoardDetail = async (id) => {
-  console.log(id);
-  const { data } = await axios.get(`/api/running/${id}`);
-
 }
 
 const getRunningBoardList = async () => {
@@ -53,7 +52,8 @@ const getRunningBoardList = async () => {
       hasMoreData = false;
     } else {
       data.forEach((runningBoard) => {
-        boardDto.value.push({
+        console.log(2);
+        runningDataStore.addBoard({
           runningBoardId: runningBoard.runningBoardId,
           memberId: runningBoard.memberId,
           difficulty: runningBoard.difficulty,
@@ -93,9 +93,9 @@ onBeforeRouteLeave((to, from, next) => {
 
 <style scoped>
 #preview {
-  width: 200px;
+  width: 300px;
   /* 고정 가로 크기 */
-  height: 200px;
+  height: 300px;
   /* 고정 세로 크기 */
   object-fit: contain;
   /* 비율을 유지하면서 지정된 크기에 맞춤 */
@@ -107,5 +107,4 @@ onBeforeRouteLeave((to, from, next) => {
   overflow-y: auto;
   /* 세로 스크롤 활성화 */
 }
-
 </style>
