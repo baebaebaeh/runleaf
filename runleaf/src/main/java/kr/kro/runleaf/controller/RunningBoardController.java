@@ -53,14 +53,23 @@ public class RunningBoardController {
 		return responseEntity;
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/board/{id}")
 	public ResponseEntity<RunningBoard> getRunningBoardDetail(@PathVariable("id") int runningBoardId) {
 		ResponseEntity<RunningBoard> responseEntity;
 		RunningBoard BoardDetail = runningBoardService.getRunningBoardById(runningBoardId);
 		responseEntity = new ResponseEntity<>(BoardDetail, HttpStatus.OK);
 		return responseEntity;
 	}
-
+	
+	@GetMapping("/image/{id}")
+	public ResponseEntity<List<RunningBoardImage>> getRunningBoardDetailImage(@PathVariable("id") int runningBoardId) {
+		ResponseEntity<List<RunningBoardImage>> responseEntity;
+		System.out.println("이미지로들어옴");
+		List<RunningBoardImage> BoardDetailImage = runningBoardService.getRunningBoardImageList(runningBoardId);
+		responseEntity = new ResponseEntity<>(BoardDetailImage, HttpStatus.OK);
+		return responseEntity;
+	}
+	
 	@PostMapping
 	public ResponseEntity<Integer> addBoard(@RequestPart(value = "board") RunningBoard runningBoard,
 			@RequestPart(value = "file", required = false) List<MultipartFile> file) {
