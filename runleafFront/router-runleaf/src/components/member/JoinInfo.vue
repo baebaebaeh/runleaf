@@ -172,7 +172,7 @@ const saveInfoAndNext = () => {
 }
 
 .check-button {
-  width: 95px;
+  width: 100px;
   height: 50px;
   margin-top: 8px;
   margin-left: 5px;

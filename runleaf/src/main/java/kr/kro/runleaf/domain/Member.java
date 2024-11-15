@@ -18,7 +18,6 @@ public class Member {
 	@NotBlank(message = "닉네임은 필수 입력값입니다.")
 	private String nickname;
 	
-	
 	private String email;
 	
 	@Pattern(regexp = "^[0-9]{11}$", message = "연락처는 숫자 11자리여야 합니다.")
@@ -26,11 +25,12 @@ public class Member {
 	
 	private MemberFile memberFile;
 	
+//	private String role;
+	
 	public Member() {
 	}
 
 	public Member(int id, String username, String password, String nickname, String email, String phone) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -39,8 +39,7 @@ public class Member {
 		this.phone = phone;
 	}
 
-	public Member(int id, String username, String password, String nickname, String email, String phone,
-			MemberFile memberFile) {
+	public Member(int id, String username, String password, String nickname, String email, String phone, MemberFile memberFile) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
