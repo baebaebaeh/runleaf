@@ -111,14 +111,6 @@ const saveInfoAndNext = () => {
 </script>
 
 <style scoped>
-/* 최상위 컨테이너를 화면 중앙에 배치 */
-form {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-
 /* form-container 요소를 가운데 정렬하고, 왼쪽 정렬 */
 .form-container {
   display: flex;
@@ -127,8 +119,8 @@ form {
   /* 내부 콘텐츠는 왼쪽 정렬 */
   background: #ffffff;
   padding-bottom: 300px;
-  width: 500px;
-  max-width: 800px;
+  width: 400px;
+  max-width: 600px;
   box-sizing: border-box;
 }
 

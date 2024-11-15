@@ -1,15 +1,19 @@
 <template>
     <div class="container">
-        <RouterLink to="/join">
-            <img class="image-arrow" src="@/assets/images/join/icons8-arrow-30.png" alt="다음 아이콘">
-        </RouterLink>
-        <div class="div2">프로필 사진 등록</div>
-        <div class="profile-container" @click="triggerFileInput">
-            <img :src="previewImage || defaultProfileImage" alt="프로필 사진" class="image-profile" />
+        <div class="back">
+            <RouterLink to="/join">
+                <img class="image-arrow" src="@/assets/images/join/icons8-arrow-30.png" alt="다음 아이콘">
+            </RouterLink>
         </div>
-        <!-- 파일 선택 input 요소 (화면에서는 숨김 처리) -->
-        <input type="file" ref="fileInput" class="file-input" @change="onFileChange" style="display: none" />
-        <button class="complete-button" @click="saveAndSubmit">완료</button>
+        <div class="profile-container">
+            <div class="div2">프로필 사진 등록</div>
+            <div class="profile-container" @click="triggerFileInput">
+                <img :src="previewImage || defaultProfileImage" alt="프로필 사진" class="image-profile" />
+            </div>
+            <!-- 파일 선택 input 요소 (화면에서는 숨김 처리) -->
+            <input type="file" ref="fileInput" class="file-input" @change="onFileChange" style="display: none" />
+            <button class="complete-button" @click="saveAndSubmit">완료</button>
+        </div>
     </div>
 </template>
 
@@ -47,23 +51,28 @@ const saveAndSubmit = async () => {
 </script>
 
 <style scoped>
+.back {
+    display: flex;
+    align-items: flex-start;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     /* 내부 콘텐츠는 왼쪽 정렬 */
     background: #ffffff;
-    padding: 100px;
-    width: 600px;
-    max-width: 800px;
+    padding-bottom: 300px;
     box-sizing: border-box;
 }
 
 .div2 {
     color: #000000;
+    padding-bottom: 30px;
     font-family: "Inter-SemiBold", sans-serif;
     font-size: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
 .rectangle-2 {
@@ -76,7 +85,15 @@ const saveAndSubmit = async () => {
 }
 
 .profile-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 내부 콘텐츠는 왼쪽 정렬 */
+    background: #ffffff;
+    width: 400px;
+    max-width: 600px;
+    padding-bottom: 200px;
+    box-sizing: border-box;
 }
 
 .image-profile {
@@ -86,7 +103,7 @@ const saveAndSubmit = async () => {
 }
 
 .complete-button {
-    background: #c5c5c5;
+    background: #d1d1d1;
     width: 100%;
     height: 55px;
     margin-top: 20px;
@@ -98,5 +115,9 @@ const saveAndSubmit = async () => {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.complete-button:hover {
+    background-color: #9c9c9c;
 }
 </style>
