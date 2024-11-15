@@ -11,8 +11,8 @@ public class Member {
 	private String username;
 	
 	@NotBlank(message = "비밀번호는 필수 입력값입니다.")
-    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
-            message = "비밀번호는 영문, 숫자, 특수기호가 적어도 1개 이상씩 포함된 8 ~ 16자리여야 합니다.")
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,16}",
+            message = "비밀번호는 영문, 숫자, 특수기호가 적어도 1개 이상씩 포함된 6 ~ 16자리여야 합니다.")
 	private String password;
 	
 	@NotBlank(message = "닉네임은 필수 입력값입니다.")
@@ -21,7 +21,7 @@ public class Member {
 	
 	private String email;
 	
-	@Pattern(regexp = "^[0-9]{11}$", message = "연락처는 숫자 9자리여야 합니다.")
+	@Pattern(regexp = "^[0-9]{11}$", message = "연락처는 숫자 11자리여야 합니다.")
 	private String phone;
 	
 	private MemberFile memberFile;

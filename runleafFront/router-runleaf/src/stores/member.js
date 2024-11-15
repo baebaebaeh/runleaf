@@ -17,11 +17,11 @@ export const useMemberStore = defineStore('member', () => {
   const formData = new FormData();
 
   const updateMemberInfo = (member) => {
-    memberInfo.value.username = member.username;
-    memberInfo.value.password = member.password;
-    memberInfo.value.nickname = member.nickname;
-    memberInfo.value.email = member.email;
-    memberInfo.value.phone = member.phone;
+      memberInfo.value.username = member.username;
+      memberInfo.value.password = member.password;
+      memberInfo.value.nickname = member.nickname;
+      memberInfo.value.email = member.email;
+      memberInfo.value.phone = member.phone;
   };
 
   const addFile = (file) => {
@@ -37,14 +37,13 @@ export const useMemberStore = defineStore('member', () => {
       if (response.status === 200) {
         alert('회원가입이 완료되었습니다!');
         router.push('/');
-      } 
+      }
     } catch (error) {
       console.error('회원가입 실패:', error);
       alert('회원가입 중 문제가 발생했습니다.');
-      router.push({ name: 'join' })
+      router.push('/join')
     }
-  };
-
+  }
   return { memberInfo, formData, router, updateMemberInfo, addFile, submitJoinForm };
 }
 );

@@ -11,4 +11,6 @@ public interface MemberService {
 	void edit(Member member);
 
 	void remove(int id);
+
+	boolean existsByUsername(String username);
 }

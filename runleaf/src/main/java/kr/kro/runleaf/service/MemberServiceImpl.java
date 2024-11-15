@@ -18,10 +18,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional
 	public boolean join(Member member) {
-		if (memberRepository.existByUsername(member.getUsername()) > 0) {
-			return false;
-		}
-		
 		memberRepository.insertMember(member);
 		MemberFile memberFile = member.getMemberFile();
 		
@@ -31,6 +27,14 @@ public class MemberServiceImpl implements MemberService {
 	    return true;
 	}
 
+	@Override
+	public boolean existsByUsername(String username) {
+		if (memberRepository.existsByUsername(username) > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public Member findOne(int id) {
 		return memberRepository.selectMember(id);
