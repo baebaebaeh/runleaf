@@ -16,8 +16,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useMemberStore } from '@/stores/member';
+import defaultProfileImage from '@/assets/images/join/profile-default.png'; // 기본 프로필 이미지를 import
 
-import defaultProfileImage from '@/assets/images/join/profile-default.png';
 
 const memberStore = useMemberStore();
 
@@ -33,12 +33,14 @@ const onFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         memberStore.addFile(file);
-        // 파일을 previewImage로 설정하여 미리보기
         previewImage.value = URL.createObjectURL(file);
+    } else {
+        // 파일이 선택되지 않으면 기본 이미지(default.jpg)로 설정
+        previewImage.value = defaultProfileImage;
     }
 }
 
-const saveAndSubmit = async  () => {
+const saveAndSubmit = async () => {
     memberStore.submitJoinForm();
 }
 
