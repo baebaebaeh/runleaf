@@ -1,5 +1,5 @@
 <template>
-  <div class="run-after">
+  <div class="run-after2">
     <div class="div">달리기 저장파트</div>
     <div class="form-container">
       <div class="path-container">
@@ -22,64 +22,35 @@
             <img class="image2" :src="`/api/icons/image.png`" :id="preview" />
           </label>
         </div>
-        <img class="plus-square2" :src="`/api/icons/plus-square.svg`" />
       </div>
     </div>
     <div class="share-container">
       <div class="share">
-        <img class="share3" :src="`/api/icons/share.svg`" />
-        <button @click="uploadFile" class="div">공유하기</button>
+        <div class="share2">
+          <img class="share3" :src="`/api/icons/share.svg`" />
+        </div>
+        <div class="frame">
+          <button @click="uploadFile" class="div">저장하기</button>
+        </div>
       </div>
     </div>
   </div>
 
   <div>
-    <div>
-      memberId :
-      <input type="text" v-model="boardDto.memberId">
-    </div>
-    <div>
-      startRunningTs :
-      <input type="text" v-model="boardDto.startRunningTs">
-    </div>
-    <div>
-      endRunningTs :
-      <input type="text" v-model="boardDto.endRunningTs">
-    </div>
-    <div>
-      startLatitude :
-      <input type="text" v-model="boardDto.startLatitude">
-    </div>
-
-    <div>
-      startLongitude :
-      <input type="text" v-model="boardDto.startLongitude">
-    </div>
-    <div>
-      createdTs :
-      <input type="text" v-model="boardDto.createdTs">
-    </div>
-    <div>
-      modifiedTs :
-      <input type="text" v-model="boardDto.modifiedTs">
-    </div>
-    <div>
-      mainImagePath :
-      <input type="text" v-model="boardDto.mainImagePath">
-    </div>
-    <div>
-      writer :
-      <input type="text" v-model="boardDto.writer">
-    </div>
-    <div>
-      boolean :
-      <input type="text" v-model="boardDto.onBoard" v-bind:style="{display: 'none'}">
-    </div>
+    <div>memberId : <input type="text" v-model="boardDto.memberId"></div>
+    <div>startRunningTs : <input type="text" v-model="boardDto.startRunningTs"></div>
+    <div>endRunningTs :<input type="text" v-model="boardDto.endRunningTs"></div>
+    <div>startLatitude :<input type="text" v-model="boardDto.startLatitude"></div>
+    <div>startLongitude :<input type="text" v-model="boardDto.startLongitude"></div>
+    <div>createdTs :<input type="text" v-model="boardDto.createdTs"></div>
+    <div>modifiedTs :<input type="text" v-model="boardDto.modifiedTs"></div>
+    <div>mainImagePath :<input type="text" v-model="boardDto.mainImagePath"></div>
+    <div>writer :<input type="text" v-model="boardDto.writer"></div>
+    <div>boolean :<input type="text" v-model="boardDto.onBoard" v-bind:style="{ display: 'none' }"></div>
   </div>
 </template>
 
 <script setup>
-import '@/assets/styles/runAfter.css'
 import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -91,10 +62,6 @@ const goRunningDataList = function () {
 }
 const previews = ref([
   'preview0',
-  'preview1',
-  'preview2',
-  'preview3',
-  'preview4',
 ])
 const boardDto = ref({
   memberId: '',
@@ -111,21 +78,6 @@ const boardDto = ref({
   writer: '1',
   onBoard: 0,
 })
-
-// watch(
-//   [
-//     () => gpsStore.startLatitude, () => gpsStore.startLongitude,
-//     () => gpsStore.startTs, () => gpsStore.endTs,
-//   ], // 여러 값 감시
-//   (
-//     [newLat, newLong, newStartTs, newEndTs], [oldLat, oldLong, oldStartTs, oldEndTs]
-//   ) => {
-//     startLatitude.value = newLat;
-//     startLongitude.value = newLong;
-//     startRunningTs.value = newStartTs;
-//     endRunningTs.value = newEndTs;
-//   }
-// );
 let formData = new FormData();
 
 
@@ -141,17 +93,17 @@ const uploadFile = async () => {
 
 const getFileName = async (files) => {
   formData = new FormData();
-  for (let index = 0; index < previews.value.length; index++) {
+  if (files.length > 5) {
+    alert("사진은 최대 5개 까지 등록 가능합니다");
+    return;
+  }
+  previews.value = [];
+  for (let index = 0; index < files.length; index++) {
+    previews.value.push("preview" + index);
     const file = files[index];
-    if (file === undefined) {
-      const previewImage = document.getElementById('preview' + index)
-      previewImage.src = '/api/icons/image.png';
-    } else {
-      formData.append(`file`, file);
-      const fileName = files[index];
-      await base64(fileName, index);
-    }
-
+    formData.append(`file`, file);
+    const fileName = files[index];
+    await base64(fileName, index);
   }
 };
 
@@ -184,4 +136,227 @@ function getLocation() {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.run-after,
+.run-after * {
+  box-sizing: border-box;
+}
+
+.run-after {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+
+.run-after2 {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.div {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 24px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+}
+
+.form-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 370px;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-container {
+  background: var(--var-sds-color-background-default-default, #ffffff);
+  border-radius: var(--var-sds-size-radius-200, 8px);
+  border-style: solid;
+  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
+  border-width: 1px;
+  padding: var(--var-sds-size-space-400, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--var-sds-size-space-400, 16px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-width: 240px;
+  position: relative;
+}
+
+.image {
+  background: var(--image-placeholder,
+      linear-gradient(to left, #e3e3e3, #e3e3e3));
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 299px;
+  position: relative;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.content {
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  border-width: 1px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.regist-input {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+.sub-image-container {
+  background: var(--var-sds-color-background-default-default, #ffffff);
+  border-radius: var(--var-sds-size-radius-200, 8px);
+  border-style: solid;
+  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
+  border-width: 1px;
+  padding: var(--var-sds-size-space-400, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--var-sds-size-space-400, 16px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-width: 240px;
+  position: relative;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: var(--var-sds-size-space-400, 16px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-width: 240px;
+  position: relative;
+}
+
+.image2 {
+  background: var(--image-placeholder,
+      linear-gradient(to left, #ffffff, #ffffff));
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 283px;
+  position: relative;
+  overflow: hidden;
+  object-fit: contain;
+}
+
+.share-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 370px;
+  position: relative;
+  overflow: hidden;
+}
+
+.share {
+  background: var(--var-sds-color-background-default-default, #ffffff);
+  border-radius: var(--var-sds-size-radius-200, 8px);
+  border-style: solid;
+  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
+  border-width: 1px;
+  padding: 7px 7px 7px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.share2 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.share3 {
+  flex-shrink: 0;
+  width: 43px;
+  height: 43px;
+  position: relative;
+  overflow: visible;
+}
+
+.frame {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+</style>

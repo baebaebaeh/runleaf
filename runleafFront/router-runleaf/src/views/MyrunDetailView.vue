@@ -2,11 +2,11 @@
   <div class="feed-container">
     <div class="div">피드 디테일</div>
     <div class="feed">
-      <div class="main-image">
+      <div class="map-container">
         <div class="div">지도</div>
         <img class="image" :src="`/api/icons/image.png`" />
       </div>
-      <div class="main-image">
+      <div class="image-container">
         <div class="div">사진들</div>
         <img v-for="(image, index) in boardDetailImage" :key="image.runningBoardImageId" class="image"
           :src="`/api/uploads/${image.path}${image.systemName}`" />
@@ -37,7 +37,6 @@
 </template>
 
 <script setup>
-// import '@/assets/styles/myrunDetail.css'
 import { useRunningDataStore } from '@/stores/runningDataStore';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
@@ -69,190 +68,20 @@ findDetailById();
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: none;
-  text-decoration: none;
-  background: none;
-
-  -webkit-font-smoothing: antialiased;
-}
-
-
-
-
-
-
-
-.feed-container,
-.feed-container * {
+.content-detail,
+.content-detail * {
   box-sizing: border-box;
 }
-.feed-container {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-.detail-title {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  line-height: 140%;
-  font-weight: 400;
-  position: relative;
-}
-.feed {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-.map-container {
-  background: var(--var-sds-color-background-default-default, #ffffff);
-  border-radius: var(--var-sds-size-radius-200, 8px);
-  border-style: solid;
-  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
-  border-width: 1px;
-  padding: var(--var-sds-size-space-400, 16px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--var-sds-size-space-400, 16px);
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 351px;
-  min-width: 240px;
-  position: relative;
-}
-.image {
-  background: var(
-    --image-placeholder,
-    linear-gradient(to left, #ffffff, #ffffff)
-  );
+.content-detail {
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 0px;
   align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 299px;
-  position: relative;
-  overflow: hidden;
-  object-fit: contain;
-}
-.image-container {
-  background: var(--var-sds-color-background-default-default, #ffffff);
-  border-radius: var(--var-sds-size-radius-200, 8px);
-  border-style: solid;
-  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
-  border-width: 1px;
-  padding: var(--var-sds-size-space-400, 16px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--var-sds-size-space-400, 16px);
-  align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  min-width: 240px;
-  position: relative;
-}
-.image2 {
-  background: var(
-    --image-placeholder,
-    linear-gradient(to left, #ffffff, #ffffff)
-  );
-  height: 299px;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 299px;
+  min-height: 1000px;
   position: relative;
   overflow: hidden;
-  object-fit: contain;
-}
-.content {
-  border-radius: 8px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 1px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-.div2 {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  line-height: 140%;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-}
-
-
-
-
-
-
-
-
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: none;
-  text-decoration: none;
-  background: none;
-
-  -webkit-font-smoothing: antialiased;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.feed-container,
-.feed-container * {
-  box-sizing: border-box;
 }
 .feed-container {
   padding: 10px;
@@ -282,12 +111,46 @@ findDetailById();
   gap: 10px;
   align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
+  width: 370px;
   position: relative;
   overflow: hidden;
 }
-.main-image {
+.map-container {
+  background: var(--var-sds-color-background-default-default, #ffffff);
+  border-radius: var(--var-sds-size-radius-200, 8px);
+  border-style: solid;
+  border-color: var(--var-sds-color-border-default-default, #d9d9d9);
+  border-width: 1px;
+  padding: var(--var-sds-size-space-400, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--var-sds-size-space-400, 16px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 351px;
+  min-width: 240px;
+  position: relative;
+}
+.image {
+  background: var(
+    --image-placeholder,
+    linear-gradient(to left, #e3e3e3, #e3e3e3)
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  object-fit: cover;
+}
+.image-container {
   background: var(--var-sds-color-background-default-default, #ffffff);
   border-radius: var(--var-sds-size-radius-200, 8px);
   border-style: solid;
@@ -304,10 +167,10 @@ findDetailById();
   min-width: 240px;
   position: relative;
 }
-.image {
+.image2 {
   background: var(
     --image-placeholder,
-    linear-gradient(to left, #ffffff, #ffffff)
+    linear-gradient(to left, #e3e3e3, #e3e3e3)
   );
   display: flex;
   flex-direction: column;
@@ -316,10 +179,10 @@ findDetailById();
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  height: 299px;
+  height: 283px;
   position: relative;
   overflow: hidden;
-  object-fit: contain;
+  object-fit: cover;
 }
 .content {
   border-radius: 8px;
@@ -341,11 +204,13 @@ findDetailById();
   color: #000000;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
+  font-size: 15px;
   line-height: 140%;
   font-weight: 400;
   position: relative;
   align-self: stretch;
 }
+
+
 
 </style>

@@ -8,7 +8,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    // vueDevTools(),
   ],
   resolve: {
     alias: {
@@ -35,12 +35,12 @@ export default defineConfig({
     // host: '192.168.210.65',
     // port: 8000
     // host: '192.168.210.66',
-    // host: '192.168.219.111',
-    // port: 80,
-    // https: {
-    //   key: 'path/to/private.pem',
-    //   cert: 'path/to/certificate.pem',
-    //   ca: 'path/to/ca_bundle.pem',
-    // },
+    host: '192.168.219.111',
+    port: 443,
+    https: {
+      key: 'path/to/private.pem',
+      cert: 'path/to/certificate.pem',
+      ca: 'path/to/ca_bundle.pem',
+    },
   },
 })

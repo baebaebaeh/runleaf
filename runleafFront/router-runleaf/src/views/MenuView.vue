@@ -63,7 +63,6 @@
 </template>
 
 <script setup>
-// import '@/assets/styles/menu.css'
 </script>
 
 <style scoped>

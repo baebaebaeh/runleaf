@@ -4,7 +4,7 @@
       <div class="_01-35-01">
         운동시간
         <br />
-        01:35:01
+        {{ Math.floor(gpsStore.cnt / 3600) }} : {{ Math.floor(gpsStore.cnt / 60) % 60 }} : {{ gpsStore.cnt % 60 }}
       </div>
       <img @click="startLocationInterval" class="play-circle" :src="`/api/icons/play-circle.svg`"
       v-if="!gpsStore.isRunning || gpsStore.isPause" />
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import '@/assets/styles/running.css'
+
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -25,7 +25,6 @@ import { useRouter } from 'vue-router';
 import { useGpsStore } from '@/stores/gpsStore.js';
 const router = useRouter();
 const gpsStore = useGpsStore();
-
 const goRunningDataForm = function () {
   router.push({ name: 'runAfter' });
 }
@@ -35,13 +34,18 @@ const startLocationInterval = () => {
   if (gpsStore.intervalId) {
     clearInterval(gpsStore.intervalId); // 기존 인터벌 정리
   }
-  gpsStore.intervalId = setInterval(getLocation, 1000); // getlocation실행파트
+  gpsStore.intervalId = setInterval(getLocation, 7000); // getlocation실행파트
+  gpsStore.intervalCnt = setInterval(() => {
+    gpsStore.cnt += 1;
+  }, 1000);
   gpsStore.isRunning = true;
   gpsStore.isPause = false;
 };
 const stopLocationInterval = () => {
   clearInterval(gpsStore.intervalId);
+  clearInterval(gpsStore.intervalCnt);
   gpsStore.intervalId = null; // 인터벌 정리
+  gpsStore.intervalCnt = null; // 인터벌 정리
   gpsStore.isRunning = false;
   gpsStore.isPause = false;
   gpsStore.determineInitialValue();
@@ -51,7 +55,9 @@ const stopLocationInterval = () => {
 const pauseLocationInterval = () => {
   if (gpsStore.intervalId) {
     clearInterval(gpsStore.intervalId);
+    clearInterval(gpsStore.intervalCnt);
     gpsStore.intervalId = null; // 인터벌 정리
+    gpsStore.intervalCnt = null; // 인터벌 정리
     gpsStore.isPause = true;
   }
 }
@@ -66,9 +72,6 @@ const pauseLocationInterval = () => {
 const sendPositionToPinia = (position) => {
   const longitude = position.coords.longitude;
   const latitude = position.coords.latitude;
-  console.log(longitude)
-  console.log(latitude)
-
   const timestamp = new Date;
   const fommatingTimestamp = timestamp.toISOString().slice(0, 19)
   console.log(fommatingTimestamp)
@@ -118,4 +121,108 @@ function showError(error) {
 </script>
 
 <style scoped>
+.running,
+.running * {
+  box-sizing: border-box;
+}
+.running {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.running-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 680px;
+  position: relative;
+  overflow: hidden;
+}
+.time {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 48px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+}
+.play-circle {
+  flex-shrink: 0;
+  width: 190px;
+  height: 190px;
+  position: relative;
+  overflow: visible;
+}
+
+
+
+
+
+
+
+
+
+.running,
+.running * {
+  box-sizing: border-box;
+}
+.running {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.content-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 680px;
+  position: relative;
+  overflow: hidden;
+}
+._01-35-01 {
+  color: #000000;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 48px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+}
+.pause-circle {
+  flex-shrink: 0;
+  width: 190px;
+  height: 190px;
+  position: relative;
+  overflow: visible;
+}
+.stop-circle {
+  flex-shrink: 0;
+  width: 190px;
+  height: 190px;
+  position: relative;
+  overflow: visible;
+}
+
+
 </style>

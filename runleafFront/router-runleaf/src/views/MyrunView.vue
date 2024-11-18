@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-// import '@/assets/styles/myrun.css'
 import { ref, onMounted, onUnmounted } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router'
 import { useRunningDataStore } from '@/stores/runningDataStore.js'
@@ -52,7 +51,6 @@ const getRunningBoardList = async () => {
       params: boardSearchDto.value,
     });
     if (data.length == 0) {
-      alert('최대페이지 입니다')
       hasMoreData = false;
     } else {
       data.forEach((runningBoard) => {
@@ -103,31 +101,19 @@ onBeforeRouteLeave((to, from, next) => {
 </script>
 
 <style scoped>
-* {
+.myrun,
+.myrun * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: none;
-  text-decoration: none;
-  background: none;
-
-  -webkit-font-smoothing: antialiased;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-.feed-container,
-.feed-container * {
-  box-sizing: border-box;
+.myrun {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
 }
 .feed-container {
   padding: 10px;
@@ -155,10 +141,10 @@ onBeforeRouteLeave((to, from, next) => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
+  width: 370px;
   position: relative;
   overflow: hidden;
 }
@@ -222,5 +208,8 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   align-self: stretch;
 }
+
+
+
 
 </style>

@@ -8,23 +8,6 @@
 
   -webkit-font-smoothing: antialiased;
 }
-
-.running,
-.running * {
-  box-sizing: border-box;
-}
-.running {
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 1000px;
-  min-height: 1000px;
-  position: relative;
-  overflow: hidden;
-}
 .nav {
   padding: 30px 0px 0px 0px;
   display: flex;
@@ -34,7 +17,6 @@
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  height: 126px;
   position: relative;
   overflow: hidden;
 }
@@ -94,49 +76,6 @@
   flex-shrink: 0;
   width: 48px;
   height: 48px;
-  position: relative;
-  overflow: visible;
-}
-.content-container {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 830px;
-  position: relative;
-  overflow: hidden;
-}
-._01-35-01 {
-  color: #000000;
-  text-align: center;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 48px;
-  line-height: 140%;
-  font-weight: 400;
-  position: relative;
-}
-.pause-circle {
-  flex-shrink: 0;
-  width: 190px;
-  height: 190px;
-  position: relative;
-  overflow: visible;
-}
-.stop-circle {
-  flex-shrink: 0;
-  width: 190px;
-  height: 190px;
-  position: relative;
-  overflow: visible;
-}
-.play-circle {
-  flex-shrink: 0;
-  width: 190px;
-  height: 190px;
   position: relative;
   overflow: visible;
 }
