@@ -25,12 +25,19 @@
 		VALUES ( #{filePath}, #{orgName}, #{systemName}, #{memberId})
 	</insert>
 	
-	<!-- 회원 조회 -->
-	<select id="selectMember" parameterType="int" resultType="kr.kro.runleaf.domain.Member">
+	<!-- 회원 조회(username) -->
+	<select id="selectMemberByUsername" parameterType="String" resultType="kr.kro.runleaf.domain.Member">
+		SELECT nickname, email, phone, role
+		FROM member
+		WHERE username = #{username}
+	</select>
+
+	<!-- 회원 조회(id) -->
+	<!-- <select id="selectMemberById" parameterType="int" resultType="kr.kro.runleaf.domain.Member">
 		SELECT nickname, email, phone
 		FROM member
 		WHERE id = #{id}
-	</select>
+	</select> -->
 	
 	<!-- 회원번호 조회 -->
 	<select id="getMemberId" parameterType="String" resultType="int">

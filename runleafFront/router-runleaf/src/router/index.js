@@ -9,6 +9,9 @@ import RunningDataDetail from '@/components/RunningData/RunningDataDetail.vue'
 import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
+import MemberEdit from '@/components/member/MemberEdit.vue'
+import MemberView from '@/views/MemberView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +68,21 @@ const router = createRouter({
           component: JoinProfile
         },
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+      path: '/member',
+      name: 'member',
+      component: MemberView,
+    },
+    {
+      path: '/member/edit',
+      name: 'memberEdit',
+      component: MemberEdit
     },
   ],
 });

@@ -3,8 +3,10 @@
       <nav class="nav-bar">
         <RouterLink :to="{ name: 'gps' }" class="nav-link">GPS</RouterLink>
         <RouterLink :to="{ name: 'board' }" class="nav-link">Board</RouterLink>
-        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">회원가입</RouterLink>
         <RouterLink :to="{ name: 'runningDataView' }" class="nav-link">Running Data</RouterLink>
+        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">회원가입</RouterLink>
+        <RouterLink :to="{ name: 'login' }" class="nav-link">로그인</RouterLink>
+        <!-- <RouterLink :to="{ name: 'member', params: { id: userId } }" class="nav-link">내 정보</RouterLink> -->
       </nav>
     </div>
   </template>

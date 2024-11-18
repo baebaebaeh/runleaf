@@ -10,8 +10,10 @@ public interface MemberRepository {
 	void insertMemberFile(MemberFile memberFile);
 
 	int existsByUsername(String username);
-
-	Member selectMember(int id);
+	
+//	Member selectMemberById(int id);
+	
+	Member selectMemberByUsername(String username);
 	
 	int getMemberId(String username);
 

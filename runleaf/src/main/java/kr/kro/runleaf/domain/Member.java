@@ -25,29 +25,8 @@ public class Member {
 	
 	private MemberFile memberFile;
 	
-//	private String role;
+	private String role;
 	
-	public Member() {
-	}
-
-	public Member(int id, String username, String password, String nickname, String email, String phone) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.nickname = nickname;
-		this.email = email;
-		this.phone = phone;
-	}
-
-	public Member(int id, String username, String password, String nickname, String email, String phone, MemberFile memberFile) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.nickname = nickname;
-		this.email = email;
-		this.phone = phone;
-		this.memberFile = memberFile;
-	}
 	
 	public int getId() {
 		return id;
@@ -92,9 +71,18 @@ public class Member {
 		this.memberFile = memberFile;
 	}
 	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phone=" + phone + ", memberFile=" + memberFile + "]";
+		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", nickname=" + nickname
+				+ ", email=" + email + ", phone=" + phone + ", memberFile=" + memberFile + ", role=" + role + "]";
 	}
 }

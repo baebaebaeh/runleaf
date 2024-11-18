@@ -32,8 +32,8 @@ export default defineConfig({
         ws: true,
       },
     },
-    host: '192.168.210.65',
-    port: 8000
+    // host: '192.168.210.65',
+    // port: 8000
     // host: '192.168.219.111',
     // port: 443,
     // https: {

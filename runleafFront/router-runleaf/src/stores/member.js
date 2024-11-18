@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 export const useMemberStore = defineStore('member', () => {
   const router = useRouter();
+
+  const formData = new FormData();
 
   const memberInfo = ref({
     username: '',
@@ -13,8 +15,6 @@ export const useMemberStore = defineStore('member', () => {
     email: '',
     phone: '',
   });
-
-  const formData = new FormData();
 
   const updateMemberInfo = (member) => {
       memberInfo.value.username = member.username;
@@ -44,6 +44,30 @@ export const useMemberStore = defineStore('member', () => {
       router.push('/join')
     }
   }
-  return { memberInfo, formData, router, updateMemberInfo, addFile, submitJoinForm };
+
+  const loginMember = ref(null);
+  
+  // const memberLogin = function(username, password) {
+  //   axios.post('/api/login', {}
+  //     username: username,
+  //     password,
+  //   })
+  // }
+
+
+  const member = ref({})
+
+  const getBoard = async function (id) {
+    axios.get(`/api/member/${id}`)
+    .then((response) => {
+      member.value = response.data
+    })
+  }
+
+  const loginId = computed(() => member.value.id);
+
+  getBoard(loginId);
+
+  return { router, memberInfo, formData, loginId, updateMemberInfo, addFile, submitJoinForm, getBoard };
 }
 );

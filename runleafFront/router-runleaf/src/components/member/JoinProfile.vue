@@ -2,7 +2,7 @@
     <div class="container">
         <div class="back">
             <RouterLink to="/join">
-                <img class="image-arrow" src="@/assets/images/join/icons8-arrow-30.png" alt="다음 아이콘">
+                <img class="image-arrow" src="@/assets/images/icons8-arrow-30.png" alt="다음 아이콘">
             </RouterLink>
         </div>
         <div class="profile-container">

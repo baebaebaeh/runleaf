@@ -2,7 +2,7 @@
   <div class="form-container">
     <div class="header-container">
       <RouterLink to="/">
-        <img class="image-arrow" src="@/assets/images/join/icons8-arrow-30.png" alt="다음 아이콘">
+        <img class="image-arrow" src="@/assets/images/icons8-arrow-30.png" alt="다음 아이콘">
       </RouterLink>
       <div class="div2">회원가입</div>
     </div>

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -110,9 +111,12 @@ public class MemberController {
 	}
 
 	// 회원 조회
-	@GetMapping("/{id}")
-	public ResponseEntity<Member> findOne(@PathVariable("id") int id) {
-		Member member = memberService.findOne(id);
+	@GetMapping
+	public ResponseEntity<Member> findOne() {
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Member member = memberService.findOne(username);
 		if (member == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}

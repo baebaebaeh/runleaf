@@ -1,5 +1,6 @@
 package kr.kro.runleaf.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,14 +12,22 @@ import kr.kro.runleaf.repository.MemberRepository;
 public class MemberServiceImpl implements MemberService {
 	
 	private final MemberRepository memberRepository;
-	public MemberServiceImpl(MemberRepository memberRepository) {
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.memberRepository = memberRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
 	@Override
 	@Transactional
 	public boolean join(Member member) {
+		
+		member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+		member.setRole("ROLE_MEMBER");
 		memberRepository.insertMember(member);
+		
+		// 회원 이미지
 		MemberFile memberFile = member.getMemberFile();
 		
 	    memberFile.setMemberId(member.getId());
@@ -36,8 +45,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Member findOne(int id) {
-		return memberRepository.selectMember(id);
+	public Member findOne(String username) {
+		return memberRepository.selectMemberByUsername(username);
 	}
 
 	@Override
