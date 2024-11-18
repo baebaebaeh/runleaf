@@ -14,8 +14,13 @@
     <div>createdTs : {{ boardDetail.createdTs }}</div>
     <div>modifiedTs : {{ boardDetail.modifiedTs }}</div>
     <div>onBoard : {{ boardDetail.onBoard }}</div>
-    <div v-for="(image, index) in boardDetailImage" :key="boardDetailImage.runningBoardImageId">
-      <img :src="`http://localhost:8080/uploads/${image.path}${image.systemName}`" id="preview" />
+    <div v-for="(image, index) in boardDetailImage" :key="image.runningBoardImageId">
+      <img :src="`/api/uploads/${image.path}${image.systemName}`" id="preview" />
+    </div>
+    <div v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
+      <div>latitude: {{ c.latitude }}</div>
+      <div>longitude: {{ c.longitude }}</div>
+      <div>createdTs: {{ c.createdTs }}</div>
     </div>
     <div>-------------------------------</div>
   </div>
@@ -28,6 +33,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 const boardDetail = ref({});
 const boardDetailImage = ref([]);
+const coodinate = ref([]);
 const route = useRoute();
 const runningDataStore = useRunningDataStore();
 const id = Number(route.params.id);
@@ -40,6 +46,13 @@ const findDetailImageById = async() => {
   boardDetailImage.value = data;
   
 }
+const findDetailCoodinateById = async() => {
+  const { data } = await axios.get(`/api/running/coodinate/${id}`);
+  console.log(data)
+  coodinate.value = data;
+  
+}
+findDetailCoodinateById();
 findDetailImageById();
 findDetailById();
 </script>

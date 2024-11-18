@@ -21,14 +21,34 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.kro.runleaf.domain.Board;
+import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.RunningBoardImage;
+import kr.kro.runleaf.exception.LocationException;
 import kr.kro.runleaf.domain.Location;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/gps")
+@RequestMapping("/gps")
 public class GpsController {
-
+	@PostMapping
+	public ResponseEntity<Integer> getMethodName(@RequestBody List<Location> locations) {
+		System.out.println("gpspost");
+		try {
+			if (locations == null || locations.size() == 0) {
+				throw new LocationException();
+			}
+			int size = locations.size();
+			for (int index = 0; index < size; index++) {
+				
+			}
+		} catch(LocationException e) {
+			System.out.println("location을 받아오지 못했습니다.");
+		}
+		return null;
+	}
+	
 //	@PostMapping
 //	public String receiveLocation(@RequestBody Location location) {
 //		System.out.println("Received Latitude: " + location.getLatitude());

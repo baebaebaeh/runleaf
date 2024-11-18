@@ -32,8 +32,9 @@ export default defineConfig({
         ws: true,
       },
     },
+    // host: '192.168.210.66',
     // host: '192.168.219.111',
-    // port: 443,
+    port: 80,
     // https: {
     //   key: 'path/to/private.pem',
     //   cert: 'path/to/certificate.pem',

@@ -9,10 +9,56 @@ import RunningDataDetail from '@/components/RunningData/RunningDataDetail.vue'
 import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
+import MenuView from '@/views/MenuView.vue'
+import HomeView from '@/views/HomeView.vue'
+import MyrunView from '@/views/MyrunView.vue'
+import MyrunDetailView from '@/views/MyrunDetailView.vue'
+import RunningView from '@/views/RunningView.vue'
+import RunAfterView from '@/views/RunAfterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/menu',
+      name: 'menu',
+      component: MenuView,
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: HomeView,
+    },
+    {
+      path: '/myrun',
+      name: 'myrun',
+      component: MyrunView,
+    },
+    {
+      path: '/detail/:id',
+      name: 'myrunDetail',
+      component: MyrunDetailView,
+    },
+    {
+      path: '/run',
+      name: 'running',
+      component: RunningView,
+    },
+    {
+      path: '/regist',
+      name: 'runAfter',
+      component: RunAfterView,
+    },
+
+
+
+
+
+
+
+
+    
+
     {
       path: '/board',
       name: 'board',

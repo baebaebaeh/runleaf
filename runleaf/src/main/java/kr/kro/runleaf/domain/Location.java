@@ -1,8 +1,38 @@
 package kr.kro.runleaf.domain;
 
+import java.time.LocalDateTime;
+
 public class Location {
+	private int runningCoodinateId;
+	private int runningBoardId;
 	private double latitude;
 	private double longitude;
+	private LocalDateTime createdTs;
+	public Location() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Location(int runningCoodinateId, int runningBoardId, double latitude, double longitude,
+			LocalDateTime createdTs) {
+		super();
+		this.runningCoodinateId = runningCoodinateId;
+		this.runningBoardId = runningBoardId;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.createdTs = createdTs;
+	}
+	public int getRunningCoodinateId() {
+		return runningCoodinateId;
+	}
+	public void setRunningCoodinateId(int runningCoodinateId) {
+		this.runningCoodinateId = runningCoodinateId;
+	}
+	public int getRunningBoardId() {
+		return runningBoardId;
+	}
+	public void setRunningBoardId(int runningBoardId) {
+		this.runningBoardId = runningBoardId;
+	}
 	public double getLatitude() {
 		return latitude;
 	}
@@ -15,14 +45,18 @@ public class Location {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	public Location(double latitude, double longitude) {
-		super();
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public LocalDateTime getCreatedTs() {
+		return createdTs;
 	}
-	public Location() {
-		super();
-		// TODO Auto-generated constructor stub
+	public void setCreatedTs(LocalDateTime createdTs) {
+		this.createdTs = createdTs;
 	}
+	@Override
+	public String toString() {
+		return "Location [runningCoodinateId=" + runningCoodinateId + ", runningBoardId=" + runningBoardId
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", createdTs=" + createdTs + "]";
+	}
+	
+	
 	
 }

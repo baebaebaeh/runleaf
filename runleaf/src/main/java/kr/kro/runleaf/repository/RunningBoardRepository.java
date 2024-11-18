@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
+import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
 
@@ -29,6 +30,10 @@ public interface RunningBoardRepository {
 	int updateRunningBoardMainPath(RunningBoard runningBoard);
 	
 	int deleteRunningBoard(int runningBoardId);
+
+	int insertLocation(Location location);
+
+	List<Location> selectRunningBoardCoodinate(int runningBoardId);
 
 	
 	
