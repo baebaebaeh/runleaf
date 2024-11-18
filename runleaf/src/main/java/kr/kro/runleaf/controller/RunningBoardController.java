@@ -118,7 +118,7 @@ public class RunningBoardController {
 			
 			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
 //			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
-			String uploadDir = "C:/SSAFY/git-workspace/runleaf/runleafFront/router-runleaf/src/assets/images" + subDir;
+			String uploadDir = "C:/SSAFY/uploads" + subDir;
 			// 폴더생성
 			File dir = new File(uploadDir);
 			dir.mkdirs();

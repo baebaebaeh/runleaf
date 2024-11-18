@@ -155,10 +155,4 @@ function showError(error) {
 </script>
 
 <style scoped>
-#preview0, #preview1,#preview2,
-#preview3, #preview4,#preview5{
-  width: 200px; /* 고정 가로 크기 */
-  height: 200px; /* 고정 세로 크기 */
-  object-fit: contain; /* 비율을 유지하면서 지정된 크기에 맞춤 */
-}
 </style>

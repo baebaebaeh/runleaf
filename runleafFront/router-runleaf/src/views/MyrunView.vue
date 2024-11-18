@@ -1,25 +1,29 @@
 <template>
-  <div class="content-container">
-    <div v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
-      <RouterLink :to="{
-        name: 'runningDataDetail',
+  <div class="menu">
+    <div class="feed-container">
+      <div class="div">나의 운동 기록</div>
+      <RouterLink class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId" :to="{
+        name: 'myrunDetail',
         params: {
           id: runningBoard.runningBoardId,
         }
       }">
-        <div class="content">
-          <!-- @click="runningBoardDetail(runningBoard.runningBoardId)" -->
-          <div>title : {{ runningBoard.title }}</div>
-          <img :src="`/api/uploads/${runningBoard.mainImagePath}`" id="preview" />
+        <div class="main-image">
+          <div class="div">제목 : {{ runningBoard.title }}</div>
+          <img class="image" :src="`/api/uploads/${runningBoard.mainImagePath}`" />
+          <div class="content">
+            <div class="div2">내용 : {{ runningBoard.content }}</div>
+            <div class="div2">난이도 : {{ runningBoard.difficulty }}</div>
+          </div>
         </div>
       </RouterLink>
-      <RouterView v-if="$route.params.id == runningBoard.runningBoardId" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted  } from 'vue';
+import '@/assets/styles/myrun.css'
+import { ref, onMounted, onUnmounted } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router'
 import { useRunningDataStore } from '@/stores/runningDataStore.js'
 import axios from 'axios';
@@ -98,20 +102,4 @@ onBeforeRouteLeave((to, from, next) => {
 
 </script>
 
-<style scoped>
-#preview {
-  width: 300px;
-  /* 고정 가로 크기 */
-  height: 300px;
-  /* 고정 세로 크기 */
-  object-fit: contain;
-  /* 비율을 유지하면서 지정된 크기에 맞춤 */
-}
-
-.scroll-container {
-  height: 100%;
-  /* 고정된 높이 설정 */
-  overflow-y: auto;
-  /* 세로 스크롤 활성화 */
-}
-</style>
+<style scoped></style>

@@ -15,7 +15,7 @@
     <div>modifiedTs : {{ boardDetail.modifiedTs }}</div>
     <div>onBoard : {{ boardDetail.onBoard }}</div>
     <div v-for="(image, index) in boardDetailImage" :key="image.runningBoardImageId">
-      <img :src="`${image.path.replace(/^.*\/src/, '/src')}${image.systemName}`" id="preview" />
+      <img :src="`/api/uploads/${image.path}${image.systemName}`" id="preview" />
     </div>
     <div v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
       <div>latitude: {{ c.latitude }}</div>
