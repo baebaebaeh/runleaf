@@ -9,6 +9,9 @@ import RunningDataDetail from '@/components/RunningData/RunningDataDetail.vue'
 import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
+import MemberEdit from '@/components/member/MemberEdit.vue'
+import MemberView from '@/views/MemberView.vue'
+import LoginView from '@/views/LoginView.vue'
 import MenuView from '@/views/MenuView.vue'
 import HomeView from '@/views/HomeView.vue'
 import MyrunView from '@/views/MyrunView.vue'
@@ -111,6 +114,21 @@ const router = createRouter({
           component: JoinProfile
         },
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+      path: '/member',
+      name: 'member',
+      component: MemberView,
+    },
+    {
+      path: '/member/edit',
+      name: 'memberEdit',
+      component: MemberEdit
     },
   ],
 });

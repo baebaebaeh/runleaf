@@ -9,9 +9,11 @@ public interface MemberRepository {
 	
 	void insertMemberFile(MemberFile memberFile);
 
-	int existByUsername(String username);
-
-	Member selectMember(int id);
+	int existsByUsername(String username);
+	
+//	Member selectMemberById(int id);
+	
+	Member selectMemberByUsername(String username);
 	
 	int getMemberId(String username);
 

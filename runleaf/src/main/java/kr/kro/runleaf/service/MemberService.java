@@ -6,9 +6,11 @@ public interface MemberService {
 
 	boolean join(Member member);
 
-	Member findOne(int id);
+	Member findOne(String username);
 
 	void edit(Member member);
 
 	void remove(int id);
+
+	boolean existsByUsername(String username);
 }
