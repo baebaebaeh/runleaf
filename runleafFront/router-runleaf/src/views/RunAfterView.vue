@@ -109,7 +109,7 @@ const boardDto = ref({
   content: '',
   mainImagePath: '1',
   writer: '1',
-  onBoard: '0',
+  onBoard: 0,
 })
 
 // watch(

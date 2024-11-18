@@ -88,7 +88,7 @@ public class RunningBoardController {
 		 */
 		try {
 			if (file == null) {
-				runningBoard.setMainImagePath("c:/SSAFY/uploads/defaultimg/abcd.PNG");
+				runningBoard.setMainImagePath("uploads/defaultimg/abcd.PNG");
 			}
 		} catch (Exception e) {
 			System.out.println("기본 폴더와 기본 이미지를 미리 만들어 놔야 합니다.");
@@ -116,9 +116,9 @@ public class RunningBoardController {
 		
 		for (int index = 0; file != null && index < file.size(); index++) {
 			
-			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
-//			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
-			String uploadDir = "C:/SSAFY/uploads" + subDir;
+			String subDir ="uploads" + new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
+			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
+//			String uploadDir = "C:/SSAFY/uploads" + subDir;
 			// 폴더생성
 			File dir = new File(uploadDir);
 			dir.mkdirs();
@@ -129,11 +129,11 @@ public class RunningBoardController {
 			File destFile = new File(dir, systemName);
 			System.out.println(runningBoard);
 			RunningBoardImage runningBoardImage = new RunningBoardImage(runningBoard.getRunningBoardId(),
-					originalFilename, systemName, uploadDir);
+					originalFilename, systemName, subDir);
 			int imageChange = runningBoardService.addRunningBoardImage(runningBoardImage);
 			System.out.println(imageChange);
 			if (index == 0) {
-				runningBoard.setMainImagePath(uploadDir + systemName);
+				runningBoard.setMainImagePath(subDir + systemName);
 			}
 			try {
 				// 파일 저장
