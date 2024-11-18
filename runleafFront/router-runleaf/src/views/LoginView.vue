@@ -11,8 +11,7 @@
           <label for="password">비밀번호</label>
           <input type="password" id="password" v-model="password" required />
         </div>
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-        <button @click="login" type="submit" class="login-button" :disabled="isSubmitting">로그인</button>
+        <button @click="login" type="submit" class="login-button">로그인</button>
       </form>
       <p class="signup-link">
         아직 회원이 아니신가요? <router-link to="/signup">회원가입</router-link>
@@ -33,9 +32,6 @@ const password = ref('');
 const login = function () {
   store.memberLogin(username.value, password.value)
 }
-
-
-
 </script>
 
 <style scoped>

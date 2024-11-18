@@ -39,7 +39,7 @@
       required>
     <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
 
-    <button @click="saveInfoAndNext" class="next-button">다음</button>
+    <button @click="saveInfoAndNext" class="next-button" >다음</button>
   </div>
 </template>
 

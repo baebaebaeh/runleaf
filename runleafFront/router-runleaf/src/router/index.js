@@ -52,16 +52,6 @@ const router = createRouter({
       name: 'runAfter',
       component: RunAfterView,
     },
-
-
-
-
-
-
-
-
-    
-
     {
       path: '/board',
       name: 'board',

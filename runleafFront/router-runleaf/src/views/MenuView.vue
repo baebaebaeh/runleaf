@@ -49,14 +49,16 @@
           <div class="challenge-txt">내 챌린지</div>
         </div>
       </div>
-      <div class="myinfo-bar">
-        <div class="myinfo-logo">
-          <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
+      <RouterLink :to="{ name: 'member' }">
+        <div class="myinfo-bar">
+          <div class="myinfo-logo">
+            <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
+          </div>
+          <div class="myinfo-text">
+            <div class="myinfo-txt">내 정보</div>
+          </div>
         </div>
-        <div class="myinfo-text">
-          <div class="myinfo-txt">내 정보</div>
-        </div>
-      </div>
+      </RouterLink>
     </div>
   </div>
 

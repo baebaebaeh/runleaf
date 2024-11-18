@@ -20,7 +20,6 @@ public class Member {
 	
 	private String email;
 	
-	@Pattern(regexp = "^[0-9]{11}$", message = "연락처는 숫자 11자리여야 합니다.")
 	private String phone;
 	
 	private MemberFile memberFile;
