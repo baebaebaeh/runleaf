@@ -2,7 +2,7 @@
   <div>
     <div>
       memberId : 
-      <input type="text" v-model="boardDto.memberId">
+      <input type="text" v-model="boardDto.memberId" style="display: none">
     </div>
     <div>
       difficulty : 
@@ -18,12 +18,12 @@
     </div>
     <div>
       startLatitude : 
-      <input type="text" v-model="boardDto.startLatitude">
+      <input type="text" v-model="boardDto.startLatitude" style="display: none">
     </div>
 
     <div>
       startLongitude : 
-      <input type="text" v-model="boardDto.startLongitude">
+      <input type="text" v-model="boardDto.startLongitude" style="display: none">
     </div>
     <div>
       createdTs : 
@@ -43,11 +43,11 @@
     </div>
     <div>
       mainImagePath : 
-      <input type="text" v-model="boardDto.mainImagePath">
+      <input type="text" v-model="boardDto.mainImagePath" style="display: none">
     </div>
     <div>
       writer : 
-      <input type="text" v-model="boardDto.writer">
+      <input type="text" v-model="boardDto.writer" style="display: none">
     </div>
     <div>
       boolean :
@@ -58,7 +58,7 @@
     </div>
     <div v-for="(preview, index) in previews" :key="index">
       <label for="upload-image">
-          <img src="http://localhost:8080/uploads/c:/SSAFY/uploads/defaultimg/abcd.PNG" :id="preview" />
+          <img src="../../assets/images/abcd.PNG" :id="preview" />
       </label>
     </div>
     <button @click="uploadFile">등록</button>
@@ -81,6 +81,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useRunningDataStore } from '@/stores/runningDataStore.js';
+const router = useRouter();
+const runningDataStore = useRunningDataStore();
+const goRunningDataList = function() {
+  router.push({ name: 'runningDataList'});
+}
 const previews = ref([
   'preview0',
   'preview1',
@@ -109,7 +116,10 @@ let formData = new FormData();
 const uploadFile = async () => {
   // formData.append(`board`, new Blob([JSON.stringify(boardDto.value)], { type: "application/json" }));
   formData.append("board", new Blob([JSON.stringify(boardDto.value)], { type: "application/json" })); // board 객체 추가
+  formData.append("location", new Blob([JSON.stringify(runningDataStore.getLocations())], { type: "application/json" })); // board 객체 추가
   await axios.post("/api/running", formData);
+  runningDataStore.postLocations();
+  goRunningDataList();
 };
 
 
@@ -119,7 +129,7 @@ const getFileName = async(files) => {
     const file = files[index];
     if (file === undefined) {
       const previewImage = document.getElementById('preview' + index)
-      previewImage.src = '/src/assets/images/abcd.PNG';
+      previewImage.src = '../../assets/images/abcd.PNG';
     } else {
       formData.append(`file`, file);
       const fileName = files[index];

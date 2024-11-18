@@ -28,6 +28,17 @@
 	    </collection>
 	</resultMap>
 	
+	<select id="selectRunningBoardCoodinate" resultType="Location"
+			parameterType="int">
+		SELECT	running_coordinate_id,
+				running_board_id,
+				latitude,
+				longitude,
+				created_Ts
+		FROM	running_coordinate
+		WHERE	running_board_id = #{runningBoardId}
+	</select>
+	
 	<select id="selectRunningBoardImageList" resultType="RunningBoardImage"
 			parameterType="int">
 		SELECT	running_board_image_id,
@@ -87,7 +98,20 @@
 		WHERE r.running_board_id = #{runningBoardId}
 	</select>
 	
-	
+	<insert id="insertLocation" parameterType="Location">
+		insert into running_coordinate (
+			running_board_id,
+			latitude,
+			longitude,
+			created_Ts
+		)
+		VALUES (
+			#{runningBoardId},
+			#{latitude},
+			#{longitude},
+			#{createdTs}
+		)
+	</insert>
 	
 	<insert id="insertRunningBoard" parameterType="RunningBoard" useGeneratedKeys="true" keyProperty="runningBoardId">
 		insert into running_board (

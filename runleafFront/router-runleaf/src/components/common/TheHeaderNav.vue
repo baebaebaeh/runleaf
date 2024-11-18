@@ -6,10 +6,23 @@
         <RouterLink :to="{ name: 'runningDataView' }" class="nav-link">Running Data</RouterLink>
         <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">회원가입</RouterLink>
         <RouterLink :to="{ name: 'login' }" class="nav-link">로그인</RouterLink>
+        <RouterLink :to="{ name: 'menu' }">menu</RouterLink>
         <!-- <RouterLink :to="{ name: 'member', params: { id: userId } }" class="nav-link">내 정보</RouterLink> -->
       </nav>
     </div>
-  </template>
+
+    <div class="nav">
+        <RouterLink class="menu-bar" :to="{ name: 'menu' }">
+            <img class="menu-img" :src="`/api/icons/menu-img.svg`" />
+        </RouterLink>
+        <RouterLink class="logo-bar" :to="{ name: 'home' }">
+            <img class="feather-img" :src="`/api/icons/feather-img.svg`" />
+        </RouterLink>
+        <RouterLink class="mypage-bar" :to="{ name: 'home' }">
+            <img class="smile-img" :src="`/api/icons/smile-img.svg`" />
+        </RouterLink>
+    </div>
+</template>
 
 <script setup>
 

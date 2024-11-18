@@ -69,9 +69,18 @@ public class RunningBoardController {
 		responseEntity = new ResponseEntity<>(BoardDetailImage, HttpStatus.OK);
 		return responseEntity;
 	}
+	@GetMapping("/coodinate/{id}")
+	public ResponseEntity<List<Location>> getRunningBoardDetailCoodinate(@PathVariable("id") int runningBoardId) {
+		ResponseEntity<List<Location>> responseEntity;
+		List<Location> location = runningBoardService.getRunningBoardLocationList(runningBoardId);
+		responseEntity = new ResponseEntity<>(location, HttpStatus.OK);
+		return responseEntity;
+	}
 	
 	@PostMapping
-	public ResponseEntity<Integer> addBoard(@RequestPart(value = "board") RunningBoard runningBoard,
+	public ResponseEntity<Integer> addBoard(
+			@RequestPart(value = "board") RunningBoard runningBoard,
+			@RequestPart(value = "location") List<Location> locations,
 			@RequestPart(value = "file", required = false) List<MultipartFile> file) {
 		ResponseEntity<Integer> responseEntity;
 		/**
@@ -99,11 +108,17 @@ public class RunningBoardController {
 		/**
 		 * RunningBoardImage 데이터베이스에 등록하는 부분
 		 */
+		for (int index = 0; locations != null && index < locations.size(); index++) {
+			Location location = locations.get(index);
+			location.setRunningBoardId(runningBoard.getRunningBoardId());
+			int count = runningBoardService.addLocation(location);
+		}
+		
 		for (int index = 0; file != null && index < file.size(); index++) {
 			
 			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
 //			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
-			String uploadDir = "c:/SSAFY/uploads" + subDir;
+			String uploadDir = "C:/SSAFY/uploads" + subDir;
 			// 폴더생성
 			File dir = new File(uploadDir);
 			dir.mkdirs();

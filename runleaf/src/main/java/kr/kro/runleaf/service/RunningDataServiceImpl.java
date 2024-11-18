@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
+import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
 import kr.kro.runleaf.repository.RunningBoardRepository;
@@ -55,6 +56,16 @@ public class RunningDataServiceImpl implements RunningDataService {
 	public int updateRunningBoardMainPath(RunningBoard runningBoard) {
 		int numberOfChange = runningBoardRepository.updateRunningBoardMainPath(runningBoard);
 		return numberOfChange;
+	}
+	@Override
+	public int addLocation(Location location) {
+		int count = runningBoardRepository.insertLocation(location);
+		return count;
+	}
+	@Override
+	public List<Location> getRunningBoardLocationList(int runningBoardId) {
+		List<Location> location = runningBoardRepository.selectRunningBoardCoodinate(runningBoardId);
+		return location;
 	}
 	
 
