@@ -8,9 +8,9 @@
 	<!-- 회원 가입 -->
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO member(
-		username, password, nickname, email, phone, role
+		username, password, email, phone, role
 		) VALUES (
-		#{username}, #{password}, #{nickname}, #{email}, #{phone}, #{role}
+		#{username}, #{password}, #{email}, #{phone}, #{role}
 		)
 	</insert>
 	
@@ -27,7 +27,7 @@
 	
 	<!-- 회원 조회(username) -->
 	<select id="selectMemberByUsername" parameterType="String" resultType="kr.kro.runleaf.domain.Member">
-		SELECT username, password, nickname, email, phone, role
+		SELECT username, password, email, phone, role
 		FROM member
 		WHERE username = #{username}
 	</select>

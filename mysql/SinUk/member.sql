@@ -4,7 +4,6 @@ CREATE TABLE `Member` (
 	`id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`username`	varchar(30)	NOT NULL,
 	`password`	varchar(100)	NOT NULL,
-	`nickname`	varchar(50)	NOT NULL,
 	`email`	varchar(50)	NOT NULL,
 	`phone`	varchar(30)	NOT NULL,
     `role` varchar(20) NOT NULL
