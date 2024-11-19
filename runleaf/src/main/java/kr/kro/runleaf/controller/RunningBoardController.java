@@ -42,11 +42,8 @@ public class RunningBoardController {
 		this.runningBoardService = runningDataService;
 	}
 
-	
 	@GetMapping
 	public ResponseEntity<List<RunningBoard>> getRunningBoardList(@ModelAttribute BoardSearch boardSearch) {
-		int page = boardSearch.getPage();
-		System.out.println(page);
 		ResponseEntity<List<RunningBoard>> responseEntity;
 		List<RunningBoard> list = runningBoardService.getRunningBoardList(boardSearch);
 		responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
@@ -64,7 +61,6 @@ public class RunningBoardController {
 	@GetMapping("/image/{id}")
 	public ResponseEntity<List<RunningBoardImage>> getRunningBoardDetailImage(@PathVariable("id") int runningBoardId) {
 		ResponseEntity<List<RunningBoardImage>> responseEntity;
-		System.out.println("이미지로들어옴");
 		List<RunningBoardImage> BoardDetailImage = runningBoardService.getRunningBoardImageList(runningBoardId);
 		responseEntity = new ResponseEntity<>(BoardDetailImage, HttpStatus.OK);
 		return responseEntity;
@@ -88,7 +84,7 @@ public class RunningBoardController {
 		 */
 		try {
 			if (file == null) {
-				runningBoard.setMainImagePath("c:/SSAFY/uploads/defaultimg/abcd.PNG");
+				runningBoard.setMainImagePath("uploads/defaultimg/abcd.PNG");
 			}
 		} catch (Exception e) {
 			System.out.println("기본 폴더와 기본 이미지를 미리 만들어 놔야 합니다.");
@@ -116,9 +112,9 @@ public class RunningBoardController {
 		
 		for (int index = 0; file != null && index < file.size(); index++) {
 			
-			String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
+			String subDir ="uploads" + new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
 //			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;
-			String uploadDir = "C:/SSAFY/uploads" + subDir;
+			String uploadDir = "C:/SSAFY/" + subDir;
 			// 폴더생성
 			File dir = new File(uploadDir);
 			dir.mkdirs();
@@ -127,13 +123,11 @@ public class RunningBoardController {
 			String systemName = UUID.randomUUID().toString() + "_" + originalFilename;
 			// 저장할 파일 객체 생성
 			File destFile = new File(dir, systemName);
-			System.out.println(runningBoard);
 			RunningBoardImage runningBoardImage = new RunningBoardImage(runningBoard.getRunningBoardId(),
-					originalFilename, systemName, uploadDir);
+					originalFilename, systemName, subDir);
 			int imageChange = runningBoardService.addRunningBoardImage(runningBoardImage);
-			System.out.println(imageChange);
 			if (index == 0) {
-				runningBoard.setMainImagePath(uploadDir + systemName);
+				runningBoard.setMainImagePath(subDir + systemName);
 			}
 			try {
 				// 파일 저장
@@ -204,11 +198,8 @@ public class RunningBoardController {
 			String systemName = UUID.randomUUID().toString() + "_" + originalFilename;
 			// 저장할 파일 객체 생성
 			File destFile = new File(dir, systemName);
-			System.out.println(runningBoard);
-			System.out.println(runningBoard.getRunningBoardId());
 			RunningBoardImage runningBoardImage = new RunningBoardImage(runningBoard.getRunningBoardId(),
 					originalFilename, systemName, uploadDir);
-			System.out.println(runningBoardImage);
 			int imageChange = runningBoardService.updateRunningBoardImage(runningBoardImage);
 			System.out.println(imageChange);
 			try {
