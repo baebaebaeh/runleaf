@@ -3,7 +3,6 @@ import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
 import MemberEdit from '@/components/member/MemberEdit.vue'
-import MemberView from '@/views/MemberView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MenuView from '@/views/MenuView.vue'
 import HomeView from '@/views/HomeView.vue'
@@ -11,6 +10,7 @@ import MyrunView from '@/views/MyrunView.vue'
 import MyrunDetailView from '@/views/MyrunDetailView.vue'
 import RunningView from '@/views/RunningView.vue'
 import RunAfterView from '@/views/RunAfterView.vue'
+import MyInfoView from '@/views/MyInfoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,16 +45,6 @@ const router = createRouter({
       name: 'runAfter',
       component: RunAfterView,
     },
-
-
-
-
-
-
-
-
-
-    
     {
       path: '/join',
       name: 'join',
@@ -78,9 +68,9 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/member',
-      name: 'member',
-      component: MemberView,
+      path: '/info',
+      name: 'myInfo',
+      component: MyInfoView,
     },
     {
       path: '/member/edit',

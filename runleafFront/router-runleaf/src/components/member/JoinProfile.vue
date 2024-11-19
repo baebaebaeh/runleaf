@@ -1,18 +1,20 @@
 <template>
-    <div class="container">
-        <div class="back">
-            <RouterLink to="/join">
-                <img class="image-arrow" src="@/assets/images/icons8-arrow-30.png" alt="다음 아이콘">
-            </RouterLink>
-        </div>
-        <div class="profile-container">
-            <div class="div2">프로필 사진 등록</div>
-            <div class="profile-container" @click="triggerFileInput">
-                <img :src="previewImage || defaultProfileImage" alt="프로필 사진" class="image-profile" />
+    <div class="main-container">
+        <div class="container">
+            <div class="back">
+                <RouterLink to="/join">
+                    <img class="image-arrow" src="@/assets/images/icons8-arrow-30.png" alt="다음 아이콘">
+                </RouterLink>
             </div>
-            <!-- 파일 선택 input 요소 (화면에서는 숨김 처리) -->
-            <input type="file" ref="fileInput" class="file-input" @change="onFileChange" style="display: none" />
-            <button class="complete-button" @click="saveAndSubmit">완료</button>
+            <div class="profile-container">
+                <div class="div2">프로필 사진 등록</div>
+                <div class="profile-container" @click="triggerFileInput">
+                    <img :src="previewImage || defaultProfileImage" alt="프로필 사진" class="image-profile" />
+                </div>
+                <!-- 파일 선택 input 요소 (화면에서는 숨김 처리) -->
+                <input type="file" ref="fileInput" class="file-input" @change="onFileChange" style="display: none" />
+                <button class="complete-button" @click="saveAndSubmit">완료</button>
+            </div>
         </div>
     </div>
 </template>
@@ -51,6 +53,15 @@ const saveAndSubmit = async () => {
 </script>
 
 <style scoped>
+.main-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  min-height: 100vh;       
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .back {
     display: flex;
     align-items: flex-start;

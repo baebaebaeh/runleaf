@@ -1,28 +1,16 @@
 <template>
-    <div>
-      <!-- <nav class="nav-bar">
-        <RouterLink :to="{ name: 'gps' }" class="nav-link">GPS</RouterLink>
-        <RouterLink :to="{ name: 'board' }" class="nav-link">Board</RouterLink>
-        <RouterLink :to="{ name: 'runningDataView' }" class="nav-link">Running Data</RouterLink>
-        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">회원가입</RouterLink>
-        <RouterLink :to="{ name: 'login' }" class="nav-link">로그인</RouterLink>
-        <RouterLink :to="{ name: 'menu' }">menu</RouterLink>
-      </nav> -->
-      <!-- <RouterLink :to="{ name: 'member', params: { id: userId } }" class="nav-link">내 정보</RouterLink> -->
-    </div>
-
-    <div class="nav">
-        <RouterLink class="menu-bar" :to="{ name: 'menu' }">
-            <img class="menu-img" :src="`/api/icons/menu-img.svg`" />
-        </RouterLink>
-        <RouterLink class="logo-bar" :to="{ name: 'home' }">
-            <img class="feather-img" :src="`/api/icons/feather-img.svg`" />
-        </RouterLink>
-        <button class="mypage-bar" @click="openModal">
-            <img class="smile-img" :src="`/api/icons/smile-img.svg`" />
-        </button>
-    </div>
-    <div>
+  <div class="nav">
+    <RouterLink class="menu-bar" :to="{ name: 'menu' }">
+      <img class="menu-img" :src="`/api/icons/menu-img.svg`" />
+    </RouterLink>
+    <RouterLink class="logo-bar" :to="{ name: 'home' }">
+      <img class="feather-img" :src="`/api/icons/feather-img.svg`" />
+    </RouterLink>
+    <button class="mypage-bar" @click="openModal">
+      <img class="smile-img" :src="`/api/icons/smile-img.svg`" />
+    </button>
+  </div>
+  <div>
     <!-- 모달 -->
     <div v-if="isModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
@@ -82,7 +70,8 @@ const closeModal = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 항상 위에 보이도록 설정 */
+  z-index: 1000;
+  /* 항상 위에 보이도록 설정 */
 }
 
 /* 모달 내용 */
@@ -94,13 +83,17 @@ const closeModal = () => {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
+
 .nav-bar {
   display: flex;
   justify-content: center;
-  gap: 20px; /* 링크들 사이에 간격 */
-  background-color: #d1d1d1; /* 배경색 */
+  gap: 20px;
+  /* 링크들 사이에 간격 */
+  background-color: #d1d1d1;
+  /* 배경색 */
   padding: 10px 0;
-  border-radius: 10px; /* 모서리 둥글게 */
+  border-radius: 10px;
+  /* 모서리 둥글게 */
 }
 
 .nav-link {
@@ -110,17 +103,20 @@ const closeModal = () => {
   color: #333;
   background-color: #ffffff;
   border-radius: 5px;
-  border: 1px solid #ccc; /* 테두리 색 */
+  border: 1px solid #ccc;
+  /* 테두리 색 */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .nav-link:hover {
-  background-color: #9c9c9c; /* 호버 시 배경색 */
-  color: #fff; /* 호버 시 텍스트 색상 */
+  background-color: #9c9c9c;
+  /* 호버 시 배경색 */
+  color: #fff;
+  /* 호버 시 텍스트 색상 */
 }
 
 .nav-bar a {
-  text-decoration: none; /* 링크에 밑줄 제거 */
+  text-decoration: none;
+  /* 링크에 밑줄 제거 */
 }
-
 </style>

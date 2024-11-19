@@ -23,7 +23,6 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
 
     public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
-
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
     }
@@ -58,7 +57,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
+<<<<<<< HEAD
+                        .requestMatchers("/**").permitAll()
+=======
                         .requestMatchers("/login", "/**", "/join").permitAll()
+>>>>>>> master
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 

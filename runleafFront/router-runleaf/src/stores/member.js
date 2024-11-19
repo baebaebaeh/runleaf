@@ -33,7 +33,6 @@ export const useMemberStore = defineStore('member', () => {
     try {
       const response = await axios.post('/api/member', formData);
 
-      // 회원가입 성공 시
       if (response.status === 200) {
         alert('회원가입이 완료되었습니다!');
         router.push('/');
@@ -45,29 +44,25 @@ export const useMemberStore = defineStore('member', () => {
     }
   }
 
-  const loginMember = ref(null);
-  
-  // const memberLogin = function(username, password) {
-  //   axios.post('/api/login', {}
-  //     username: username,
-  //     password,
-  //   })
-  // }
+  const member = ref({
+    nickname: '',
+    email: '',
+    phone: '',
+  });
 
+  const getMember = async () => {
+    try {
+      const response = await axios.get('/api/member');
+      member.value = response.data;
+    } catch (error) {
+      console.error('회원 정보 조회 실패:', error);
+    }
+  };
 
-  const member = ref({})
+  // const loginId = computed(() => member.value.username);
 
-  const getBoard = async function (id) {
-    axios.get(`/api/member/${id}`)
-    .then((response) => {
-      member.value = response.data
-    })
-  }
+  // getMember(loginId);
 
-  const loginId = computed(() => member.value.id);
-
-  getBoard(loginId);
-
-  return { router, memberInfo, formData, loginId, updateMemberInfo, addFile, submitJoinForm, getBoard };
+  return { router, memberInfo, formData, updateMemberInfo, addFile, submitJoinForm, getMember };
 }
 );

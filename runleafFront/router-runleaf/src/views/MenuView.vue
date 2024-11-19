@@ -49,13 +49,58 @@
           <div class="challenge-txt">내 챌린지</div>
         </div>
       </div>
-      <div class="myinfo-bar">
-        <div class="myinfo-logo">
-          <img class="myinfo-img" src="`@/assets/images/icons/myinfo-img.svg`" />
+
+      <!-- 로그인된 경우 -->
+      <div v-if="isLoggedIn">
+        <RouterLink :to="{ name: 'myInfo' }">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">내 정보</div>
+            </div>
+          </div>
+        </RouterLink>
+        <div class="logout" @click="logout">
+          <div class="myinfo-logo">
+            <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+          </div>
+          <div class="myinfo-text">
+            <div class="myinfo-txt">로그아웃</div>
+          </div>
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" src="`@/assets/images/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">내 정보</div>
+            </div>
+          </div>
         </div>
-        <div class="myinfo-text">
-          <div class="myinfo-txt">내 정보</div>
-        </div>
+      </div>
+      <!-- 로그인되지 않은 경우 -->
+      <div v-else>
+        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">회원가입</div>
+            </div>
+          </div>
+        </RouterLink>
+        <RouterLink :to="{ name: 'login' }" class="nav-link">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">로그인</div>
+            </div>
+          </div>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -63,6 +108,16 @@
 </template>
 
 <script setup>
+import '@/assets/styles/menu.css'
+import { useAuthStore } from '@/stores/auth';
+
+const store = useAuthStore();
+
+const isLoggedIn = store.isLoggedIn;
+
+const logout = () => {
+  store.logout();
+}
 </script>
 
 <style scoped>
@@ -92,6 +147,7 @@
 .menu * {
   box-sizing: border-box;
 }
+
 .menu {
   background: #ffffff;
   display: flex;
@@ -103,6 +159,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .nav {
   padding: 30px 0px 0px 0px;
   display: flex;
@@ -116,6 +173,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .menu-bar {
   padding: 11px 0px 11px 23px;
   display: flex;
@@ -129,6 +187,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .menu-img {
   flex-shrink: 0;
   width: 48px;
@@ -136,6 +195,7 @@
   position: relative;
   overflow: visible;
 }
+
 .logo-bar {
   padding: 10px;
   display: flex;
@@ -148,6 +208,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .feather-img {
   flex-shrink: 0;
   width: 48px;
@@ -155,6 +216,7 @@
   position: relative;
   overflow: visible;
 }
+
 .mypage-bar {
   padding: 11px 23px 11px 0px;
   display: flex;
@@ -168,6 +230,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .smile-img {
   flex-shrink: 0;
   width: 48px;
@@ -175,6 +238,7 @@
   position: relative;
   overflow: visible;
 }
+
 .menu-container {
   display: flex;
   flex-direction: column;
@@ -186,6 +250,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .home-bar {
   background: #ffffff;
   display: flex;
@@ -198,6 +263,7 @@
   height: 102px;
   position: relative;
 }
+
 .home-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -211,6 +277,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .home-img {
   align-self: stretch;
   flex: 1;
@@ -218,6 +285,7 @@
   position: relative;
   overflow: visible;
 }
+
 .home-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -231,6 +299,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .home-txt {
   color: #000000;
   text-align: left;
@@ -240,6 +309,7 @@
   position: relative;
   flex: 1;
 }
+
 .write-bar {
   background: #ffffff;
   display: flex;
@@ -252,6 +322,7 @@
   height: 102px;
   position: relative;
 }
+
 .write-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -265,6 +336,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .plus-circle {
   align-self: stretch;
   flex: 1;
@@ -272,6 +344,7 @@
   position: relative;
   overflow: visible;
 }
+
 .write-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -285,6 +358,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .run-bar {
   background: #ffffff;
   display: flex;
@@ -297,6 +371,7 @@
   height: 102px;
   position: relative;
 }
+
 .run-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -310,6 +385,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .play {
   align-self: stretch;
   flex: 1;
@@ -317,6 +393,7 @@
   position: relative;
   overflow: visible;
 }
+
 .run-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -330,6 +407,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myrun-bar {
   background: #ffffff;
   display: flex;
@@ -342,6 +420,7 @@
   height: 102px;
   position: relative;
 }
+
 .myrun-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -355,6 +434,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myrun-img {
   align-self: stretch;
   flex: 1;
@@ -362,6 +442,7 @@
   position: relative;
   overflow: visible;
 }
+
 .myrun-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -375,6 +456,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myrun-txt {
   color: #000000;
   text-align: left;
@@ -384,6 +466,7 @@
   position: relative;
   flex: 1;
 }
+
 .challenge-bar {
   background: #ffffff;
   display: flex;
@@ -396,6 +479,7 @@
   height: 102px;
   position: relative;
 }
+
 .challenge-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -409,6 +493,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .challenge-img {
   align-self: stretch;
   flex: 1;
@@ -416,6 +501,7 @@
   position: relative;
   overflow: visible;
 }
+
 .challenge-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -429,6 +515,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .challenge-txt {
   color: #000000;
   text-align: left;
@@ -438,6 +525,7 @@
   position: relative;
   flex: 1;
 }
+
 .mychallenge-bar {
   background: #ffffff;
   display: flex;
@@ -450,6 +538,7 @@
   height: 102px;
   position: relative;
 }
+
 .mychallenge-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -463,6 +552,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .challenge-img2 {
   align-self: stretch;
   flex: 1;
@@ -470,6 +560,7 @@
   position: relative;
   overflow: visible;
 }
+
 .mychallenge-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -483,6 +574,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myinfo-bar {
   background: #ffffff;
   display: flex;
@@ -495,6 +587,7 @@
   height: 102px;
   position: relative;
 }
+
 .myinfo-logo {
   padding: 20px 19px 20px 19px;
   display: flex;
@@ -508,6 +601,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myinfo-img {
   align-self: stretch;
   flex: 1;
@@ -515,6 +609,7 @@
   position: relative;
   overflow: visible;
 }
+
 .myinfo-text {
   padding: 9px 15px 9px 15px;
   display: flex;
@@ -528,6 +623,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .myinfo-txt {
   color: #000000;
   text-align: left;
@@ -536,6 +632,19 @@
   font-weight: 400;
   position: relative;
   flex: 1;
+}
+.logout {
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 102px;
+  position: relative;
+  cursor: pointer;
 }
 
 </style>
