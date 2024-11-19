@@ -8,3 +8,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
+
+import { useGpsStore } from '@/stores/gpsStore.js';
+const gpsStore = useGpsStore();
+gpsStore.initLocation();
