@@ -29,7 +29,7 @@ export const useMemberStore = defineStore('member', () => {
   const submitJoinForm = async () => {
     formData.append('member', new Blob([JSON.stringify(memberInfo.value)], { type: 'application/json' }));
     try {
-      const response = await axios.post('/api/member', formData);
+      const response = await axios.post('/api/join', formData);
 
       if (response.status === 200) {
         alert('회원가입이 완료되었습니다!');
@@ -43,21 +43,22 @@ export const useMemberStore = defineStore('member', () => {
   }
 
   const member = ref({
+    username: '',
     email: '',
     phone: '',
+    memberFileUrl: ''
   });
 
   const getMember = async () => {
     try {
-      console.log(sessionStorage.getItem)
       const token = sessionStorage.getItem('token');
       const response = await axios.get('/api/member', {
         headers: {
           authorization: `Bearer ${token}`, // 헤더에 토큰 추가
         }
       });
-      console.log(response)
       member.value = response.data;
+      console.log(response.data)
     } catch (error) {
       console.error('회원 정보 조회 실패:', error);
     }

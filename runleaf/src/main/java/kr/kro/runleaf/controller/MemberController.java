@@ -35,11 +35,11 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
+import kr.kro.runleaf.dto.MemberResponse;
 import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.service.MemberService;
 
 @RestController
-@RequestMapping("/member")
 @CrossOrigin
 public class MemberController {
 
@@ -50,7 +50,7 @@ public class MemberController {
 	}
 
 	// 회원 가입
-	@PostMapping
+	@PostMapping("/join")
 	public ResponseEntity<?> join(@RequestPart(value = "member") @Valid Member member,
 			@RequestPart(value = "file", required = false) MultipartFile file, BindingResult bindingResult)
 			throws IllegalStateException, IOException {
@@ -116,26 +116,27 @@ public class MemberController {
 	}
 
 	// 회원 조회
-	@GetMapping
-	public ResponseEntity<Member> findOne() {
+	@GetMapping("/member")
+	public ResponseEntity<MemberResponse> findOne() {
 		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		Member member = memberService.findOne(username);
-		if (member == null) {
+		MemberResponse memberResponse = memberService.findOne(username);
+		System.out.println(memberResponse);
+		if (memberResponse == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(member);
+		return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
 	}
 
 	// 회원 수정
-	@PutMapping("/{id}")
+	@PutMapping("/member/{id}")
 	public void edit(@PathVariable("id") int id, @RequestBody Member memberDto) {
 		memberService.edit(memberDto);
 	}
 	
 	// 회원 삭제
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/member/{id}")
 	public void remove(@PathVariable("id") int id) {
 		memberService.remove(id);
 	}

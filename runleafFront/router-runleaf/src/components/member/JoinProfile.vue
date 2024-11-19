@@ -58,7 +58,7 @@ const saveAndSubmit = async () => {
   justify-content: center; 
   align-items: center;     
   min-height: 100vh;       
-  padding: 20px;
+  padding: 80px;
   box-sizing: border-box;
 }
 
@@ -99,7 +99,6 @@ const saveAndSubmit = async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* 내부 콘텐츠는 왼쪽 정렬 */
     background: #ffffff;
     width: 400px;
     max-width: 600px;
@@ -108,8 +107,8 @@ const saveAndSubmit = async () => {
 }
 
 .image-profile {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 

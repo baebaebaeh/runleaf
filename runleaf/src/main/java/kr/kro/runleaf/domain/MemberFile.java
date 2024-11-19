@@ -8,15 +8,6 @@ public class MemberFile {
 	private String systemName;
 	private int memberId;
 	
-	public MemberFile() {
-	}
-	public MemberFile(int id, String filePath, String orgName, String systemName, int memberId) {
-		this.id = id;
-		this.filePath = filePath;
-		this.orgName = orgName;
-		this.systemName = systemName;
-		this.memberId = memberId;
-	}
 	public int getId() {
 		return id;
 	}
