@@ -15,9 +15,6 @@ public class Member {
             message = "비밀번호는 영문, 숫자, 특수기호가 적어도 1개 이상씩 포함된 6 ~ 16자리여야 합니다.")
 	private String password;
 	
-	@NotBlank(message = "닉네임은 필수 입력값입니다.")
-	private String nickname;
-	
 	private String email;
 	
 	private String phone;
@@ -45,12 +42,6 @@ public class Member {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -69,19 +60,16 @@ public class Member {
 	public void setMemberFile(MemberFile memberFile) {
 		this.memberFile = memberFile;
 	}
-	
-
 	public String getRole() {
 		return role;
 	}
-
 	public void setRole(String role) {
 		this.role = role;
 	}
 
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", nickname=" + nickname
+		return "Member [id=" + id + ", username=" + username + ", password=" + password
 				+ ", email=" + email + ", phone=" + phone + ", memberFile=" + memberFile + ", role=" + role + "]";
 	}
 }

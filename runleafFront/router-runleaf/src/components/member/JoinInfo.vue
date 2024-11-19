@@ -25,12 +25,6 @@
       <!-- <label for="confirm_password" class="label">비밀번호 확인*</label>
       <input type="password" id="confirm_password" name="confirm_password" class="input-field" placeholder="비밀번호를 한 번 더 입력해주세요." required>
        -->
-  
-      <label for="nickname" class="label">닉네임*</label>
-      <input type="text" id="nickname" name="nickname" v-model="member.nickname" class="input-field"
-        placeholder="영문, 숫자 조합 6~16자" required>
-      <span v-if="errors.nickname" class="error-text">{{ errors.nickname }}</span>
-  
       <label for="email" class="label">이메일</label>
       <input type="email" id="email" name="email" v-model="member.email" class="input-field"
         placeholder="예) abc@ssafy.com">
@@ -57,7 +51,6 @@ const router = useRouter();
 const member = ref({
   username: '',
   password: '',
-  nickname: '',
   email: '',
   phone: ''
 })
@@ -79,11 +72,6 @@ const validateInfo = () => {
   // 비밀번호 유효성 검사
   if (!/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{6,16}/.test(member.value.password)) {
     errors.value.password = '비밀번호는 영문, 숫자, 특수기호가 포함된 6~16자리여야 합니다.';
-  } 
-
-  // 닉네임 유효성 검사
-  if (!member.value.nickname) {
-    errors.value.nickname = '닉네임은 필수 입력값입니다.';
   } 
 
   // 연락처 유효성 검사

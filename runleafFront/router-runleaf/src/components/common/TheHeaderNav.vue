@@ -1,13 +1,13 @@
 <template>
   <div class="nav">
     <RouterLink class="menu-bar" :to="{ name: 'menu' }">
-      <img class="menu-img" :src="`/api/icons/menu-img.svg`" />
+      <img class="menu-img" src="`@/assets/images/icons/menu-img.svg`" />
     </RouterLink>
     <RouterLink class="logo-bar" :to="{ name: 'home' }">
-      <img class="feather-img" :src="`/api/icons/feather-img.svg`" />
+      <img class="feather-img" src="`@/assets/images/icons/feather-img.svg`" />
     </RouterLink>
     <button class="mypage-bar" @click="openModal">
-      <img class="smile-img" :src="`/api/icons/smile-img.svg`" />
+      <img class="smile-img" src="`@/assets/images/icons/smile-img.svg`" />
     </button>
   </div>
   <div>

@@ -55,7 +55,7 @@
         <RouterLink :to="{ name: 'myInfo' }">
           <div class="myinfo-bar">
             <div class="myinfo-logo">
-              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+              <img class="myinfo-img" src="`@/assets/images/icons/myinfo-img.svg`" />
             </div>
             <div class="myinfo-text">
               <div class="myinfo-txt">내 정보</div>
@@ -64,18 +64,10 @@
         </RouterLink>
         <div class="logout" @click="logout">
           <div class="myinfo-logo">
-            <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+            <img class="myinfo-img" src="`@/assets/images/icons/logout.png`" />
           </div>
           <div class="myinfo-text">
             <div class="myinfo-txt">로그아웃</div>
-          </div>
-          <div class="myinfo-bar">
-            <div class="myinfo-logo">
-              <img class="myinfo-img" src="`@/assets/images/icons/myinfo-img.svg`" />
-            </div>
-            <div class="myinfo-text">
-              <div class="myinfo-txt">내 정보</div>
-            </div>
           </div>
         </div>
       </div>
@@ -84,7 +76,7 @@
         <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">
           <div class="myinfo-bar">
             <div class="myinfo-logo">
-              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+              <img class="myinfo-img" src="`@/assets/images/icons/join.png`" />
             </div>
             <div class="myinfo-text">
               <div class="myinfo-txt">회원가입</div>
@@ -94,7 +86,7 @@
         <RouterLink :to="{ name: 'login' }" class="nav-link">
           <div class="myinfo-bar">
             <div class="myinfo-logo">
-              <img class="myinfo-img" :src="`@/assets/images/icons/myinfo-img.svg`" />
+              <img class="myinfo-img" src="`@/assets/images/icons/login.png`" />
             </div>
             <div class="myinfo-text">
               <div class="myinfo-txt">로그인</div>
@@ -108,7 +100,6 @@
 </template>
 
 <script setup>
-import '@/assets/styles/menu.css'
 import { useAuthStore } from '@/stores/auth';
 
 const store = useAuthStore();
@@ -128,20 +119,8 @@ const logout = () => {
   border: none;
   text-decoration: none;
   background: none;
-
   -webkit-font-smoothing: antialiased;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .menu,
 .menu * {
