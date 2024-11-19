@@ -32,8 +32,6 @@ const gpsStore = useGpsStore();
 const boardDto = ref([])
 let isFetching = false;
 let hasMoreData = true;
-
-
 function infinityScroll(e) {
   if (document.body.scrollHeight - window.innerHeight - document.documentElement.scrollTop < 100) {
     if (!isFetching && hasMoreData) {
@@ -59,12 +57,16 @@ watch(
 );
 
 
-
 const getRunningBoardList = async () => {
   isFetching = true;
   try {
+    const token = sessionStorage.getItem('token');
+    console.log(gpsStore.boardSearchDto);
     const { data } = await axios.get("/api/running", {
       params: gpsStore.boardSearchDto,
+      headers: {
+        'authorization': `Bearer ${token}`,
+      },
     });
     if (data.length == 0) {
       hasMoreData = false;
@@ -228,6 +230,4 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   align-self: stretch;
 }
-
-
 </style>

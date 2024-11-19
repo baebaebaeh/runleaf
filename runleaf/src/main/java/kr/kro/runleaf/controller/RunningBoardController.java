@@ -3,36 +3,30 @@ package kr.kro.runleaf.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.boot.SpringApplication.Running;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
-import kr.kro.runleaf.domain.RunningBoardImage;
-import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
+import kr.kro.runleaf.domain.RunningBoardImage;
+import kr.kro.runleaf.dto.CustomUserDetails;
+import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.service.RunningDataService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @CrossOrigin
 @RestController
@@ -49,7 +43,10 @@ public class RunningBoardController {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<RunningBoard>> getRunningBoardList(@ModelAttribute BoardSearch boardSearch) {
+	public ResponseEntity<List<RunningBoard>> getRunningBoardList(
+			@ModelAttribute BoardSearch boardSearch,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
+		boardSearch.setUsername(userDetails.getUsername());
 		ResponseEntity<List<RunningBoard>> responseEntity;
 		List<RunningBoard> list = runningBoardService.getRunningBoardList(boardSearch);
 		responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
@@ -83,11 +80,15 @@ public class RunningBoardController {
 	public ResponseEntity<Integer> addBoard(
 			@RequestPart(value = "board") RunningBoard runningBoard,
 			@RequestPart(value = "location") List<Location> locations,
-			@RequestPart(value = "file", required = false) List<MultipartFile> file) {
+			@RequestPart(value = "file", required = false) List<MultipartFile> file,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		ResponseEntity<Integer> responseEntity;
 		/**
 		 * RunningBoard 데이터베이스에 등록하는 부분
 		 */
+		System.out.println("나야");
+		System.out.println(userDetails.getUsername());
+		runningBoard.setWriter(userDetails.getUsername());
 		try {
 			if (file == null) {
 				runningBoard.setMainImagePath("uploads/defaultimg/abcd.PNG");

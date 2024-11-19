@@ -31,10 +31,10 @@ const boardDto = ref([])
 let isFetching = false;
 let hasMoreData = true;
 const boardSearchDto = ref({
-    page: 1,
-    username: "bae9954@naver.com",
-    orderInt: 3,
-  });
+  page: 1,
+  username: "",
+  orderInt: 3,
+});
 
 function infinityScroll(e) {
   // console.dir(e);
@@ -51,9 +51,14 @@ onMounted(() => {
 });
 const getRunningBoardList = async () => {
   isFetching = true;
+  const token = sessionStorage.getItem('token');
   try {
+    console.log(boardSearchDto.value);
     const { data } = await axios.get("/api/running", {
       params: boardSearchDto.value,
+      headers: {
+        'authorization': `Bearer ${token}`,
+      },
     });
     if (data.length == 0) {
       hasMoreData = false;

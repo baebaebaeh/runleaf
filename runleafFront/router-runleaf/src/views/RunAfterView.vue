@@ -85,7 +85,7 @@ const boardDto = ref({
   title: '',
   content: '',
   mainImagePath: '1',
-  writer: 'bae9954@naver.com',
+  writer: '',
   onBoard: false,
 })
 let formData = new FormData();
@@ -95,7 +95,12 @@ const uploadFile = async () => {
   // formData.append(`board`, new Blob([JSON.stringify(boardDto.value)], { type: "application/json" }));
   formData.append("board", new Blob([JSON.stringify(boardDto.value)], { type: "application/json" })); // board 객체 추가
   formData.append("location", new Blob([JSON.stringify(gpsStore.locations)], { type: "application/json" })); // board 객체 추가
-  await axios.post("/api/running", formData);
+  const token = sessionStorage.getItem('token');
+  await axios.post("/api/running", formData, {
+    headers: {
+      'authorization': `Bearer ${token}`,
+    }
+  });
   gpsStore.postLocations();
   goRunningDataList();
 };
