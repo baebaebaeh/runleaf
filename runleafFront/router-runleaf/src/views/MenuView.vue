@@ -49,16 +49,51 @@
           <div class="challenge-txt">내 챌린지</div>
         </div>
       </div>
-      <RouterLink :to="{ name: 'member' }">
-        <div class="myinfo-bar">
+      
+      <!-- 로그인된 경우 -->
+      <div v-if="isLoggedIn">
+        <RouterLink :to="{ name: 'myInfo' }">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">내 정보</div>
+            </div>
+          </div>
+        </RouterLink>
+        <div class="logout" @click="logout">
           <div class="myinfo-logo">
             <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
           </div>
           <div class="myinfo-text">
-            <div class="myinfo-txt">내 정보</div>
+            <div class="myinfo-txt">로그아웃</div>
           </div>
         </div>
-      </RouterLink>
+      </div>
+      <!-- 로그인되지 않은 경우 -->
+      <div v-else>
+        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">회원가입</div>
+            </div>
+          </div>
+        </RouterLink>
+        <RouterLink :to="{ name: 'login' }" class="nav-link">
+          <div class="myinfo-bar">
+            <div class="myinfo-logo">
+              <img class="myinfo-img" :src="`/api/icons/myinfo-img.svg`" />
+            </div>
+            <div class="myinfo-text">
+              <div class="myinfo-txt">로그인</div>
+            </div>
+          </div>
+        </RouterLink>
+      </div>
     </div>
   </div>
 
@@ -66,7 +101,15 @@
 
 <script setup>
 import '@/assets/styles/menu.css'
+import { useAuthStore } from '@/stores/auth';
+
+const store = useAuthStore();
+
+const isLoggedIn = store.isLoggedIn;
+
+const logout= () => {
+  store.logout();
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

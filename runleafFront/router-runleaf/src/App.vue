@@ -1,8 +1,6 @@
 <template>
   <TheHeaderNav />
-  <div class="main-container">
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
 <script setup>

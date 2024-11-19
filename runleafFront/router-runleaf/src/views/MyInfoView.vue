@@ -3,12 +3,14 @@
         <div class="frame-44">
             <img class="icons-8-arrow-30-1" src="@/assets/images/icons8-arrow-30.png" />
             <div class="div2">내 정보</div>
-            <div class="div3">변경</div>
+            <div class="edit-info">
+                <RouterLink :to="{ name: 'editMember' }">변경</RouterLink>
+            </div>
         </div>
         <div class="frame-48">
             <div class="frame-9">
                 <div class="user-circle-1">
-                    <img class="vector" :src="member.memberFile" />
+                    <!-- <img class="vector" :src="member.memberFile" /> -->
 
                 </div>
             </div>
@@ -51,7 +53,8 @@ const route = useRoute();
 const router = useRouter();
 
 onMounted(() => {
-    store.getBoard(route.params.id)
+    store.getMember()
+    console.log(store.member)
 })
 
 </script>
@@ -108,7 +111,7 @@ onMounted(() => {
     height: 34px;
 }
 
-.div3 {
+.edit-info {
     color: #777777;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;

@@ -469,3 +469,16 @@
   position: relative;
   flex: 1;
 }
+.logout {
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 102px;
+  position: relative;
+  cursor: pointer;
+}

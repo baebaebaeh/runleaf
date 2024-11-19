@@ -14,23 +14,23 @@
         <button @click="login" type="submit" class="login-button">로그인</button>
       </form>
       <p class="signup-link">
-        아직 회원이 아니신가요? <router-link to="/signup">회원가입</router-link>
+        아직 회원이 아니신가요? <router-link to="/join">회원가입</router-link>
       </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useMemberStore } from '@/stores/member';
+import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
 
-const store = useMemberStore();
+const store = useAuthStore();
 
 const username = ref('');
 const password = ref('');
 
 const login = function () {
-  store.memberLogin(username.value, password.value)
+  store.login(username.value, password.value)
 }
 </script>
 
@@ -89,7 +89,7 @@ const login = function () {
 .login-button {
   width: 100%;
   padding: 10px;
-  background-color: #bdbdbd;
+  background-color: #c9c9c9;
   color: white;
   border: none;
   border-radius: 4px;
@@ -99,7 +99,7 @@ const login = function () {
 
 .login-button:hover {
   color: white;
-  background-color: #808080;
+  background-color: #a0a0a0;
   
 }
 

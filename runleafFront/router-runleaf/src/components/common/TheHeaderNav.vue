@@ -1,15 +1,4 @@
 <template>
-    <div>
-      <nav class="nav-bar">
-        <RouterLink :to="{ name: 'gps' }" class="nav-link">GPS</RouterLink>
-        <RouterLink :to="{ name: 'board' }" class="nav-link">Board</RouterLink>
-        <RouterLink :to="{ name: 'runningDataView' }" class="nav-link">Running Data</RouterLink>
-        <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">회원가입</RouterLink>
-        <RouterLink :to="{ name: 'login' }" class="nav-link">로그인</RouterLink>
-        <RouterLink :to="{ name: 'menu' }" class="nav-link">메뉴</RouterLink>
-      </nav>
-    </div>
-
     <div class="nav">
         <RouterLink class="menu-bar" :to="{ name: 'menu' }">
             <img class="menu-img" :src="`/api/icons/menu-img.svg`" />
@@ -20,6 +9,7 @@
         <RouterLink class="mypage-bar" :to="{ name: 'home' }">
             <img class="smile-img" :src="`/api/icons/smile-img.svg`" />
         </RouterLink>
+        
     </div>
 </template>
 
