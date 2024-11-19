@@ -4,7 +4,7 @@
     <div class="feed">
       <div class="map-container">
         <div class="div">지도</div>
-        <img class="image" :src="`/api/icons/image.png`" />
+        <img class="image" src="`@/assets/images/icons/image.png`" />
       </div>
       <div class="image-container">
         <div class="div">사진들</div>
@@ -37,7 +37,6 @@
 </template>
 
 <script setup>
-import { useRunningDataStore } from '@/stores/runningDataStore';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { ref } from 'vue';
@@ -45,7 +44,6 @@ const boardDetail = ref({});
 const boardDetailImage = ref([]);
 const coodinate = ref([]);
 const route = useRoute();
-const runningDataStore = useRunningDataStore();
 const id = Number(route.params.id);
 const findDetailById = async () => {
   const { data } = await axios.get(`/api/running/board/${id}`);

@@ -4,12 +4,20 @@
     <div class="form-container">
       <div class="path-container">
         <div class="div">뛴 경로</div>
-        <img class="image2" :src="`/api/icons/image.png`" />
+        <img class="image2" src="`@/assets/images/icons/image.png`" />
         <div class="content">
           <input class="regist-input" type="text" placeholder="여기에 제목을 입력하세요" v-model="boardDto.title" />
           <input class="regist-input" type="text" placeholder="여기에 내용을 입력하세요" v-model="boardDto.content" />
           <input class="regist-input" type="text" placeholder="여기에 난이도를 입력하세요" v-model="boardDto.difficulty" />
           <input class="regist-input" type="text" placeholder="" v-model="boardDto.difficulty" />
+          <div>
+            <label for="visibility">공개 설정:</label>
+            <select v-model="boardDto.onBoard">
+              <option :value="true">공개</option>
+              <option :value="false">비공개</option>
+            </select>
+            <p>현재 설정: {{ boardDto.onBoard ? "공개" : "비공개" }}</p>
+          </div>
         </div>
       </div>
       <div class="sub-image-container">
@@ -19,7 +27,7 @@
         </div>
         <div class="flex" v-for="(preview, index) in previews" :key="index">
           <label class="flex" for="upload-image">
-            <img class="image2" :src="`/api/icons/image.png`" :id="preview" />
+            <img class="image2" src="`@/assets/images/icons/image.png`" :id="preview" />
           </label>
         </div>
       </div>
@@ -27,7 +35,7 @@
     <div class="share-container">
       <div class="share">
         <div class="share2">
-          <img class="share3" :src="`/api/icons/share.svg`" />
+          <img class="share3" src="`@/assets/images/icons/share.svg`" />
         </div>
         <div class="frame">
           <button @click="uploadFile" class="div">저장하기</button>
@@ -46,7 +54,8 @@
     <div>modifiedTs :<input type="text" v-model="boardDto.modifiedTs"></div>
     <div>mainImagePath :<input type="text" v-model="boardDto.mainImagePath"></div>
     <div>writer :<input type="text" v-model="boardDto.writer"></div>
-    <div>boolean :<input type="text" v-model="boardDto.onBoard" v-bind:style="{ display: 'none' }"></div>
+    <div>boolean :<input type="text" v-model="boardDto.onBoard"></div>
+    <!-- v-bind:style="{ display: 'none' }" -->
   </div>
 </template>
 
@@ -57,6 +66,7 @@ import { useRouter } from 'vue-router';
 import { useGpsStore } from '@/stores/gpsStore.js';
 const router = useRouter();
 const gpsStore = useGpsStore();
+const visibility = ref(false);
 const goRunningDataList = function () {
   router.push({ name: 'myrun' });
 }
@@ -76,7 +86,7 @@ const boardDto = ref({
   content: '',
   mainImagePath: '1',
   writer: '1',
-  onBoard: 0,
+  onBoard: false,
 })
 let formData = new FormData();
 
@@ -92,11 +102,11 @@ const uploadFile = async () => {
 
 
 const getFileName = async (files) => {
-  formData = new FormData();
   if (files.length > 5) {
     alert("사진은 최대 5개 까지 등록 가능합니다");
     return;
   }
+  formData = new FormData();
   previews.value = [];
   for (let index = 0; index < files.length; index++) {
     previews.value.push("preview" + index);
@@ -105,7 +115,7 @@ const getFileName = async (files) => {
     const fileName = files[index];
     await base64(fileName, index);
   }
-};
+}; 
 
 const base64 = (file, index) => {
   // 비동기적으로 동작하기 위하여 promise를 return 해준다.

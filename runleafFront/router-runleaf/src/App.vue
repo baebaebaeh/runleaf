@@ -5,6 +5,8 @@
 
 <script setup>
 import TheHeaderNav from './components/common/TheHeaderNav.vue';
+
+import '@/assets/styles/base.css'
 </script>
 
 <style scoped>

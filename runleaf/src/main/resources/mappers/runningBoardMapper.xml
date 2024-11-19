@@ -65,10 +65,27 @@
 				content,
 				main_image_path,
 				writer,
-				on_board
-		FROM running_board
-		order by created_ts asc
-		limit #{startIdx}, 10;
+				on_board,
+				ST_Distance_Sphere(
+					POINT(start_longitude, start_latitude),
+					POINT(#{longitude}, #{latitude})
+				) AS distance
+			FROM running_board
+		<choose>
+			<when test="orderInt == 1">
+				WHERE on_board = 1
+				order by distance asc
+			</when>
+			<when test="orderInt == 2">
+				WHERE on_board = 1
+				order by created_ts desc
+			</when>
+			<when test="orderInt == 3">
+				WHERE member_id = #{userId}
+				order by created_ts desc
+			</when>
+		</choose>
+			limit #{startIdx}, 5;
 	</select>
 	
 	

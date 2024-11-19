@@ -6,11 +6,11 @@
         <br />
         {{ Math.floor(gpsStore.cnt / 3600) }} : {{ Math.floor(gpsStore.cnt / 60) % 60 }} : {{ gpsStore.cnt % 60 }}
       </div>
-      <img @click="startLocationInterval" class="play-circle" :src="`/api/icons/play-circle.svg`"
+      <img @click="startLocationInterval" class="play-circle" src="`@/assets/images/icons/play-circle.svg`"
       v-if="!gpsStore.isRunning || gpsStore.isPause" />
-      <img @click="pauseLocationInterval" class="pause-circle" :src="`/api/icons/pause-circle.svg`"
+      <img @click="pauseLocationInterval" class="pause-circle" src="`@/assets/images/icons/pause-circle.svg`"
       v-if="gpsStore.isRunning && !gpsStore.isPause" />
-    <img @click="stopLocationInterval" class="stop-circle" :src="`/api/icons/stop-circle.svg`"
+    <img @click="stopLocationInterval" class="stop-circle" src="`@/assets/images/icons/stop-circle.svg`"
       v-if="gpsStore.isRunning" />
     </div>
   </div>
@@ -23,8 +23,8 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 import { useGpsStore } from '@/stores/gpsStore.js';
-const router = useRouter();
 const gpsStore = useGpsStore();
+const router = useRouter();
 const goRunningDataForm = function () {
   router.push({ name: 'runAfter' });
 }
@@ -34,7 +34,7 @@ const startLocationInterval = () => {
   if (gpsStore.intervalId) {
     clearInterval(gpsStore.intervalId); // 기존 인터벌 정리
   }
-  gpsStore.intervalId = setInterval(getLocation, 7000); // getlocation실행파트
+  gpsStore.intervalId = setInterval(getLocation, 1000); // getlocation실행파트
   gpsStore.intervalCnt = setInterval(() => {
     gpsStore.cnt += 1;
   }, 1000);

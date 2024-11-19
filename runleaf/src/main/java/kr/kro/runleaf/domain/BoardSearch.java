@@ -5,21 +5,32 @@ package kr.kro.runleaf.domain;
 public class BoardSearch {
 	// page는 1부터 시작 
 	private int page; // 한번 부르면 5개 content load
+	private int userId;
 	private int orderInt;
 	private double latitude;
 	private double longitude;
 	
-	public BoardSearch() {
-		this(1, 1);
+
+	public int getUserId() {
+		return userId;
 	}
-	
-	public BoardSearch(int page) {
-		this(page, 1);
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	
-	public BoardSearch(int page, int orderInt) {
+
+	public BoardSearch(int page, int userId, int orderInt, double latitude, double longitude) {
+		super();
 		this.page = page;
+		this.userId = userId;
 		this.orderInt = orderInt;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
+	public BoardSearch() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getPage() {
@@ -31,11 +42,11 @@ public class BoardSearch {
 	}
 
 	public int getStartIdx() {
-		return page * 10 - 10;
+		return page * 5 - 5;
 	}
 	
 	public int getEndIdx() {
-		return page * 10;
+		return page * 5;
 	}
 
 	public int getOrderInt() {

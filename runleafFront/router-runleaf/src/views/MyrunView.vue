@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
     <div class="feed-container">
-      <div class="div">나의 운동 기록</div>
+      <div class="div">내 달리기</div>
       <RouterLink class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId" :to="{
         name: 'myrunDetail',
         params: {
@@ -24,15 +24,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router'
-import { useRunningDataStore } from '@/stores/runningDataStore.js'
 import axios from 'axios';
+import { useGpsStore } from '@/stores/gpsStore.js';
+const gpsStore = useGpsStore();
 const boardDto = ref([])
-const runningDataStore = useRunningDataStore();
 let isFetching = false;
 let hasMoreData = true;
 const boardSearchDto = ref({
-  page: 1,
-});
+    page: 1,
+    userId: 0,
+    orderInt: 3,
+  });
 
 function infinityScroll(e) {
   // console.dir(e);
@@ -44,6 +46,9 @@ function infinityScroll(e) {
   }
 }
 
+onMounted(() => {
+  getRunningBoardList();
+});
 const getRunningBoardList = async () => {
   isFetching = true;
   try {
@@ -81,20 +86,11 @@ const getRunningBoardList = async () => {
     isFetching = false;
   }
 }
-
-// onmount
 window.addEventListener('scroll', infinityScroll);
-// onMounted(() => {
-//   if(!runningDataStore.boardDto.value) {
-//     getRunningBoardList();
-//   }
-// });
-onMounted(() => {
-  getRunningBoardList();
-});
 
 onBeforeRouteLeave((to, from, next) => {
   window.removeEventListener('scroll', infinityScroll); // 이벤트 리스너 해제
+  boardSearchDto.value.page = 1;
   next(); // 이동을 계속함
 });
 
@@ -105,6 +101,7 @@ onBeforeRouteLeave((to, from, next) => {
 .myrun * {
   box-sizing: border-box;
 }
+
 .myrun {
   background: #ffffff;
   display: flex;
@@ -115,6 +112,7 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   overflow: hidden;
 }
+
 .feed-container {
   padding: 10px;
   display: flex;
@@ -127,6 +125,7 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   overflow: hidden;
 }
+
 .div {
   color: #000000;
   text-align: left;
@@ -136,6 +135,7 @@ onBeforeRouteLeave((to, from, next) => {
   font-weight: 400;
   position: relative;
 }
+
 .feed {
   padding: 10px;
   display: flex;
@@ -148,6 +148,7 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   overflow: hidden;
 }
+
 .main-image {
   background: var(--var-sds-color-background-default-default, #ffffff);
   border-radius: var(--var-sds-size-radius-200, 8px);
@@ -165,11 +166,10 @@ onBeforeRouteLeave((to, from, next) => {
   min-width: 240px;
   position: relative;
 }
+
 .image {
-  background: var(
-    --image-placeholder,
-    linear-gradient(to left, #ffffff, #ffffff)
-  );
+  background: var(--image-placeholder,
+      linear-gradient(to left, #ffffff, #ffffff));
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -182,6 +182,7 @@ onBeforeRouteLeave((to, from, next) => {
   overflow: hidden;
   object-fit: contain;
 }
+
 .content {
   border-radius: 8px;
   border-style: solid;
@@ -198,6 +199,7 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   overflow: hidden;
 }
+
 .div2 {
   color: #000000;
   text-align: left;
@@ -208,8 +210,4 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   align-self: stretch;
 }
-
-
-
-
 </style>
