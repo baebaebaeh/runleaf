@@ -28,6 +28,10 @@
             <div>createdTs: {{ c.createdTs }}</div>
           </div>
         </div>
+        <div class="upordel">
+          <img class="x-square" src="@/assets/images/icons/delete-board.PNG" />
+          <img class="plus-square" src="@/assets/images/icons/edit-board.png" />
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +74,7 @@ findDetailById();
 .content-detail * {
   box-sizing: border-box;
 }
+
 .content-detail {
   background: #ffffff;
   display: flex;
@@ -81,6 +86,7 @@ findDetailById();
   position: relative;
   overflow: hidden;
 }
+
 .feed-container {
   padding: 10px;
   display: flex;
@@ -93,6 +99,7 @@ findDetailById();
   position: relative;
   overflow: hidden;
 }
+
 .div {
   color: #000000;
   text-align: left;
@@ -102,6 +109,7 @@ findDetailById();
   font-weight: 400;
   position: relative;
 }
+
 .feed {
   padding: 10px;
   display: flex;
@@ -114,6 +122,7 @@ findDetailById();
   position: relative;
   overflow: hidden;
 }
+
 .map-container {
   background: var(--var-sds-color-background-default-default, #ffffff);
   border-radius: var(--var-sds-size-radius-200, 8px);
@@ -132,11 +141,10 @@ findDetailById();
   min-width: 240px;
   position: relative;
 }
+
 .image {
-  background: var(
-    --image-placeholder,
-    linear-gradient(to left, #e3e3e3, #e3e3e3)
-  );
+  background: var(--image-placeholder,
+      linear-gradient(to left, #e3e3e3, #e3e3e3));
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -148,6 +156,7 @@ findDetailById();
   overflow: hidden;
   object-fit: cover;
 }
+
 .image-container {
   background: var(--var-sds-color-background-default-default, #ffffff);
   border-radius: var(--var-sds-size-radius-200, 8px);
@@ -165,11 +174,10 @@ findDetailById();
   min-width: 240px;
   position: relative;
 }
+
 .image2 {
-  background: var(
-    --image-placeholder,
-    linear-gradient(to left, #e3e3e3, #e3e3e3)
-  );
+  background: var(--image-placeholder,
+      linear-gradient(to left, #e3e3e3, #e3e3e3));
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -182,6 +190,7 @@ findDetailById();
   overflow: hidden;
   object-fit: cover;
 }
+
 .content {
   border-radius: 8px;
   border-style: solid;
@@ -198,6 +207,7 @@ findDetailById();
   position: relative;
   overflow: hidden;
 }
+
 .div2 {
   color: #000000;
   text-align: left;
@@ -208,7 +218,29 @@ findDetailById();
   position: relative;
   align-self: stretch;
 }
-
-
-
+.upordel {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.x-square {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  overflow: visible;
+}
+.plus-square {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  overflow: visible;
+}
 </style>

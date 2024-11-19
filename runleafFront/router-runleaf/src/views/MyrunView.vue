@@ -32,7 +32,7 @@ let isFetching = false;
 let hasMoreData = true;
 const boardSearchDto = ref({
     page: 1,
-    userId: 0,
+    username: "bae9954@naver.com",
     orderInt: 3,
   });
 

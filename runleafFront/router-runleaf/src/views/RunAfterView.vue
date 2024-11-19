@@ -85,7 +85,7 @@ const boardDto = ref({
   title: '',
   content: '',
   mainImagePath: '1',
-  writer: '1',
+  writer: 'bae9954@naver.com',
   onBoard: false,
 })
 let formData = new FormData();

@@ -16,4 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
 	    		.addResourceLocations("file:///c:/SSAFY/assets/icons/");
 //	    .addResourceLocations("file:///Users/baehanjin/SSAFY/assets/icons/");
 	}
+	
+	
 }
