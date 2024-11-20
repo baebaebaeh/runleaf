@@ -128,6 +128,20 @@ public class MemberController {
 		memberService.edit(editReqeust);
 	}
 	
+	// 프로필 수정
+	@PutMapping("/profile")
+	public ResponseEntity<?> editProfile(@RequestParam("profileImage") MultipartFile file) {
+		System.out.println("서버 들어옴");
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		try {
+            // 이미지 저장 및 URL 반환
+            String filePath = memberService.editProfile(file, username);
+            return ResponseEntity.ok(Map.of("filePath", filePath));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 실패");
+        }
+	}
+	
 	// 회원 삭제
 	@DeleteMapping("/member/{id}")
 	public void remove(@PathVariable("id") int id) {

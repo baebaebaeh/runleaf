@@ -83,7 +83,6 @@ export const useMemberStore = defineStore('member', () => {
 
   const editMember = async () => {
     try {
-      console.log(memberEditForm.value)
       const token = sessionStorage.getItem('token');
       const response = await axios.put('/api/member', memberEditForm.value, {
         headers: {
@@ -100,6 +99,25 @@ export const useMemberStore = defineStore('member', () => {
     }
   };
 
-  return { router, formData, memberInfoForm, memberJoinForm, memberEditForm, updateJoinForm, updateEditForm, addFile, submitJoinForm, getMember, editMember };
+  const uploadMemberImage = async (formData) => {
+    try {
+      console.log('업로드할 formData:', formData);
+      const token = sessionStorage.getItem('token');
+      const response = await axios.put('/api/profile', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization: `Bearer ${token}`,
+      },
+      });
+      // 서버에서 새로운 이미지 URL을 응답받아 상태를 업데이트
+      memberInfoForm.memberFileUrl = response.data.filePath;
+      return response.data;
+    } catch (error) {
+      console.error('이미지 업로드 에러:', error);
+      throw new Error('프로필 이미지 업로드에 실패했습니다.');
+    }
+  }
+
+  return { router, formData, memberInfoForm, memberJoinForm, memberEditForm, updateJoinForm, updateEditForm, addFile, submitJoinForm, getMember, editMember, uploadMemberImage };
 }
 );

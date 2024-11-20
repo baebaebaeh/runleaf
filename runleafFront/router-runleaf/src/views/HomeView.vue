@@ -29,7 +29,7 @@ import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
 const gpsStore = useGpsStore();
 const boardDto = ref([])
-console.log(sessionStorage.getItem('token'));
+// console.log(sessionStorage.getItem('token'));
 let isFetching = false;
 let hasMoreData = true;
 function infinityScroll(e) {
@@ -44,7 +44,7 @@ onMounted(() => {
   getRunningBoardList();
 });
 
-// 
+
 watch(
   () => gpsStore.boardSearchDto.orderInt,
   (newVal, oldVal) => {
@@ -61,7 +61,7 @@ const getRunningBoardList = async () => {
   isFetching = true;
   try {
     const token = sessionStorage.getItem('token');
-    console.log(gpsStore.boardSearchDto);
+    // console.log(gpsStore.boardSearchDto);
     const { data } = await axios.get("/api/running/list", {
       params: gpsStore.boardSearchDto,
       // headers: {
