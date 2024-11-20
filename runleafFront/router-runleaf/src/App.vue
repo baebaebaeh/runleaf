@@ -5,8 +5,10 @@
 
 <script setup>
 import TheHeaderNav from './components/common/TheHeaderNav.vue';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import '@/assets/styles/base.css'
+router.push('/home'); // 다음 경로로 이동
 </script>
 
 <style scoped>

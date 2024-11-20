@@ -2,7 +2,7 @@
   <div class="menu">
     <div class="feed-container">
       <div class="div">피드</div>
-      <RouterLink class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId" :to="{
+      <div class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId" :to="{
         name: 'myrunDetail',
         params: {
           id: runningBoard.runningBoardId,
@@ -16,24 +16,22 @@
             <div class="div2">난이도 : {{ runningBoard.difficulty }}</div>
           </div>
         </div>
-      </RouterLink>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
 
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { onBeforeRouteLeave } from 'vue-router'
+import { onBeforeRouteLeave, RouterLink } from 'vue-router'
 import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
 const gpsStore = useGpsStore();
 const boardDto = ref([])
+console.log(sessionStorage.getItem('token'));
 let isFetching = false;
 let hasMoreData = true;
-
-
 function infinityScroll(e) {
   if (document.body.scrollHeight - window.innerHeight - document.documentElement.scrollTop < 100) {
     if (!isFetching && hasMoreData) {
@@ -59,12 +57,16 @@ watch(
 );
 
 
-
 const getRunningBoardList = async () => {
   isFetching = true;
   try {
-    const { data } = await axios.get("/api/running", {
+    const token = sessionStorage.getItem('token');
+    console.log(gpsStore.boardSearchDto);
+    const { data } = await axios.get("/api/running/list", {
       params: gpsStore.boardSearchDto,
+      // headers: {
+      //   'authorization': `Bearer ${token}`,
+      // },
     });
     if (data.length == 0) {
       hasMoreData = false;
@@ -98,13 +100,9 @@ const getRunningBoardList = async () => {
   }
 }
 
-// onmount
+
 window.addEventListener('scroll', infinityScroll);
-// onMounted(() => {
-//   if(!runningDataStore.boardDto.value) {
-//     getRunningBoardList();
-//   }
-// });
+
 
 onBeforeRouteLeave((to, from, next) => {
   window.removeEventListener('scroll', infinityScroll); // 이벤트 리스너 해제
@@ -228,6 +226,4 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   align-self: stretch;
 }
-
-
 </style>
