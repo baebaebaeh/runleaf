@@ -28,10 +28,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //request에서 Authorization 헤더를 찾음
         String authorization = request.getHeader("authorization");
-
         //authorization 헤더 검증
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
 
+        if (authorization == null || !authorization.startsWith("Bearer ") || authorization.split(" ")[1].equals("null")) {
             filterChain.doFilter(request, response);
 
             //조건이 해당되면 메소드 종료 (필수)

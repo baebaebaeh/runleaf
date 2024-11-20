@@ -15,7 +15,7 @@ export const useGpsStore = defineStore('gps', () => {
   const cnt = ref(0);
   const boardSearchDto = ref({
     page: 1,
-    username: 'bae9954@naver.com',
+    username: '',
     orderInt: 2,
     latitude: -1,
     longitude: -1,
