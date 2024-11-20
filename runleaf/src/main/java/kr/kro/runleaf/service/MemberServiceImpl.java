@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
+import kr.kro.runleaf.dto.MemberEditRequest;
 import kr.kro.runleaf.dto.MemberResponse;
 import kr.kro.runleaf.repository.MemberRepository;
 
@@ -50,12 +51,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		Member member = memberRepository.selectMemberByUsername(username);
 		
-		System.out.println(member);
-		
 		MemberFile memberFile = memberRepository.selectMemberFileByMemberId(member.getId()); // 파일이 없을 경우 null 처리
 		
 		MemberResponse memberResponse = new MemberResponse(member);
-		String fileUrl = memberFile.getFilePath() + "/" + memberFile.getSystemName();
+		String fileUrl = memberFile.getFilePath();
 		memberResponse.setMemberFileUrl(fileUrl);
 		
 		return memberResponse;
@@ -63,8 +62,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	@Transactional
-	public void edit(Member member) {
-		memberRepository.updateMember(member);
+	public void edit(MemberEditRequest editReqeust) {
+		memberRepository.updateMember(editReqeust);
 	}
 
 	@Override

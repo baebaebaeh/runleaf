@@ -102,7 +102,7 @@ const checkUsername = async () => {
 const saveInfoAndNext = () => {
   console.log(isUsernameChecked.value)
   if (validateInfo() && isUsernameChecked.value) {
-    memberStore.updateMemberInfo(member.value);
+    memberStore.updateJoinForm(member.value);
     router.push('/join/profile'); // 다음 경로로 이동
   } else if (!isUsernameChecked.value) {
     errors.value.username = '아이디 중복 검사를 해주세요.'

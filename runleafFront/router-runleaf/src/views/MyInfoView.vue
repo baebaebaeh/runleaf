@@ -1,16 +1,12 @@
 <template>
     <div class="container">
         <div class="frame-44">
-            <div class="div2">내 정보</div>
-            <div class="edit-info">
-                <RouterLink :to="{ name: 'memberEdit' }">변경</RouterLink>
-            </div>
+            <div class="title">내 정보</div>
+            <RouterLink :to="{ name: 'editMember' }" class="edit-info">변경</RouterLink>
         </div>
         <div class="frame-48">
-            <div class="frame-9">
-                <div class="user-circle-1">
-                    <img class="vector" :src="store.member.memberFileUrl" />
-                </div>
+            <div class="profile">
+                <img class="vector" :src="`/api/uploads/${memberStore.memberInfoForm.memberFileUrl}`" />
             </div>
         </div>
         <div class="frame-462">
@@ -18,7 +14,7 @@
                 <div class="div4">아이디</div>
             </div>
             <div class="frame-47">
-                <div class="my-info">{{ store.member.username }}</div>
+                    <div class="my-info">{{ memberStore.memberInfoForm.username }}</div>
             </div>
         </div>
         <div class="frame-462">
@@ -26,7 +22,7 @@
                 <div class="div4">이메일</div>
             </div>
             <div class="frame-47">
-                <div class="my-info">{{ store.member.email }}</div>
+                <div class="my-info">{{ memberStore.memberInfoForm.email }}</div>
             </div>
         </div>
         <div class="frame-472">
@@ -34,11 +30,10 @@
                 <div class="div4">연락처</div>
             </div>
             <div class="frame-47">
-                <div class="my-info">{{ store.member.phone }}</div>
+                <div class="my-info">{{ memberStore.memberInfoForm.phone }}</div>
             </div>
         </div>
     </div>
-
 </template>
 
 <script setup>
@@ -46,14 +41,13 @@ import { useMemberStore } from '@/stores/member';
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const store = useMemberStore();
+const memberStore = useMemberStore();
 const route = useRoute();
 const router = useRouter();
 
 onMounted(() => {
-    store.getMember()
+    memberStore.getMember();
 })
-
 </script>
 
 <style scoped>
@@ -61,103 +55,123 @@ onMounted(() => {
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: center; /* 중앙 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    height: 640px;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
     position: relative;
     overflow: hidden;
-    padding-top: 80px;
+    padding-top: 60px;
 }
 
 .frame-44 {
-    padding: 10px 0;
     display: flex;
     flex-direction: row;
-    align-items: center; /* 세로 중앙 정렬 */
-    justify-content: center; /* 기본 중앙 정렬 */
-    width: 90%; /* 적당한 너비 설정 */
-    max-width: 500px; /* 최대 너비 제한 */
-    position: relative; /* "변경"을 오른쪽 끝에 배치하기 위해 relative 사용 */
+    align-items: center;
+    justify-content: space-between;
+    width: 85%;
+    max-width: 400px;
+    position: relative;
 }
 
-.div2 {
+.title {
     color: #000000;
     font-family: "Inter-SemiBold", sans-serif;
-    font-size: 24px;
-    line-height: 140%;
+    font-size: 25px;
+    line-height: 130%;
     font-weight: 600;
-    position: absolute; /* 중앙 고정 */
-    left: 50%; /* 왼쪽 기준으로 50% 이동 */
-    transform: translateX(-50%); /* 정확히 가운데 정렬 */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
 }
 
 .edit-info {
-    color: #777777;
+    color: #5c5c5c;
     font-family: "Inter-Regular", sans-serif;
-    font-size: 18px;
-    line-height: 140%;
+    font-size: 19px;
+    line-height: 130%;
     font-weight: 400;
     text-align: right;
-    margin-left: auto; /* 오른쪽 정렬 */
-    position: absolute; /* 버튼 고정 */
-    right: 0; /* 부모 요소의 오른쪽 끝으로 고정 */
+    margin-left: auto;
+    position: relative;
 }
 
 .frame-48 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* 중앙 정렬 */
-    width: 90%;
-    max-width: 150px;
-    padding: 80px;
+    justify-content: center;
+    width: 85%;
+    max-width: 120px;
+    padding: 60px;
 }
 
-.user-circle-1 {
-    width: 150px;
-    height: 150px;
+.profile {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    background: #f0f0f0; /* 기본 배경색 추가 */
+    background: #ffffff;
     display: flex;
-    align-items: center; /* 이미지가 중앙에 배치되도록 */
+    align-items: center;
     justify-content: center;
     overflow: hidden;
+    cursor: pointer;
 }
 
-.frame-462, .frame-472 {
+.vector {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.frame-462,
+.frame-472 {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between; /* 양쪽 정렬 */
-    width: 90%;
-    max-width: 450px;
-    padding: 15px 5px;
+    justify-content: space-between;
+    width: 85%;
+    max-width: 400px;
+    padding: 10px 5px;
     border-bottom: 1px solid #e3dfdf;
 }
 
-.div4, .my-info {
+.div4,
+.my-info {
     color: #000000;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
-    font-size: 18px;
-    line-height: 140%;
+    font-size: 16px;
+    line-height: 130%;
     font-weight: 400;
 }
 
-.my-info {
-    text-align: right; /* 오른쪽 정렬 */
-    color: #9c9c9c;
-    font-size: 20px;
+.info-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 20px;
 }
 
-.edit-info a {
-    color: #bdbdbd;
+.my-info {
+    font-size: 18px;
+    color: #9c9c9c;
+    margin-bottom: 5px;
+}
+
+.edit-info {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 18px;
+    color: #333333;
     text-decoration: none;
 }
 
-.edit-info a:hover {
-    color: #747474;
+.edit-info:hover {
+    color: #868686;
 }
 </style>

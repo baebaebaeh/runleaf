@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
+import kr.kro.runleaf.dto.MemberEditRequest;
 import kr.kro.runleaf.dto.MemberResponse;
 import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.service.MemberService;
@@ -61,41 +62,34 @@ public class MemberController {
 			return ResponseEntity.badRequest().body(errors);
 		}
 
+		MemberFile memberFile = new MemberFile();
 		try {
 			String orgName;
 			File savedFile;
-
+			String subDir;
+			String systemName;
 			// 기본 이미지 설정
 			if (file == null || file.isEmpty()) {
 				orgName = "profile-default.png";
-				// 서버 내 기본 이미지 파일 경로 설정
-				File defaultFile = ResourceUtils.getFile("c:/SSAFY/uploads/default/profile-default.png");
-
+				systemName = orgName;
 				// 기본 이미지를 저장할 위치에 복사
-				String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
-				File dir = new File("c:/SSAFY/uploads" + subDir);
-				dir.mkdirs();
-
-				String systemName = UUID.randomUUID().toString() + "_" + orgName;
-				savedFile = new File(dir, systemName);
-				Files.copy(defaultFile.toPath(), savedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				subDir = "uploads/default";
 			} else {
 				// 사용자 업로드 이미지 처리
 				orgName = file.getOriginalFilename();
-				String subDir = new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
-				File dir = new File("c:/SSAFY/uploads" + subDir);
+				subDir = "uploads" + new SimpleDateFormat("/yyyy/MM/dd/HH").format(new Date());
+				File dir = new File("c:/SSAFY/" + subDir);
 				dir.mkdirs();
 
-				String systemName = UUID.randomUUID().toString() + "_" + orgName;
+				systemName = UUID.randomUUID().toString() + "_" + orgName;
 				savedFile = new File(dir, systemName);
 				file.transferTo(savedFile);
 			}
 
 			// 파일 정보 세팅
-			MemberFile memberFile = new MemberFile();
-			memberFile.setFilePath(savedFile.getParent()); // 파일 경로
+			memberFile.setFilePath(subDir + "/" + systemName); // 파일 경로
 			memberFile.setOrgName(orgName); // 원본 파일명
-			memberFile.setSystemName(savedFile.getName()); // 시스템 저장 파일명
+			memberFile.setSystemName(systemName); // 시스템 저장 파일명
 			member.setMemberFile(memberFile);
 
 			if (memberService.join(member)) {
@@ -110,7 +104,7 @@ public class MemberController {
 
 	// 아이디 중복 검사
 	@GetMapping("/check")
-	public ResponseEntity<Boolean>  checkUsername(@RequestParam String username) {
+	public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
 		boolean isExists = memberService.existsByUsername(username);
 		return new ResponseEntity<>(isExists, HttpStatus.OK);
 	}
@@ -122,7 +116,6 @@ public class MemberController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		MemberResponse memberResponse = memberService.findOne(username);
-		System.out.println(memberResponse);
 		if (memberResponse == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
@@ -130,9 +123,9 @@ public class MemberController {
 	}
 
 	// 회원 수정
-	@PutMapping("/member/{id}")
-	public void edit(@PathVariable("id") int id, @RequestBody Member memberDto) {
-		memberService.edit(memberDto);
+	@PutMapping("/member")
+	public void edit(@RequestBody MemberEditRequest editReqeust) {
+		memberService.edit(editReqeust);
 	}
 	
 	// 회원 삭제

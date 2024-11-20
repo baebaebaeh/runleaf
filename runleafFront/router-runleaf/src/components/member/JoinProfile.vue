@@ -11,7 +11,6 @@
                 <div class="profile-container" @click="triggerFileInput">
                     <img :src="previewImage || defaultProfileImage" alt="프로필 사진" class="image-profile" />
                 </div>
-                <!-- 파일 선택 input 요소 (화면에서는 숨김 처리) -->
                 <input type="file" ref="fileInput" class="file-input" @change="onFileChange" style="display: none" />
                 <button class="complete-button" @click="saveAndSubmit">완료</button>
             </div>
@@ -22,7 +21,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useMemberStore } from '@/stores/member';
-import defaultProfileImage from '@/assets/images/join/profile-default.png'; // 기본 프로필 이미지를 import
+import defaultProfileImage from '@/assets/images/profile-default.png'; // 기본 프로필 이미지를 import
 
 
 const memberStore = useMemberStore();

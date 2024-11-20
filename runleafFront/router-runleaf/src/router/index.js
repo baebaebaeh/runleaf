@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
-import MemberEdit from '@/components/member/MemberEdit.vue'
 import LoginView from '@/views/LoginView.vue'
 import MenuView from '@/views/MenuView.vue'
 import HomeView from '@/views/HomeView.vue'
@@ -11,6 +10,7 @@ import MyrunDetailView from '@/views/MyrunDetailView.vue'
 import RunningView from '@/views/RunningView.vue'
 import RunAfterView from '@/views/RunAfterView.vue'
 import MyInfoView from '@/views/MyInfoView.vue'
+import EditMember from '@/components/member/EditMember.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,9 +73,9 @@ const router = createRouter({
       component: MyInfoView,
     },
     {
-      path: '/member/edit',
-      name: 'memberEdit',
-      component: MemberEdit
+      path: '/edit/member',
+      name: 'editMember',
+      component: EditMember
     },
   ],
 });
