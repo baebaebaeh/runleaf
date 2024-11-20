@@ -15,7 +15,7 @@ export const useGpsStore = defineStore('gps', () => {
   const cnt = ref(0);
   const boardSearchDto = ref({
     page: 1,
-    userId: -1,
+    username: 'bae9954@naver.com',
     orderInt: 2,
     latitude: -1,
     longitude: -1,
@@ -25,7 +25,7 @@ export const useGpsStore = defineStore('gps', () => {
       navigator.geolocation.getCurrentPosition((position) => {
         boardSearchDto.value.latitude = position.coords.latitude;
         boardSearchDto.value.longitude = position.coords.longitude;
-        console.log(boardSearchDto.value);
+        // console.log(boardSearchDto.value);
       }, showError);
     }
   }

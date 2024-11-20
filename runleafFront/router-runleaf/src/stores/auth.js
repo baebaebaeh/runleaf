@@ -19,8 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
             if (tokenValue) {
                 const accessToken = tokenValue.split(' ')[1]; // 'Bearer {token}' 형태에서 {token} 부분만 추출
                 sessionStorage.setItem('token', accessToken);  // 토큰을 sessionStorage에 저장
-                console.log('로그인 성공! 토큰 저장됨:', token);
-                const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));  // 토큰을 디코딩하여 사용자 정보 추출
+                // const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));  // 토큰을 디코딩하여 사용자 정보 추출
                 // console.log(decodedToken.username)
                 // username.value = decodedToken.username;
 
@@ -30,7 +29,6 @@ export const useAuthStore = defineStore('auth', () => {
                 // 로그인 성공 후 메인 페이지로 리디렉션
                 router.push('/');
             } else {
-                console.error('토큰이 응답 헤더에 없습니다.');
                 router.push({ name: 'login' });
             }
         } catch (err) {

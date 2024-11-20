@@ -20,4 +20,6 @@ public interface MemberRepository {
 	void updateMember(Member member);
 
 	void deleteMember(int id);
+
+	MemberFile selectMemberFileByMemberId(int id);
 }

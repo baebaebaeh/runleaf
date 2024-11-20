@@ -9,8 +9,16 @@
         <div class="frame-48">
             <div class="frame-9">
                 <div class="user-circle-1">
-                    <img class="vector" :src="member.memberFile" />
+                    <img class="vector" :src="store.member.memberFileUrl" />
                 </div>
+            </div>
+        </div>
+        <div class="frame-462">
+            <div class="frame-46">
+                <div class="div4">아이디</div>
+            </div>
+            <div class="frame-47">
+                <div class="my-info">{{ store.member.username }}</div>
             </div>
         </div>
         <div class="frame-462">
@@ -18,7 +26,7 @@
                 <div class="div4">이메일</div>
             </div>
             <div class="frame-47">
-                <div class="email">{{ store.member.email }}</div>
+                <div class="my-info">{{ store.member.email }}</div>
             </div>
         </div>
         <div class="frame-472">
@@ -26,7 +34,7 @@
                 <div class="div4">연락처</div>
             </div>
             <div class="frame-47">
-                <div class="phone">{{ store.member.phone }}</div>
+                <div class="my-info">{{ store.member.phone }}</div>
             </div>
         </div>
     </div>
@@ -129,7 +137,7 @@ onMounted(() => {
     border-bottom: 1px solid #e3dfdf;
 }
 
-.div4, .email, .phone {
+.div4, .my-info {
     color: #000000;
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
@@ -138,7 +146,7 @@ onMounted(() => {
     font-weight: 400;
 }
 
-.email, .phone {
+.my-info {
     text-align: right; /* 오른쪽 정렬 */
     color: #9c9c9c;
     font-size: 20px;

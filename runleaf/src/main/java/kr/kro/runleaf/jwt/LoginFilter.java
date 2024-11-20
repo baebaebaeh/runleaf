@@ -1,7 +1,6 @@
 package kr.kro.runleaf.jwt;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Iterator;
@@ -49,12 +48,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 			throw new RuntimeException(e);
 		}
 
-		// 클라이언트의 요청에서 userName(id), password 추출
 		String username = loginDTO.getUsername();
 		String password = loginDTO.getPassword();
-
-		System.out.println(username);
-		System.out.println(password);
 
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
 				null);

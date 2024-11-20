@@ -81,7 +81,7 @@
 				order by created_ts desc
 			</when>
 			<when test="orderInt == 3">
-				WHERE member_id = #{userId}
+				WHERE writer = #{username}
 				order by created_ts desc
 			</when>
 		</choose>

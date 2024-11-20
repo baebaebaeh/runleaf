@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.RunningBoardImage;
+import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.service.RunningDataService;
@@ -38,10 +39,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/running")
 public class RunningBoardController {
 	private final RunningDataService runningBoardService;
-	public RunningBoardController(RunningDataService runningDataService) {
+	private final JWTUtil jwtUtil;
+	
+	public RunningBoardController(RunningDataService runningDataService, JWTUtil jwtUtil) {
 		this.runningBoardService = runningDataService;
+		this.jwtUtil = jwtUtil;
 	}
-
+	
+	
+	
 	@GetMapping
 	public ResponseEntity<List<RunningBoard>> getRunningBoardList(@ModelAttribute BoardSearch boardSearch) {
 		ResponseEntity<List<RunningBoard>> responseEntity;

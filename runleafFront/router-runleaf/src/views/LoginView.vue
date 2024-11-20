@@ -39,39 +39,39 @@ const login = function () {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 200px;
+  padding-top: 180px; 
   height: 100vh;
 }
 
 .login-card {
-  padding: 20px;
-  width: 280px;
-  max-width: 400px;
+  padding: 30px; 
+  width: 320px; 
+  max-width: 450px;
 }
 
 .login-title {
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 26px;
+  margin-bottom: 30px;
 }
 
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 5px; 
 }
 
 .input-group label {
   display: block;
-  font-size: 14px;
+  font-size: 16px; 
   color: #555;
-  margin-bottom: 5px;
+  margin-bottom: 8px; 
 }
 
 .input-group input {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
+  padding: 12px; 
+  font-size: 18px; 
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px; 
   box-sizing: border-box;
 }
 
@@ -82,25 +82,25 @@ const login = function () {
 
 .error-message {
   color: #fd6c6c;
-  font-size: 14px;
-  margin-bottom: 10px;
+  font-size: 15px; 
+  margin-bottom: 12px; 
 }
 
 .login-button {
+  margin-top: 5px;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #c9c9c9;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 6px; 
+  font-size: 18px; 
   cursor: pointer;
 }
 
 .login-button:hover {
   color: white;
   background-color: #a0a0a0;
-  
 }
 
 .login-button:disabled {
@@ -110,11 +110,12 @@ const login = function () {
 
 .signup-link {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 20px; 
 }
 
 .signup-link a {
   color: #bdbdbd;
+  font-size: 16px; 
   text-decoration: none;
 }
 
@@ -122,4 +123,5 @@ const login = function () {
   text-decoration: underline;
   color: #747474;
 }
+
 </style>
