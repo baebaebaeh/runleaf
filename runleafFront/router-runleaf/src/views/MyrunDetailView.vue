@@ -4,14 +4,14 @@
     <div class="feed">
       <div class="map-container">
         <div class="div">지도</div>
-        <img class="image" src="`@/assets/images/icons/image.png`" />
+        <ChildComponent v-if="isMapMount" class="image" :coodinate="coodinate" />
+        <!-- <img class="image" src="`@/assets/images/icons/image.png`" /> -->
       </div>
       <div class="image-container">
         <div class="div">사진들</div>
         <img v-for="(image, index) in boardDetailImage" :key="image.runningBoardImageId" class="image"
           :src="`/api/uploads/${image.path}${image.systemName}`" />
-        <img v-if="boardDetailImage.length == 0" class="image"
-          :src="`/api/uploads/uploads/defaultimg/abcd.png`" />
+        <img v-if="boardDetailImage.length == 0" class="image" :src="`/api/uploads/uploads/defaultimg/abcd.png`" />
         <div class="content">
           <div class="div2">제목 : {{ boardDetail.title }}</div>
           <div class="div2">내용 : {{ boardDetail.content }}</div>
@@ -53,10 +53,12 @@
 </template>
 
 <script setup>
+import ChildComponent from "./NaverMapTESTView.vue"
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRunningDataStore } from '@/stores/runningDataStore';
+const isMapMount = ref(false);
 const runningDataStore = useRunningDataStore();
 const boardDetail = ref({});
 const boardDetailImage = ref([]);
@@ -64,13 +66,20 @@ const coodinate = ref([]);
 const route = useRoute();
 const router = useRouter();
 const id = Number(route.params.id);
+watch(() => coodinate,
+  (newCood) => {
+    isMapMount.value = true;
+    console.log(isMapMount.value)
+  },
+  { deep: true }
+);
 const deleteBoard = async () => {
   tempSaveBoard();
   const confirmed = confirm("정말로 삭제하시겠습니까?");
   if (confirmed) {
     const token = sessionStorage.getItem('token');
     await axios.delete(`/api/running/${id}`, {
-      params: runningDataStore.updateBoardImageDto,
+      data: runningDataStore.updateBoardImageDto,
       headers: {
         'authorization': `Bearer ${token}`,
       },

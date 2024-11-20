@@ -12,10 +12,12 @@ import RunAfterView from '@/views/RunAfterView.vue'
 import MyInfoView from '@/views/MyInfoView.vue'
 import EditMember from '@/components/member/EditMember.vue'
 import MyrunUpdateView from '@/views/MyrunUpdateView.vue'
+import NaverMapTESTView from '@/views/NaverMapTESTView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+
     {
       path: '/menu',
       name: 'menu',
@@ -35,6 +37,13 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'myrunDetail',
       component: MyrunDetailView,
+      children: [
+        {
+          path: '',
+          name: 'test',
+          component: NaverMapTESTView,
+        },
+      ]
     },
     {
       path: '/update/:id',
