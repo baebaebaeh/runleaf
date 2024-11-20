@@ -25,6 +25,7 @@ export const useGpsStore = defineStore('gps', () => {
       navigator.geolocation.getCurrentPosition((position) => {
         boardSearchDto.value.latitude = position.coords.latitude;
         boardSearchDto.value.longitude = position.coords.longitude;
+        // console.log(boardSearchDto.value);
       }, showError);
     }
   }

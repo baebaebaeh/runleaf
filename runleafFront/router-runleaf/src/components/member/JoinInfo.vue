@@ -2,12 +2,8 @@
   <div class="main-container">
     <div class="form-container">
       <div class="header-container">
-        <RouterLink to="/">
-          <img class="image-arrow" src="@/assets/images/icons8-arrow-30.png" alt="다음 아이콘">
-        </RouterLink>
         <div class="div2">회원가입</div>
       </div>
-  
       <label for="username" class="label">아이디*</label>
       <div class="input-username">
         <input type="text" id="username" name="username" v-model="member.username" class="input-field"
@@ -90,7 +86,7 @@ const checkUsername = async () => {
     return; 
   }
   try {
-    const response = await axios.get(`/api/member/check?username=${member.value.username}`);
+    const response = await axios.get(`/api/check?username=${member.value.username}`);
     if (response.data) {
       errors.value.username = '이미 사용 중인 아이디입니다.';
     } else {
@@ -106,7 +102,7 @@ const checkUsername = async () => {
 const saveInfoAndNext = () => {
   console.log(isUsernameChecked.value)
   if (validateInfo() && isUsernameChecked.value) {
-    memberStore.updateMemberInfo(member.value);
+    memberStore.updateJoinForm(member.value);
     router.push('/join/profile'); // 다음 경로로 이동
   } else if (!isUsernameChecked.value) {
     errors.value.username = '아이디 중복 검사를 해주세요.'
@@ -121,27 +117,25 @@ const saveInfoAndNext = () => {
   justify-content: center; 
   align-items: center;     
   min-height: 100vh;       
-  padding: 20px;
   box-sizing: border-box;
+  padding-top: 100px;
 }
 
-/* form-container 요소를 가운데 정렬하고, 왼쪽 정렬 */
 .form-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* 내부 콘텐츠는 왼쪽 정렬 */
   background: #ffffff;
-  padding-bottom: 300px;
-  width: 400px;
-  max-width: 600px;
+  padding-bottom: 320px; 
+  width: 440px; 
+  max-width: 640px;
   box-sizing: border-box;
 }
 
 .header-container {
-  display: block;
-  align-items: center;
-  margin-bottom: 20px;
+  width: 100%;
+  margin: 20px;
+  text-align: center;
 }
 
 .input-username {
@@ -150,27 +144,20 @@ const saveInfoAndNext = () => {
   width: 100%;
 }
 
-.image-arrow {
-  display: inline-flex;
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-}
-
 .div2 {
   color: #000000;
   font-family: "Inter-SemiBold", sans-serif;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 600;
 }
 
 .label {
   color: #000000;
   font-family: "Inter-Regular", sans-serif;
-  font-size: 14px;
+  font-size: 16px; 
   font-weight: 400;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .input-field {
@@ -178,19 +165,19 @@ const saveInfoAndNext = () => {
   border-radius: 5px;
   border: 1px solid #aeaeae;
   width: 100%;
-  height: 50px;
-  padding: 10px;
-  font-size: 14px;
+  height: 55px; 
+  padding: 12px; 
+  font-size: 16px; 
   box-sizing: border-box;
-  margin-top: 5px;
+  margin-top: 10px; /* 간격 증가 */
 }
 
 .check-button {
-  width: 100px;
-  height: 50px;
+  width: 120px; /* 버튼 크기 증가 */
+  height: 55px; /* 버튼 높이 증가 */
   margin-top: 8px;
-  margin-left: 5px;
-  padding: 8px 12px;
+  margin-left: 8px; /* 간격 증가 */
+  padding: 10px 14px; /* 내부 여백 증가 */
   background-color: #d1d1d1;
   color: white;
   border: none;
@@ -205,11 +192,11 @@ const saveInfoAndNext = () => {
 .next-button {
   background: #d1d1d1;
   width: 100%;
-  height: 55px;
-  margin-top: 20px;
+  height: 60px; /* 높이 증가 */
+  margin-top: 25px; /* 간격 증가 */
   color: #ffffff;
   font-family: "Inter-SemiBold", sans-serif;
-  font-size: 16px;
+  font-size: 18px; /* 폰트 크기 증가 */
   font-weight: 600;
   text-align: center;
   border: none;
@@ -223,5 +210,6 @@ const saveInfoAndNext = () => {
 
 .error-text {
   color: #fd6c6c;
+  font-size: 14px; 
 }
 </style>

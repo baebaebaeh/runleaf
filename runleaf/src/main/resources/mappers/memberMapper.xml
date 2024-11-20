@@ -4,63 +4,75 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.kro.runleaf.repository.MemberRepository">
-	
+
 	<!-- 회원 가입 -->
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO member(
-		username, password, email, phone, role
+		username,
+		password, email, phone, role
 		) VALUES (
-		#{username}, #{password}, #{email}, #{phone}, #{role}
+		#{username}, #{password},
+		#{email}, #{phone}, #{role}
 		)
 	</insert>
-	
+
 	<!-- 아이디 중복 체크 -->
-    <select id="existsByUsername" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM member WHERE username = #{username}
-    </select>
-	
+	<select id="existsByUsername" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) FROM member WHERE username = #{username}
+	</select>
+
 	<!-- 회원 이미지 등록 -->
 	<insert id="insertMemberFile" parameterType="MemberFile">
-		INSERT INTO member_file (file_path, org_name, system_name, member_id)
-		VALUES ( #{filePath}, #{orgName}, #{systemName}, #{memberId})
+		INSERT INTO
+		member_file (file_path, org_name, system_name, member_id)
+		VALUES (
+		#{filePath}, #{orgName}, #{systemName}, #{memberId})
 	</insert>
-	
+
 	<!-- 회원 조회(username) -->
-	<select id="selectMemberByUsername" parameterType="String" resultType="kr.kro.runleaf.domain.Member">
-		SELECT username, password, email, phone, role
+	<select id="selectMemberByUsername" parameterType="String"
+		resultType="kr.kro.runleaf.domain.Member">
+		SELECT id, username, password, email, phone, role
 		FROM member
 		WHERE username = #{username}
 	</select>
 
 	<!-- 회원 조회(id) -->
-	<!-- <select id="selectMemberById" parameterType="int" resultType="kr.kro.runleaf.domain.Member">
-		SELECT nickname, email, phone
-		FROM member
-		WHERE id = #{id}
-	</select> -->
-	
+	<!-- <select id="selectMemberById" parameterType="int" resultType="kr.kro.runleaf.domain.Member"> 
+		SELECT nickname, email, phone FROM member WHERE id = #{id} </select> -->
+
 	<!-- 회원번호 조회 -->
 	<select id="getMemberId" parameterType="String" resultType="int">
 		SELECT id
 		FROM member
 		WHERE username = #{username}
 	</select>
-	
+
+	<!-- 회원 이미지 조회 -->
+	<select id="selectMemberFileByMemberId" parameterType="int" resultType="kr.kro.runleaf.domain.MemberFile">
+		SELECT id,
+			member_id AS memberId,
+			file_path AS filePath,
+			org_name AS orgName,
+			system_name AS systemName
+		FROM member_file
+		WHERE member_id = #{id}
+	</select>
+
 	<!-- 회원 수정 -->
-	<update id="updateMember" parameterType="Member">
+	<update id="updateMember" parameterType="kr.kro.runleaf.dto.MemberEditRequest">
 		UPDATE member
 		SET
-		username = #{username},
-		password = #{password},
 		email = #{email},
-		phone = #{phone},
-		member_image = #{memberImage}
-		WHERE id = #{id}
+		phone = #{phone}
+		WHERE username = #{username}
 	</update>
-	
+
 	<!-- 회원 삭제 -->
 	<delete id="deleteMember" parameterType="int">
 		DELETE FROM book
-		WHERE id = #{id}
-	</delete>	
+		WHERE id
+		= #{id}
+	</delete>
 </mapper>

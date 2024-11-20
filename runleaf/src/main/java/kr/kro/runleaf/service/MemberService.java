@@ -1,14 +1,16 @@
 package kr.kro.runleaf.service;
 
 import kr.kro.runleaf.domain.Member;
+import kr.kro.runleaf.dto.MemberEditRequest;
+import kr.kro.runleaf.dto.MemberResponse;
 
 public interface MemberService {
 
 	boolean join(Member member);
 
-	Member findOne(String username);
+	MemberResponse findOne(String username);
 
-	void edit(Member member);
+	void edit(MemberEditRequest editRequest);
 
 	void remove(int id);
 
