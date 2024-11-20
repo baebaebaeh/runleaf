@@ -31,6 +31,8 @@ public interface RunningDataService {
 
 	List<Location> getRunningBoardLocationList(int runningBoardId);
 
+	int deleteRunningBoardImage(int runningBoardId);
 
+	int deleteRunningBoard(int runningBoardId);
 
 }

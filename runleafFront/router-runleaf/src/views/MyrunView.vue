@@ -15,6 +15,7 @@
             <div class="div2">내용 : {{ runningBoard.content }}</div>
             <div class="div2">난이도 : {{ runningBoard.difficulty }}</div>
           </div>
+
         </div>
       </RouterLink>
     </div>
@@ -23,9 +24,10 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { onBeforeRouteLeave } from 'vue-router'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
+const router = useRouter();
 const gpsStore = useGpsStore();
 const boardDto = ref([])
 let isFetching = false;
@@ -54,7 +56,7 @@ const getRunningBoardList = async () => {
   const token = sessionStorage.getItem('token');
   try {
     console.log(boardSearchDto.value);
-    const { data } = await axios.get("/api/running", {
+    const { data } = await axios.get("/api/running/myrun", {
       params: boardSearchDto.value,
       headers: {
         'authorization': `Bearer ${token}`,
@@ -86,7 +88,8 @@ const getRunningBoardList = async () => {
       boardSearchDto.value.page += 1;
     }
   } catch (error) {
-    console.log(boardSearchDto.value.page);
+    alert("로그인이후 사용하실 수 있습니다.");
+    router.push({name: 'home'});
   } finally {
     isFetching = false;
   }

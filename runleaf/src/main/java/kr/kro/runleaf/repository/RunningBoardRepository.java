@@ -29,11 +29,15 @@ public interface RunningBoardRepository {
 	
 	int updateRunningBoardMainPath(RunningBoard runningBoard);
 	
-	int deleteRunningBoard(int runningBoardId);
-
 	int insertLocation(Location location);
 
 	List<Location> selectRunningBoardCoodinate(int runningBoardId);
+
+	int deleteRunningBoard(int runningBoardId);
+
+	int deleteRunningBoardImage(int runningBoardId);
+
+	int deleteRunningCoodinate(int runningBoardId);
 
 	
 	

@@ -67,6 +67,21 @@ public class RunningDataServiceImpl implements RunningDataService {
 		List<Location> location = runningBoardRepository.selectRunningBoardCoodinate(runningBoardId);
 		return location;
 	}
+	@Override
+	public int deleteRunningBoardImage(int runningBoardId) {
+		int count = runningBoardRepository.deleteRunningBoardImage(runningBoardId);
+		return count;
+	}
+	@Override
+	public int deleteRunningBoard(int runningBoardId) {
+		
+		
+		runningBoardRepository.deleteRunningCoodinate(runningBoardId);
+		int tmp = runningBoardRepository.deleteRunningBoardImage(runningBoardId);
+		System.out.println(tmp);
+		int count = runningBoardRepository.deleteRunningBoard(runningBoardId);
+		return count;
+	}
 	
 
 }

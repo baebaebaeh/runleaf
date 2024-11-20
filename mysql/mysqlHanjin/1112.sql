@@ -1,4 +1,4 @@
--- DROP database IF EXISTS runleaf;
+DROP database IF EXISTS runleaf;
 CREATE DATABASE runleaf DEFAULT CHARACTER SET utf8mb4;
 use runleaf;
 create table running_board (
@@ -24,8 +24,6 @@ create table running_board_image (
     system_name varchar(300),
     path varchar(300),
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 );
 create table running_coordinate (
 	running_coordinate_id int AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +32,6 @@ create table running_coordinate (
     longitude DOUBLE,
     created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
-    on delete cascade
 );
 CREATE TABLE `Member` (
 	`id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,11 +50,16 @@ CREATE TABLE `member_file` (
 	`member_id`	varchar(50)	NOT NULL
 );
 
+
+
+
+
+
+
 select *
 from running_board;
 select *
 from Member;
-
 select *
 from running_board_image;
 select *

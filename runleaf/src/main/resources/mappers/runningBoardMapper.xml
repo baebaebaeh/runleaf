@@ -104,14 +104,18 @@
 				r.content,
 				r.main_image_path,
 				r.writer,
-				r.on_board,
+				r.on_board
+				<!-- 
 				i.running_board_image_id,
 				i.running_board_id AS i_running_board_id,
 				i.ori_name,
 				i.system_name,
 				i.path
+				 -->
 		FROM running_board r
+		<!-- 
 		JOIN running_board_image i on r.running_board_id = i.running_board_id
+		 -->
 		WHERE r.running_board_id = #{runningBoardId}
 	</select>
 	
@@ -220,6 +224,16 @@
 	
 	<delete id="deleteRunningBoard" parameterType="int">
 		DELETE FROM running_board
+		WHERE running_board_id = #{runningBoardId}
+	</delete>
+	
+	<delete id="deleteRunningBoardImage" parameterType="int">
+		DELETE FROM running_board_image
+		WHERE running_board_id = #{runningBoardId}
+	</delete>
+	
+	<delete id="deleteRunningCoodinate" parameterType="int">
+		DELETE FROM running_coordinate
 		WHERE running_board_id = #{runningBoardId}
 	</delete>
 </mapper>

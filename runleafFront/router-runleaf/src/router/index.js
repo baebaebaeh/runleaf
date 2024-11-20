@@ -11,6 +11,7 @@ import MyrunDetailView from '@/views/MyrunDetailView.vue'
 import RunningView from '@/views/RunningView.vue'
 import RunAfterView from '@/views/RunAfterView.vue'
 import MyInfoView from '@/views/MyInfoView.vue'
+import MyrunUpdateView from '@/views/MyrunUpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'myrunDetail',
       component: MyrunDetailView,
+    },
+    {
+      path: '/update/:id',
+      name: 'myrunUpdate',
+      component: MyrunUpdateView,
     },
     {
       path: '/run',

@@ -10,10 +10,13 @@
         <div class="div">사진들</div>
         <img v-for="(image, index) in boardDetailImage" :key="image.runningBoardImageId" class="image"
           :src="`/api/uploads/${image.path}${image.systemName}`" />
+        <img v-if="boardDetailImage.length == 0" class="image"
+          :src="`/api/uploads/uploads/defaultimg/abcd.png`" />
         <div class="content">
           <div class="div2">제목 : {{ boardDetail.title }}</div>
           <div class="div2">내용 : {{ boardDetail.content }}</div>
           <div class="div2">난이도 : {{ boardDetail.difficulty }}</div>
+          <div class="div2">onBoard : {{ boardDetail.onBoard }}</div>
           <div class="div2">startRunningTs : {{ boardDetail.startRunningTs }}</div>
           <div class="div2">endRunningTs : {{ boardDetail.endRunningTs }}</div>
           <div class="div2">startLatitude : {{ boardDetail.startLatitude }}</div>
@@ -21,7 +24,6 @@
           <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
           <div class="div2">modifiedTs : {{ boardDetail.modifiedTs }}</div>
           <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
-          <div class="div2">onBoard : {{ boardDetail.onBoard }}</div>
           <div class="div2">writer : {{ boardDetail.writer }}</div>
           <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
             <div>latitude: {{ c.latitude }}</div>
@@ -30,8 +32,17 @@
           </div>
         </div>
         <div class="upordel">
-          <img class="x-square" src="@/assets/images/icons/delete-board.PNG" />
-          <img class="plus-square" src="@/assets/images/icons/edit-board.png" />
+          <RouterLink @click="tempSaveBoard()" :to="{
+            name: 'myrunUpdate',
+            params: {
+              id: id,
+            }
+          }">
+            <img class="edit-board" src="@/assets/images/icons/edit-board.png" />
+          </RouterLink>
+          <button @click="deleteBoard()">
+            <img class="delete-board" src="@/assets/images/icons/delete-board.png" />
+          </button>
         </div>
       </div>
     </div>
@@ -42,28 +53,53 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { ref } from 'vue';
+import { useRunningDataStore } from '@/stores/runningDataStore';
+const runningDataStore = useRunningDataStore();
 const boardDetail = ref({});
 const boardDetailImage = ref([]);
 const coodinate = ref([]);
 const route = useRoute();
+const router = useRouter();
 const id = Number(route.params.id);
+const deleteBoard = async () => {
+  tempSaveBoard();
+  const confirmed = confirm("정말로 삭제하시겠습니까?");
+  if (confirmed) {
+    const token = sessionStorage.getItem('token');
+    await axios.delete(`/api/running/${id}`, {
+      params: runningDataStore.updateBoardImageDto,
+      headers: {
+        'authorization': `Bearer ${token}`,
+      },
+    });
+    router.push({ name: 'myrun' });
+    return
+  } else {
+    return
+  }
+}
 const findDetailById = async () => {
   const { data } = await axios.get(`/api/running/board/${id}`);
   boardDetail.value = data;
+  console.log(data);
 }
 const findDetailImageById = async () => {
   const { data } = await axios.get(`/api/running/image/${id}`);
   boardDetailImage.value = data;
-
+  console.log(data);
 }
 const findDetailCoodinateById = async () => {
   const { data } = await axios.get(`/api/running/coodinate/${id}`);
   console.log(data)
   coodinate.value = data;
-
+}
+const tempSaveBoard = () => {
+  runningDataStore.updateBoardDto = boardDetail.value;
+  runningDataStore.updateBoardImageDto = boardDetailImage.value;
+  runningDataStore.coodinate = coodinate.value;
 }
 findDetailCoodinateById();
 findDetailImageById();
@@ -219,6 +255,8 @@ findDetailById();
   position: relative;
   align-self: stretch;
 }
+
+
 .upordel {
   padding: 5px;
   display: flex;
@@ -230,17 +268,19 @@ findDetailById();
   position: relative;
   overflow: hidden;
 }
-.x-square {
+
+.edit-board {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   position: relative;
   overflow: visible;
 }
-.plus-square {
+
+.delete-board {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   position: relative;
   overflow: visible;
 }
