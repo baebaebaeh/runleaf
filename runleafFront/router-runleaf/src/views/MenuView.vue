@@ -1,6 +1,7 @@
 <template>
   <div class="menu">
     <div class="menu-container">
+
       <RouterLink class="home-bar" :to="{ name: 'home' }">
         <div class="home-logo">
           <img class="home-img" src="`@/assets/images/icons/home-img.svg`" />

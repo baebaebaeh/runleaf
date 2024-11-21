@@ -261,9 +261,24 @@ public class RunningBoardController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> deleteRunningBoard(
 			@PathVariable("id") int runningBoardId,
-			@RequestBody RunningBoardImage runningBoardImage,
+			@RequestBody List<RunningBoardImage> runningBoardImage,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		System.out.println(runningBoardId);
+		System.out.println(runningBoardImage);
+		// 진짜 이미지 제거
+		for (int i = 0; i < runningBoardImage.size(); i++) {
+			String realPath = "C:/SSAFY/" + runningBoardImage.get(i).getPath() + runningBoardImage.get(i).getSystemName();
+			System.out.println("진짜패스" + realPath);
+			File file = new File(realPath);
+			try {
+				if (file.exists()) {
+					file.delete();				
+				}				
+			} catch (Exception e) {
+				System.out.println("파일을 지우지 못했습니다");
+			}
+		}
+		
 		// 아직 글쓴이와 삭제하려는 유저가 같은지 확인하는 작업을 하지 않음
 		ResponseEntity<Integer> responseEntity;
 		int count = runningBoardService.deleteRunningBoard(runningBoardId);
