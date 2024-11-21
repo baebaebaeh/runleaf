@@ -1,8 +1,8 @@
 <template>
   <div class="nav">
-    <RouterLink class="menu-bar" :to="{ name: 'menu' }">
+    <button @click="toggleMenu" class="menu-bar">
       <img class="menu-img" src="`@/assets/images/icons/menu-img.svg`" />
-    </RouterLink>
+    </button>
     <RouterLink class="logo-bar" :to="{ name: 'home' }">
       <img class="feather-img" src="`@/assets/images/icons/feather-img.svg`" />
     </RouterLink>
@@ -23,9 +23,16 @@
 
 <script setup>
 import { useGpsStore } from '@/stores/gpsStore.js'
+import { useMenuStore } from '@/stores/menu';
 import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter();
+
+const toggleMenu = () => {
+  menuStore.toggleMenu();  // 메뉴 보이기/숨기기 토글
+};
+
+const menuStore = useMenuStore(); // 메뉴 store 사용
 const gpsStore = useGpsStore();
 const isModal = ref(false);
 const orderString = ref()

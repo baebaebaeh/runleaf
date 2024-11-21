@@ -134,7 +134,7 @@ const logout = () => {
   flex-direction: column;
   gap: 0px;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   min-height: 1000px;
   position: relative;
   overflow: hidden;

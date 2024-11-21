@@ -58,7 +58,7 @@ onMounted(() => {
     height: 600px;
     position: relative;
     overflow: hidden;
-    padding-top: 60px;
+    padding-top: 150px;
 }
 
 .frame-44 {
