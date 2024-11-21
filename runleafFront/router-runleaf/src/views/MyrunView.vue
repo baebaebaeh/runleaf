@@ -55,13 +55,13 @@ const getRunningBoardList = async () => {
   isFetching = true;
   const token = sessionStorage.getItem('token');
   try {
-    console.log(boardSearchDto.value);
     const { data } = await axios.get("/api/running/myrun", {
       params: boardSearchDto.value,
       headers: {
         'authorization': `Bearer ${token}`,
       },
     });
+    console.log(data)
     if (data.length == 0) {
       hasMoreData = false;
     } else {

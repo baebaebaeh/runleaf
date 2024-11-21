@@ -30,7 +30,12 @@ import { useRouter } from "vue-router";
 const tempx = ref();
 const tempy = ref();
 const router = useRouter();
-
+// Helper functions
+const timestamp = ref(0);
+const initialSamples = ref([]); // 초기 데이터를 저장할 배열
+const initialized = ref(false); // 초기화 상태
+// Vuex Store
+const gpsStore = useGpsStore();
 // Initialize Math.js
 const math = create(all);
 
@@ -73,13 +78,8 @@ const H = math.matrix([
   [0, 1, 0, 0],
 ]); // Observation matrix
 
-// Vuex Store
-const gpsStore = useGpsStore();
 
-// Helper functions
-const timestamp = ref(0);
-const initialSamples = ref([]); // 초기 데이터를 저장할 배열
-const initialized = ref(false); // 초기화 상태
+
 
 // 칼만 필터 로직
 const kalmanFilter = (z, dt) => {

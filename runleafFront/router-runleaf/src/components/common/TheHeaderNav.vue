@@ -83,7 +83,10 @@ const closeModal = () => {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
-
+.nav {
+  display: flex;
+  justify-content: center;
+}
 .nav-bar {
   display: flex;
   justify-content: center;

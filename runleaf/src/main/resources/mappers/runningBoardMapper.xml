@@ -67,10 +67,10 @@
 				writer,
 				on_board,
 				ST_Distance_Sphere(
-					POINT(start_longitude, start_latitude),
+					POINT(b.start_longitude, b.start_latitude),
 					POINT(#{longitude}, #{latitude})
 				) AS distance
-			FROM running_board
+			FROM running_board b
 		<choose>
 			<when test="orderInt == 1">
 				WHERE on_board = 1
