@@ -109,6 +109,7 @@ const saveAndSubmit = async () => {
     width: 150px;
     height: 150px;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .complete-button {

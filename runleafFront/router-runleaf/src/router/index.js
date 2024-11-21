@@ -3,7 +3,6 @@ import JoinView from '@/views/JoinView.vue'
 import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
 import LoginView from '@/views/LoginView.vue'
-import MenuView from '@/views/MenuView.vue'
 import HomeView from '@/views/HomeView.vue'
 import MyrunView from '@/views/MyrunView.vue'
 import MyrunDetailView from '@/views/MyrunDetailView.vue'
@@ -17,12 +16,6 @@ import NaverMapTESTView from '@/views/NaverMapTESTView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-
-    {
-      path: '/menu',
-      name: 'menu',
-      component: MenuView,
-    },
     {
       path: '/',
       name: 'home',

@@ -14,16 +14,18 @@
             </div>
 
             <!-- 회원 정보 입력 -->
-            <label for="username" class="label">아이디</label>
-            <input type="text" id="username" v-model="editForm.username" class="input-field-username" disabled />
+            <div class="info-container">
+                <label for="username" class="label">아이디</label>
+                <input type="text" id="username" v-model="editForm.username" class="input-field-username" disabled />
 
-            <label for="email" class="label">이메일</label>
-            <input type="email" id="email" v-model="editForm.email" class="input-field" />
+                <label for="email" class="label">이메일</label>
+                <input type="email" id="email" v-model="editForm.email" class="input-field" />
 
-            <label for="phone" class="label">연락처</label>
-            <input type="tel" id="phone" v-model="editForm.phone" class="input-field"
-                placeholder="( - )을 제외하고 입력해주세요." />
-            <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
+                <label for="phone" class="label">연락처</label>
+                <input type="tel" id="phone" v-model="editForm.phone" class="input-field"
+                    placeholder="( - )을 제외하고 입력해주세요." />
+                <span v-if="errors.phone" class="error-text">{{ errors.phone }}</span>
+            </div>
 
             <button @click="saveChanges" class="save-button">저장</button>
         </div>
@@ -126,15 +128,18 @@ onMounted(() => {
 .main-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    /* 프로필을 상단에 위치 */
     min-height: 100vh;
     box-sizing: border-box;
+    padding-top: 100px;
 }
 
 .form-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    /* 폼 자체를 중앙에 정렬 */
     background: #ffffff;
     padding: 40px 20px;
     width: 440px;
@@ -158,6 +163,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* 프로필 사진을 중앙 정렬 */
     gap: 10px;
     margin: 20px 0;
 }
