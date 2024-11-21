@@ -19,13 +19,23 @@ public class RunningBoard {
 	private String writer;
 	private boolean onBoard;
 	private List<RunningBoardImage> runningBoardImage;
+	private List<Location> location;
 	public RunningBoard() {
 		// TODO Auto-generated constructor stub
 	}
+
+	public List<Location> getLocation() {
+		return location;
+	}
+
+	public void setLocation(List<Location> location) {
+		this.location = location;
+	}
+
 	public RunningBoard(int runningBoardId, int memberId, int difficulty, LocalDateTime startRunningTs,
 			LocalDateTime endRunningTs, double startLatitude, double startLongitude, LocalDateTime createdTs,
 			LocalDateTime modifiedTs, String title, String content, String mainImagePath, String writer,
-			boolean onBoard, List<RunningBoardImage> runningBoardImage) {
+			boolean onBoard, List<RunningBoardImage> runningBoardImage, List<Location> location) {
 		super();
 		this.runningBoardId = runningBoardId;
 		this.memberId = memberId;
@@ -42,7 +52,9 @@ public class RunningBoard {
 		this.writer = writer;
 		this.onBoard = onBoard;
 		this.runningBoardImage = runningBoardImage;
+		this.location = location;
 	}
+
 	public int getRunningBoardId() {
 		return runningBoardId;
 	}
@@ -133,6 +145,7 @@ public class RunningBoard {
 	public void setRunningBoardImage(List<RunningBoardImage> runningBoardImage) {
 		this.runningBoardImage = runningBoardImage;
 	}
+
 	@Override
 	public String toString() {
 		return "RunningBoard [runningBoardId=" + runningBoardId + ", memberId=" + memberId + ", difficulty="
@@ -140,8 +153,9 @@ public class RunningBoard {
 				+ ", startLatitude=" + startLatitude + ", startLongitude=" + startLongitude + ", createdTs=" + createdTs
 				+ ", modifiedTs=" + modifiedTs + ", title=" + title + ", content=" + content + ", mainImagePath="
 				+ mainImagePath + ", writer=" + writer + ", onBoard=" + onBoard + ", runningBoardImage="
-				+ runningBoardImage + "]";
+				+ runningBoardImage + ", location=" + location + "]";
 	}
+
 	
 	
 	

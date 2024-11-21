@@ -20,6 +20,12 @@ public class RunningDataServiceImpl implements RunningDataService {
 	@Override
 	public List<RunningBoard> getRunningBoardList(BoardSearch boardSearch) {
 		List<RunningBoard> list = runningBoardRepository.selectRunningBoardList(boardSearch);
+		for (int i = 0; i < list.size(); i++) {
+			int runningBoardId = list.get(i).getRunningBoardId();
+			list.get(i).setRunningBoardImage(runningBoardRepository.selectRunningBoardImageList(runningBoardId));
+			list.get(i).setLocation(runningBoardRepository.selectRunningBoardCoodinate(runningBoardId));
+		}
+		list.size();
 		return list;
 	}
 	@Override
