@@ -2,8 +2,6 @@ package kr.kro.runleaf.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,21 +10,13 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +27,6 @@ import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
 import kr.kro.runleaf.dto.MemberEditRequest;
 import kr.kro.runleaf.dto.MemberResponse;
-import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.service.MemberService;
 
 @RestController
@@ -128,9 +117,23 @@ public class MemberController {
 		memberService.edit(editReqeust);
 	}
 	
-	// 회원 삭제
-	@DeleteMapping("/member/{id}")
-	public void remove(@PathVariable("id") int id) {
-		memberService.remove(id);
+	// 프로필 수정
+	@PutMapping("/profile")
+	public ResponseEntity<?> editProfile(@RequestParam("profileImage") MultipartFile file) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		try {
+            // 이미지 저장 및 URL 반환
+            String filePath = memberService.editProfile(file, username);
+            return ResponseEntity.ok(Map.of("filePath", filePath));
+        } catch (Exception e) {
+        	e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 실패");
+        }
 	}
+	
+	// 회원 삭제
+//	@DeleteMapping("/member")
+//	public void remove() {
+//		memberService.remove(id);
+//	}
 }

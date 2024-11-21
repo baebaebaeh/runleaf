@@ -39,11 +39,8 @@
 <script setup>
 import { useMemberStore } from '@/stores/member';
 import { onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 
 const memberStore = useMemberStore();
-const route = useRoute();
-const router = useRouter();
 
 onMounted(() => {
     memberStore.getMember();
@@ -87,7 +84,7 @@ onMounted(() => {
 }
 
 .edit-info {
-    color: #5c5c5c;
+    color: #919191;
     font-family: "Inter-Regular", sans-serif;
     font-size: 19px;
     line-height: 130%;
@@ -116,7 +113,6 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    cursor: pointer;
 }
 
 .vector {
@@ -162,16 +158,7 @@ onMounted(() => {
     margin-bottom: 5px;
 }
 
-.edit-info {
-    position: absolute;
-    top: -25px;
-    right: 0;
-    font-size: 18px;
-    color: #333333;
-    text-decoration: none;
-}
-
 .edit-info:hover {
-    color: #868686;
+    color: #4d4d4d;
 }
 </style>

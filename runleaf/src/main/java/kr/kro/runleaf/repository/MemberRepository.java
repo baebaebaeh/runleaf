@@ -12,15 +12,15 @@ public interface MemberRepository {
 
 	int existsByUsername(String username);
 	
-//	Member selectMemberById(int id);
-	
+	int getMemberId(String username);
+
 	Member selectMemberByUsername(String username);
 	
-	int getMemberId(String username);
+	MemberFile selectMemberFileByMemberId(int memberId);
 
 	void updateMember(MemberEditRequest editRequest);
 
-	void deleteMember(int id);
+	void updateMemberFile(MemberFile memberFile);
 
-	MemberFile selectMemberFileByMemberId(int id);
+//	void deleteMember(int id);
 }

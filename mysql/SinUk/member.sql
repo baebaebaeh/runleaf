@@ -1,6 +1,6 @@
 -- 1. Member 테이블 생성
 CREATE TABLE member (
-    id int AUTO_INCREMENT PRIMARY KEY,
+    member_id int AUTO_INCREMENT PRIMARY KEY,
     username varchar(30) NOT NULL UNIQUE,
     password varchar(100) NOT NULL,
     email varchar(50) NOT NULL,
@@ -10,13 +10,13 @@ CREATE TABLE member (
 
 -- 2. MemberFile 테이블 생성
 CREATE TABLE member_file (
-    id int AUTO_INCREMENT PRIMARY KEY,
-    file_path varchar(50) NOT NULL,
+    member_file_id int AUTO_INCREMENT PRIMARY KEY,
+    file_path varchar(100) NOT NULL,
     org_name varchar(30) NULL,
-    system_name varchar(255) NULL,
+    system_name varchar(50) NULL,
     member_id INT
 );
 
 -- 3. 외래 키 제약 조건 추가
 ALTER TABLE member_file
-ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(id);
+ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(member_id);

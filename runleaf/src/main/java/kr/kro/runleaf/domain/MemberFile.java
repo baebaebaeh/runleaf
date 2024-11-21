@@ -2,17 +2,18 @@ package kr.kro.runleaf.domain;
 
 public class MemberFile {
 	
-	private int id;
+	private int memberFileId;
 	private String filePath;
 	private String orgName;
 	private String systemName;
 	private int memberId;
 	
-	public int getId() {
-		return id;
+
+	public int getMemberFileId() {
+		return memberFileId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setMemberFileId(int memberFileId) {
+		this.memberFileId = memberFileId;
 	}
 	public String getFilePath() {
 		return filePath;
@@ -40,7 +41,7 @@ public class MemberFile {
 	}
 	@Override
 	public String toString() {
-		return "MemberFile [id=" + id + ", filePath=" + filePath + ", orgName=" + orgName + ", systemName=" + systemName
+		return "MemberFile [memberFileId=" + memberFileId + ", filePath=" + filePath + ", orgName=" + orgName + ", systemName=" + systemName
 				+ ", memberId=" + memberId + "]";
 	}
 }
