@@ -1,102 +1,93 @@
 <template>
   <TheHeaderNav />
   <div class="main-container">
-    <div class="menu" :class="{ 'menu-visible': menuStore.isMenuVisible }">
+    <div v-if="menuStore.isMenuVisible" class="side-bar-overlay" @click="menuStore.hideMenu"></div>
+    <div class="side-bar" :class="{ 'side-bar-visible': menuStore.isMenuVisible }">
+      <div class="member-container" v-if="isLoggedIn">
+        <div class="profile-image">
+          <img :src="authStore.profileImage || defaultProfileImage" alt="Profile Image" />
+        </div>
+        <div class="profile-info">
+          <div class="username">{{ authStore.username }}</div>
+          <div class="stats">
+            <span>팔로잉: {{ authStore.following }}</span>
+            <span>팔로워: {{ authStore.followers }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="member-container" v-else>
+        <p>로그인이 필요합니다.</p>
+      </div>
       <div class="menu-container">
-  
-        <RouterLink class="home-bar" :to="{ name: 'home' }">
-          <div class="home-logo">
-            <img class="home-img" src="`@/assets/images/icons/home-img.svg`" />
+        <RouterLink class="menu-item" :to="{ name: 'home' }">
+          <div class="menu-logo">
+            <img class="menu-img" src="@/assets/images/icons/home-img.svg" />
           </div>
-          <div class="home-text">
-            <div class="home-txt">홈</div>
-          </div>
+          <div class="menu-text">홈</div>
         </RouterLink>
-        <div class="write-bar">
-          <div class="write-logo">
-            <img class="plus-circle" src="`@/assets/images/icons/plus-circle.svg`" />
+
+        <div class="menu-item">
+          <div class="menu-logo">
+            <img class="menu-img" src="@/assets/images/icons/plus-circle.svg" />
           </div>
-          <div class="write-text">
-            <div class="home-txt">글쓰기</div>
-          </div>
+          <div class="menu-text">글쓰기</div>
         </div>
-        <RouterLink class="run-bar" :to="{ name: 'running' }">
-          <div class="run-logo">
-            <img class="play" src="`@/assets/images/icons/play.svg`" />
+
+        <RouterLink class="menu-item" :to="{ name: 'running' }">
+          <div class="menu-logo">
+            <img class="menu-img" src="@/assets/images/icons/play.svg" />
           </div>
-          <div class="run-text">
-            <div class="home-txt">달리기 시작</div>
-          </div>
+          <div class="menu-text">달리기 시작</div>
         </RouterLink>
-        <RouterLink class="myrun-bar" :to="{ name: 'myrun' }">
-          <div class="myrun-logo">
-            <img class="myrun-img" src="`@/assets/images/icons/myrun-img.svg`" />
+
+        <RouterLink class="menu-item" :to="{ name: 'myrun' }">
+          <div class="menu-logo">
+            <img class="menu-img" src="@/assets/images/icons/myrun-img.svg" />
           </div>
-          <div class="myrun-text">
-            <div class="myrun-txt">내 달리기</div>
-          </div>
+          <div class="menu-text">내 달리기</div>
         </RouterLink>
-        <div class="challenge-bar">
-          <div class="challenge-logo">
-            <img class="challenge-img" src="`@/assets/images/icons/challenge-img.svg`" />
+
+        <div class="menu-item">
+          <div class="menu-logo">
+            <img class="menu-img" src="@/assets/images/icons/challenge-img.svg" />
           </div>
-          <div class="challenge-text">
-            <div class="challenge-txt">챌린지</div>
-          </div>
+          <div class="menu-text">챌린지</div>
         </div>
-        <div class="mychallenge-bar">
-          <div class="mychallenge-logo">
-            <img class="challenge-img2" src="`@/assets/images/icons/challenge-img.svg`" />
-          </div>
-          <div class="mychallenge-text">
-            <div class="challenge-txt">내 챌린지</div>
-          </div>
-        </div>
-  
-        <!-- 로그인된 경우 -->
-        <div v-if="isLoggedIn">
-          <RouterLink :to="{ name: 'myInfo' }">
-            <div class="myinfo-bar">
-              <div class="myinfo-logo">
-                <img class="myinfo-img" src="`@/assets/images/icons/myinfo-img.svg`" />
-              </div>
-              <div class="myinfo-text">
-                <div class="myinfo-txt">내 정보</div>
-              </div>
+
+        <!-- 로그인 후 -->
+        <div v-if="isLoggedIn" class="menu-group">
+          <RouterLink class="menu-item" :to="{ name: 'myInfo' }">
+            <div class="menu-logo">
+              <img class="menu-img" src="@/assets/images/icons/myinfo-img.svg" />
             </div>
+            <div class="menu-text">내 정보</div>
           </RouterLink>
-          <div class="logout" @click="logout">
-            <div class="myinfo-logo">
-              <img class="myinfo-img" src="`@/assets/images/icons/logout.png`" />
+
+          <div class="menu-item" @click="logout">
+            <div class="menu-logo">
+              <img class="menu-img" src="@/assets/images/icons/logout.png" />
             </div>
-            <div class="myinfo-text">
-              <div class="myinfo-txt">로그아웃</div>
-            </div>
+            <div class="menu-text">로그아웃</div>
           </div>
         </div>
-        <!-- 로그인되지 않은 경우 -->
-        <div v-else>
-          <RouterLink :to="{ name: 'joinInfo' }" class="nav-link">
-            <div class="myinfo-bar">
-              <div class="myinfo-logo">
-                <img class="myinfo-img" src="`@/assets/images/icons/join.png`" />
-              </div>
-              <div class="myinfo-text">
-                <div class="myinfo-txt">회원가입</div>
-              </div>
+
+        <!-- 로그인 전 -->
+        <div v-else class="menu-group">
+          <RouterLink class="menu-item" :to="{ name: 'joinInfo' }">
+            <div class="menu-logo">
+              <img class="menu-img" src="@/assets/images/icons/join.png" />
             </div>
+            <div class="menu-text">회원가입</div>
           </RouterLink>
-          <RouterLink :to="{ name: 'login' }" class="nav-link">
-            <div class="myinfo-bar">
-              <div class="myinfo-logo">
-                <img class="myinfo-img" src="`@/assets/images/icons/login.png`" />
-              </div>
-              <div class="myinfo-text">
-                <div class="myinfo-txt">로그인</div>
-              </div>
+
+          <RouterLink class="menu-item" :to="{ name: 'login' }">
+            <div class="menu-logo">
+              <img class="menu-img" src="@/assets/images/icons/login.png" />
             </div>
+            <div class="menu-text">로그인</div>
           </RouterLink>
         </div>
+
       </div>
     </div>
     <div class="content" :class="{ 'menu-active': menuStore.isMenuVisible }">
@@ -108,24 +99,23 @@
 <script setup>
 import TheHeaderNav from './components/common/TheHeaderNav.vue';
 import { useRouter } from 'vue-router';
-
-import '@/assets/styles/base.css'
 import { useAuthStore } from './stores/auth';
 import { useMenuStore } from './stores/menu';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const menuStore = useMenuStore(); // 메뉴 store 사용
+const menuStore = useMenuStore();
 
 router.push('/home'); // 다음 경로로 이동
 
 const isLoggedIn = authStore.isLoggedIn;
 
+const defaultProfileImage = '@/assets/images/icons/default-profile.png';
+
 const logout = () => {
   authStore.logout();
-}
+};
 
-// 페이지 이동 시 메뉴 숨기기
 router.afterEach(() => {
   menuStore.hideMenu();
 });
@@ -136,576 +126,123 @@ router.afterEach(() => {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: none;
   text-decoration: none;
-  background: none;
-  -webkit-font-smoothing: antialiased;
 }
 
-.menu,
-.menu * {
-  box-sizing: border-box;
-}
-
-.menu {
+.side-bar {
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
   justify-content: center;
-  min-height: 1000px;
-  position: relative;
-  overflow: hidden;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 240px;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
-
-  position: fixed;
   z-index: 1000;
 }
 
-.menu-visible {
+.side-bar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 어두운 반투명 배경 */
+  z-index: 999;
+  /* 메뉴 뒤, 콘텐츠 앞 */
+}
+
+.side-bar-visible {
   transform: translateX(0);
 }
 
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-bottom: dashed 1px  #cccccc;
+}
+
+.profile-image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.stats span {
+  display: block;
+  margin-top: 2px;
+}
+
 .menu-container {
   display: flex;
   flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  gap: 10px;
 }
 
 .menu-item {
-  background: #ffffff;
   display: flex;
-  flex-direction: row;
-  gap: 0px;
   align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
+  padding: 11px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.menu-item:hover {
+  background: #e0e0e0;
 }
 
 .menu-logo {
-  padding: 20px 19px;
+  width: 40px;
+  height: 40px;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.menu-text {
-  padding: 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav {
-  padding: 30px 0px 0px 0px;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: flex-end;
   justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 126px;
-  position: relative;
-  overflow: hidden;
-}
-
-.menu-bar {
-  padding: 11px 0px 11px 23px;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
   align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 108px;
-  height: 77px;
-  position: relative;
-  overflow: hidden;
 }
 
 .menu-img {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  position: relative;
-  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-.logo-bar {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  height: 77px;
-  position: relative;
-  overflow: hidden;
+.menu-text {
+  font-size: 14px;
+  font-family: "Inter-Regular", sans-serif;
+  color: #000000;
+  margin-left: 10px;
 }
 
-.feather-img {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  position: relative;
-  overflow: visible;
-}
-
-.mypage-bar {
-  padding: 11px 23px 11px 0px;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-end;
-  flex-shrink: 0;
-  width: 108px;
-  height: 77px;
-  position: relative;
-  overflow: hidden;
-}
-
-.smile-img {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  position: relative;
-  overflow: visible;
-}
-
-.menu-container {
+.menu-group {
   display: flex;
   flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.home-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.home-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
   gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
+  /* 그룹 내부 간격 */
+  margin-bottom: 15px;
+  /* 그룹 간의 간격 */
 }
-
-.home-img {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.home-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.home-txt {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  flex: 1;
-}
-
-.write-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.write-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.plus-circle {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.write-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.run-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.run-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.play {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.run-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myrun-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.myrun-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myrun-img {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.myrun-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myrun-txt {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  flex: 1;
-}
-
-.challenge-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.challenge-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.challenge-img {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.challenge-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.challenge-txt {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  flex: 1;
-}
-
-.mychallenge-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.mychallenge-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.challenge-img2 {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.mychallenge-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myinfo-bar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-}
-
-.myinfo-logo {
-  padding: 20px 19px 20px 19px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 100px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myinfo-img {
-  align-self: stretch;
-  flex: 1;
-  height: auto;
-  position: relative;
-  overflow: visible;
-}
-
-.myinfo-text {
-  padding: 9px 15px 9px 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 302px;
-  height: 102px;
-  position: relative;
-  overflow: hidden;
-}
-
-.myinfo-txt {
-  color: #000000;
-  text-align: left;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  position: relative;
-  flex: 1;
-}
-.logout {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 102px;
-  position: relative;
-  cursor: pointer;
-}
-
 </style>
