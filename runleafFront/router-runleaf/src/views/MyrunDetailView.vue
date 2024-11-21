@@ -33,6 +33,7 @@
         <img v-if="boardDetailImage.length == 0" class="image" :src="`/api/uploads/uploads/defaultimg/abcd.png`" />
 
         <!-- 보드의 디테일들 -->
+
         <div class="content">
           <div class="div2">제목 : {{ boardDetail.title }}</div>
           <div class="div2">내용 : {{ boardDetail.content }}</div>
@@ -44,14 +45,18 @@
           <div class="div2">startLongitude : {{ boardDetail.startLongitude }}</div>
           <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
           <div class="div2">modifiedTs : {{ boardDetail.modifiedTs }}</div>
-          <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
           <div class="div2">writer : {{ boardDetail.writer }}</div>
-          <!-- <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
+          <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
+          <!-- 
+          <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
             <div>latitude: {{ c.latitude }}</div>
             <div>longitude: {{ c.longitude }}</div>
             <div>createdTs: {{ c.createdTs }}</div>
-          </div> -->
+          </div>
+          -->
         </div>
+
+
 
         <!-- 보드 업데이트, 삭제 -->
         <div class="upordel">

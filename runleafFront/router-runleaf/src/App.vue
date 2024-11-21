@@ -1,9 +1,10 @@
 <template>
+  
   <TheHeaderNav />
   <div class="main-container">
     <div v-if="menuStore.isMenuVisible" class="side-bar-overlay" @click="menuStore.hideMenu"></div>
     <div class="side-bar" :class="{ 'side-bar-visible': menuStore.isMenuVisible }">
-      <div class="member-container" v-if="isLoggedIn">
+      <div class="member-container" v-if="authStore.isLoggedIn">
         <div class="profile-image">
           <img :src="authStore.profileImage || defaultProfileImage" alt="Profile Image" />
         </div>
@@ -55,7 +56,7 @@
         </div>
 
         <!-- 로그인 후 -->
-        <div v-if="isLoggedIn" class="menu-group">
+        <div v-if="authStore.isLoggedIn" class="menu-group">
           <RouterLink class="menu-item" :to="{ name: 'myInfo' }">
             <div class="menu-logo">
               <img class="menu-img" src="@/assets/images/icons/myinfo-img.svg" />
@@ -97,6 +98,7 @@
 </template>
 
 <script setup>
+
 import TheHeaderNav from './components/common/TheHeaderNav.vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from './stores/auth';
@@ -106,9 +108,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
 
-router.push('/home'); // 다음 경로로 이동
-
-const isLoggedIn = authStore.isLoggedIn;
+router.push('/'); // 다음 경로로 이동
 
 const defaultProfileImage = '@/assets/images/icons/default-profile.png';
 
