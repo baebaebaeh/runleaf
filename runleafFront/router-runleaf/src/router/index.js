@@ -24,9 +24,16 @@ const router = createRouter({
       component: MenuView,
     },
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: HomeView,
+      children: [
+        {
+          path: '',
+          name: 'test',
+          component: NaverMapTESTView,
+        },
+      ]
     },
     {
       path: '/myrun',
@@ -59,6 +66,13 @@ const router = createRouter({
       path: '/regist',
       name: 'runAfter',
       component: RunAfterView,
+      children: [
+        {
+          path: '',
+          name: 'test',
+          component: NaverMapTESTView,
+        },
+      ]
     },
     {
       path: '/join',

@@ -4,7 +4,7 @@
     <div class="form-container">
       <div class="path-container">
         <div class="div">뛴 경로</div>
-        <img class="image2" src="`@/assets/images/icons/image.png`" />
+        <MapComponent class="map" :coodinate="gpsStore.locations" />
         <div class="content">
           <input class="regist-input" type="text" placeholder="여기에 제목을 입력하세요" v-model="boardDto.title" />
           <input class="regist-input" type="text" placeholder="여기에 내용을 입력하세요" v-model="boardDto.content" />
@@ -64,9 +64,11 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useGpsStore } from '@/stores/gpsStore.js';
+import MapComponent from '@/views/NaverMapTESTView.vue'
 const router = useRouter();
 const gpsStore = useGpsStore();
 const visibility = ref(false);
+
 const goRunningDataList = function () {
   router.push({ name: 'myrun' });
 }
@@ -376,5 +378,21 @@ function getLocation() {
   flex: 1;
   position: relative;
   overflow: hidden;
+}
+
+.map {
+  background: var(--image-placeholder,
+      linear-gradient(to left, #e3e3e3, #e3e3e3));
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 299px;
+  position: relative;
+  overflow: hidden;
+  /* height: 100%; */
 }
 </style>

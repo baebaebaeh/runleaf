@@ -11,8 +11,7 @@ import { ref, onMounted } from "vue";
     console.log("네이버지도 마운트됨")
     // 네이버 지도 API 로드
     const script = document.createElement("script");
-    script.src =
-      "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=89rquykz7t";
+    script.src = "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=mnur1o35dh";
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
@@ -31,9 +30,9 @@ import { ref, onMounted } from "vue";
         map: map,
         path: tempPath.value,
         clickable: true,
-        strokeColor: "#5347AA",
-        strokeStyle: "shortdash",
-        strokeOpacity: 0.5,
+        strokeColor: "#E51D1A",
+        strokeStyle: "solid",
+        strokeOpacity: 1,
         strokeWeight: 1,
       });
 

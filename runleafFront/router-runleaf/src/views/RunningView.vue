@@ -12,6 +12,9 @@
       <div>
         {{ tempy }}
       </div>
+      <div>
+        {{ acc }}
+      </div>
       <img @click="startLocationInterval" class="play-circle" src="`@/assets/images/icons/play-circle.svg`"
         v-if="!gpsStore.isRunning || gpsStore.isPause" />
       <img @click="pauseLocationInterval" class="pause-circle" src="`@/assets/images/icons/pause-circle.svg`"
@@ -29,6 +32,7 @@ import { useGpsStore } from "@/stores/gpsStore.js";
 import { useRouter } from "vue-router";
 const tempx = ref();
 const tempy = ref();
+const acc = ref();
 const router = useRouter();
 // Helper functions
 const timestamp = ref(0);
@@ -39,14 +43,6 @@ const gpsStore = useGpsStore();
 // Initialize Math.js
 const math = create(all);
 
-// Kalman filter state
-let state = {
-  x: 0, // Latitude
-  y: 0, // Longitude
-  vx: 0, // Velocity in x direction
-  vy: 0, // Velocity in y direction
-};
-
 /*
 변수                  값이 작을 때	                  값이 클 때
 Q (프로세스 노이즈)  	모델에 더 의존 (측정값 무시)	   측정값에 더 의존 (모델 무시)
@@ -56,56 +52,73 @@ A (상태 전이 행렬)	  정확한 상태 예측	              모델이 현�
 H (관측 행렬)	        측정 가능한 상태를 정확히 반영	잘못된 측정 데이터를 가져올 가능성
 */
 
-const Q = math.identity(4).map((v) => v * 0.01); // Process noise
-const R = math.matrix([
-  [5, 0], // GPS 노이즈
-  [0, 5],
-]); // Measurement noise
-let P = math.matrix([
-  [1, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 1000, 0],
-  [0, 0, 0, 1000],
-]); // Initial covariance matrix
-const A = math.matrix([
-  [1, 0, 1, 0],
-  [0, 1, 0, 1],
-  [0, 0, 1, 0],
-  [0, 0, 0, 1],
-]); // State transition matrix
-const H = math.matrix([
-  [1, 0, 0, 0],
-  [0, 1, 0, 0],
-]); // Observation matrix
+// 초기 상태 변수
+let state = {
+  x: 0, // Latitude
+  y: 0, // Longitude
+  vx: 0, // Velocity in x direction
+  vy: 0, // Velocity in y direction
+};
+// 상태 전이 행렬 A
+let A = math.matrix([
+  [1, 0, 1, 0], // x(t) = x(t-1) + vx(t-1) * dt
+  [0, 1, 0, 1], // y(t) = y(t-1) + vy(t-1) * dt
+  [0, 0, 1, 0], // vx(t) = vx(t-1)
+  [0, 0, 0, 1], // vy(t) = vy(t-1)
+]);
+// 초기 오차 공분산 행렬 P
+let P = math.identity(4).map((value) => value * 0.1); // 초기 오차 공분산 설정
+
+// 프로세스 노이즈 행렬 Q
+let Q = math.identity(4).map((value) => value * 0.001); // 프로세스 노이즈 설정
+
+// 관측 행렬 H
+let H = math.matrix([
+  [1, 0, 0, 0], // x(t)
+  [0, 1, 0, 0], // y(t)
+]);
 
 
 
 
-// 칼만 필터 로직
-const kalmanFilter = (z, dt) => {
+// 칼만 필터 함수
+const kalmanFilter = (z, dt, accuracy) => {
+  // 1. State transition matrix A 업데이트 (dt 적용)
   const A_dt = A.map((value, [i, j]) => (i < 2 && j >= 2 ? value * dt : value));
-  const x_pred = math.multiply(A_dt, math.matrix([state.x, state.y, state.vx, state.vy]));
-  const P_pred = math.add(math.multiply(A_dt, math.multiply(P, math.transpose(A_dt))), Q);
 
-  const S = math.add(math.multiply(H, math.multiply(P_pred, math.transpose(H))), R);
-  const K = math.multiply(P_pred, math.multiply(math.transpose(H), math.inv(S)));
+  // 2. Measurement noise R 업데이트
+  const R_updated = adjustMeasurementNoise(accuracy);
 
-  const y = math.subtract(z, math.multiply(H, x_pred));
-  const x_updated = math.add(x_pred, math.multiply(K, y));
-  const P_updated = math.multiply(math.subtract(math.identity(4), math.multiply(K, H)), P_pred);
+  // 3. 예측 단계
+  const x_pred = math.multiply(A_dt, math.matrix([state.x, state.y, state.vx, state.vy])); // x̂₋
+  const P_pred = math.add(math.multiply(A_dt, math.multiply(P, math.transpose(A_dt))), Q); // P₋
 
-  state.x = x_updated.get([0]);
-  state.y = x_updated.get([1]);
-  state.vx = x_updated.get([2]);
-  state.vy = x_updated.get([3]);
-  P = P_updated;
+  // 4. 업데이트 단계
+  const S = math.add(math.multiply(H, math.multiply(P_pred, math.transpose(H))), R_updated); // S = H * P₋ * H^T + R
+  const K = math.multiply(P_pred, math.multiply(math.transpose(H), math.inv(S))); // K = P₋ * H^T * S⁻¹
 
-  return { latitude: state.x, longitude: state.y, speed: Math.sqrt(state.vx ** 2 + state.vy ** 2) };
+  const y = math.subtract(z, math.multiply(H, x_pred)); // Residual (y = z - H * x̂₋)
+  const x_updated = math.add(x_pred, math.multiply(K, y)); // x̂ = x̂₋ + K * y
+  const P_updated = math.multiply(math.subtract(math.identity(4), math.multiply(K, H)), P_pred); // P = (I - K * H) * P₋
+
+  // 5. 상태 업데이트
+  state.x = x_updated.get([0]); // Latitude
+  state.y = x_updated.get([1]); // Longitude
+  state.vx = x_updated.get([2]); // Velocity in x direction
+  state.vy = x_updated.get([3]); // Velocity in y direction
+  P = P_updated; // Covariance matrix 업데이트
+
+  // 6. 결과 반환
+  return {
+    latitude: state.x,
+    longitude: state.y,
+    speed: Math.sqrt(state.vx ** 2 + state.vy ** 2), // 속도 계산
+  };
 };
 
 // 노이즈 행렬 조정 함수
 const adjustMeasurementNoise = (accuracy) => {
-  const noiseScale = Math.max(accuracy / 10, 1); // accuracy를 기반으로 노이즈 비율 계산
+  const noiseScale = Math.max(accuracy / 10, 1); // Accuracy를 기반으로 노이즈 비율 계산
   return math.matrix([
     [noiseScale, 0],
     [0, noiseScale],
@@ -120,7 +133,6 @@ const getLocation = () => {
       const latitude = position.coords.latitude;
       const accuracy = position.coords.accuracy; // Geolocation API에서 제공하는 accuracy
       const currentTimestamp = new Date().getTime();
-
       if (!initialized.value) {
         initialSamples.value.push({ latitude, longitude });
         if (initialSamples.value.length >= 3) {
@@ -134,8 +146,19 @@ const getLocation = () => {
       const z = math.matrix([latitude, longitude]);
 
       const filtered = kalmanFilter(z, dt, accuracy);
+      console.log(filtered)
+      // tempx.value = latitude;
+      // tempy.value = longitude;
+      // acc.value = accuracy;
+      // gpsStore.addLocation({
+      //   longitude: longitude,
+      //   latitude: latitude,
+      //   createdTs: new Date().toISOString(),
+      // });
+
       tempx.value = filtered.latitude;
       tempy.value = filtered.longitude;
+      acc.value = accuracy;
       gpsStore.addLocation({
         longitude: filtered.longitude,
         latitude: filtered.latitude,
@@ -144,12 +167,16 @@ const getLocation = () => {
       });
 
       timestamp.value = currentTimestamp;
-    });
+    },
+      (error) => {
+        console.error("Error occurred while getting location:", error.message);
+      },
+      { enableHighAccuracy: true }
+    );
   } else {
     alert("Geolocation is not supported by this browser.");
   }
 };
-
 // 타이머 관리
 const startLocationInterval = () => {
   if (gpsStore.intervalId) clearInterval(gpsStore.intervalId);
@@ -164,7 +191,7 @@ const startLocationInterval = () => {
 const pauseLocationInterval = () => {
   clearInterval(gpsStore.intervalId);
   clearInterval(gpsStore.intervalCnt);
-  gpsStore.isRunning = false;
+  // gpsStore.isRunning = true;
   gpsStore.isPause = true;
 };
 
@@ -179,15 +206,19 @@ const stopLocationInterval = () => {
 
 // Lifecycle hooks
 onMounted(() => {
+  if (sessionStorage.getItem('token') == null) {
+    alert("달리기는 로그인 이후 사용가능합니다.")
+    router.push('/login')
+  }
   if (navigator.geolocation) {
     getLocation(); // 초기 위치 가져오기
   }
 });
 
-onBeforeUnmount(() => {
-  if (gpsStore.intervalId) clearInterval(gpsStore.intervalId);
-  if (gpsStore.intervalCnt) clearInterval(gpsStore.intervalCnt);
-});
+// onBeforeUnmount(() => {
+//   if (gpsStore.intervalId) clearInterval(gpsStore.intervalId);
+//   if (gpsStore.intervalCnt) clearInterval(gpsStore.intervalCnt);
+// });
 </script>
 
 <style scoped>
@@ -195,6 +226,7 @@ onBeforeUnmount(() => {
 .running * {
   box-sizing: border-box;
 }
+
 .running {
   background: #ffffff;
   display: flex;
@@ -205,6 +237,7 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: hidden;
 }
+
 .content-container {
   padding: 10px;
   display: flex;
@@ -218,6 +251,7 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: hidden;
 }
+
 ._01-35-01 {
   color: #000000;
   text-align: center;
@@ -227,6 +261,7 @@ onBeforeUnmount(() => {
   font-weight: 400;
   position: relative;
 }
+
 .play-circle {
   flex-shrink: 0;
   width: 190px;
@@ -234,6 +269,7 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: visible;
 }
+
 .pause-circle {
   flex-shrink: 0;
   width: 190px;
@@ -241,6 +277,7 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: visible;
 }
+
 .stop-circle {
   flex-shrink: 0;
   width: 190px;
