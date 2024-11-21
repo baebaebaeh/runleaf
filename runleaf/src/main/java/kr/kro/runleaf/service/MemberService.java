@@ -16,9 +16,9 @@ public interface MemberService {
 
 	void edit(MemberEditRequest editRequest);
 
-	void remove(int id);
-
 	boolean existsByUsername(String username);
 
 	String editProfile(MultipartFile file, String username) throws IllegalStateException, IOException;
+
+	//	void remove(int memberId);
 }

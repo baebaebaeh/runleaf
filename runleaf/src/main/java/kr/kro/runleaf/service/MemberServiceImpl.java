@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 		// 회원 이미지
 		MemberFile memberFile = member.getMemberFile();
 
-		memberFile.setMemberId(member.getId());
+		memberFile.setMemberId(member.getMemberId());
 		memberRepository.insertMemberFile(memberFile);
 
 		return true;
@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 
 		Member member = memberRepository.selectMemberByUsername(username);
 
-		MemberFile memberFile = memberRepository.selectMemberFileByMemberId(member.getId()); // 파일이 없을 경우 null 처리
+		MemberFile memberFile = memberRepository.selectMemberFileByMemberId(member.getMemberId()); // 파일이 없을 경우 null 처리
 
 		MemberResponse memberResponse = new MemberResponse(member);
 		String fileUrl = memberFile.getFilePath();
@@ -75,16 +75,16 @@ public class MemberServiceImpl implements MemberService {
 		memberRepository.updateMember(editReqeust);
 	}
 
-	@Override
-	@Transactional
-	public void remove(int id) {
-		memberRepository.deleteMember(id);
-	}
+//	@Override
+//	@Transactional
+//	public void remove() {
+//		memberRepository.deleteMember(username);
+//	}
 
 	@Override
 	public String editProfile(MultipartFile file, String username) throws IllegalStateException, IOException {
 		int memberId = memberRepository.getMemberId(username);
-		
+
 		MemberFile memberFile = new MemberFile();
 		
 		memberFile.setMemberId(memberId);
@@ -115,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
 		memberFile.setFilePath(subDir + "/" + systemName); // 파일 경로
 		memberFile.setOrgName(orgName); // 원본 파일명
 		memberFile.setSystemName(systemName); // 시스템 저장 파일명
-
+		
 		memberRepository.updateMemberFile(memberFile);
 		return memberFile.getFilePath();
 	}

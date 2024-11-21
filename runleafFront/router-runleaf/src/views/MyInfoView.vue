@@ -39,11 +39,8 @@
 <script setup>
 import { useMemberStore } from '@/stores/member';
 import { onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 
 const memberStore = useMemberStore();
-const route = useRoute();
-const router = useRouter();
 
 onMounted(() => {
     memberStore.getMember();

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 
 public class Member {
 	
-	private int id;
+	private int memberId;
 	@NotBlank(message = "아이디는 필수 입력값입니다.")
 	@Pattern(regexp = "^[a-z0-9]{6,12}$", message = "아이디는 영문 소문자, 숫자 조합 6~12자리여야 합니다.")
 	private String username;
@@ -24,11 +24,12 @@ public class Member {
 	private String role;
 	
 	
-	public int getId() {
-		return id;
+	
+	public int getMemberId() {
+		return memberId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 	public String getUsername() {
 		return username;
@@ -69,7 +70,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", password=" + password
+		return "Member [memberId=" + memberId + ", username=" + username + ", password=" + password
 				+ ", email=" + email + ", phone=" + phone + ", memberFile=" + memberFile + ", role=" + role + "]";
 	}
 }

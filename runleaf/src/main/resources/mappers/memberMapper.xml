@@ -6,7 +6,7 @@
 <mapper namespace="kr.kro.runleaf.repository.MemberRepository">
 
 	<!-- 회원 가입 -->
-	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="memberId">
 		INSERT INTO member(
 		username,
 		password, email, phone, role
@@ -17,8 +17,7 @@
 	</insert>
 
 	<!-- 아이디 중복 체크 -->
-	<select id="existsByUsername" parameterType="String"
-		resultType="int">
+	<select id="existsByUsername" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM member WHERE username = #{username}
 	</select>
 
@@ -33,27 +32,27 @@
 	<!-- 회원 조회(username) -->
 	<select id="selectMemberByUsername" parameterType="String"
 		resultType="kr.kro.runleaf.domain.Member">
-		SELECT id, username, password, email, phone, role
+		SELECT member_id, username, password, email, phone, role
 		FROM member
 		WHERE username = #{username}
 	</select>
 
 	<!-- 회원번호 조회 -->
 	<select id="getMemberId" parameterType="String" resultType="int">
-		SELECT id
+		SELECT member_id
 		FROM member
 		WHERE username = #{username}
 	</select>
 
 	<!-- 회원 이미지 조회 -->
 	<select id="selectMemberFileByMemberId" parameterType="int" resultType="kr.kro.runleaf.domain.MemberFile">
-		SELECT id,
+		SELECT member_file_id,
 			member_id AS memberId,
 			file_path AS filePath,
 			org_name AS orgName,
 			system_name AS systemName
 		FROM member_file
-		WHERE member_id = #{id}
+		WHERE member_id = #{member_id}
 	</select>
 
 	<!-- 회원 수정 -->
@@ -64,16 +63,16 @@
 	</update>
 	
 	<!-- 회원 프로필 수정 -->
-	<update id="updateProfileImageUrl" parameterType="kr.kro.runleaf.domain.MemberFile">
-        UPDATE member
+	<update id="updateMemberFile" parameterType="kr.kro.runleaf.domain.MemberFile">
+        UPDATE member_file
         SET file_path = #{filePath}, org_name = #{orgName}, system_name = #{systemName}
         WHERE member_id = #{memberId}
     </update>
 
 	<!-- 회원 삭제 -->
-	<delete id="deleteMember" parameterType="int">
+	<!-- <delete id="deleteMember" parameterType="int">
 		DELETE FROM book
 		WHERE id
 		= #{id}
-	</delete>
+	</delete> -->
 </mapper>

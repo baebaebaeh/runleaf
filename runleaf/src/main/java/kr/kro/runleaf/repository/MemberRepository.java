@@ -16,11 +16,11 @@ public interface MemberRepository {
 
 	Member selectMemberByUsername(String username);
 	
-	MemberFile selectMemberFileByMemberId(int id);
+	MemberFile selectMemberFileByMemberId(int memberId);
 
 	void updateMember(MemberEditRequest editRequest);
 
 	void updateMemberFile(MemberFile memberFile);
 
-	void deleteMember(int id);
+//	void deleteMember(int id);
 }
