@@ -49,6 +49,11 @@ function infinityScroll(e) {
 }
 
 onMounted(() => {
+  if (sessionStorage.getItem('token') == null) {
+    alert("로그인이후 사용하실 수 있습니다.");
+    router.push({name: 'login'});
+    return;
+  }
   getRunningBoardList();
 });
 const getRunningBoardList = async () => {
@@ -88,8 +93,7 @@ const getRunningBoardList = async () => {
       boardSearchDto.value.page += 1;
     }
   } catch (error) {
-    alert("로그인이후 사용하실 수 있습니다.");
-    router.push({name: 'home'});
+    
   } finally {
     isFetching = false;
   }

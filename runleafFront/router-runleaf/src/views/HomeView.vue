@@ -37,7 +37,7 @@
           </div>
           <div class="commentmap">
             <img class="message-square" src="@/assets/images/icons/message-square.svg" @click="openCommentModal(boardDto[index].runningBoardId)"  />
-            <img class="map" src="@/assets/images/icons/map.svg" @click="openMapModal(index)" />
+            <img class="map-icon" src="@/assets/images/icons/map.svg" @click="openMapModal(boardDto[index].runningBoardId)" />
           </div>
         </div>
       </div>
@@ -46,11 +46,7 @@
     <!-- 모달 관련 파트 -->
     <div v-if="isMapModal" class="modal-overlay" @click.self="closeMapModal">
       <div class="modal-content">
-        <h3>{{ boardDetail.runningBoardId }}</h3>
-        <div v-for="(location, i) in boardDetail.location">
-          <h3>{{ location.latitude }}</h3>
-          <h3>{{ location.longitude }}</h3>
-        </div>
+        <MapComponent class="map" :coodinate="coodinate" />
       </div>
     </div>
     <div v-if="isCommentModal" class="modal-overlay" @click.self="closeCommentModal">
@@ -73,6 +69,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { onBeforeRouteLeave, RouterLink } from 'vue-router'
 import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
+import MapComponent from '@/views/NaverMapTESTView.vue'
 // ======================= 임포트 =======================
 
 // ======================= 변수선언 =======================
@@ -80,6 +77,7 @@ const gpsStore = useGpsStore();
 const boardDto = ref([])
 const boardDetail = ref()
 const comment = ref([])
+const coodinate = ref([])
 const isMapModal = ref(false);
 const isCommentModal = ref(false);
 const orderString = ref()
@@ -96,10 +94,11 @@ const initOrderString = () => {
 }
 initOrderString();
 // ======================= 지도모달 로직 =======================
-const openMapModal = (num) => {
-  console.log(num)
-  boardDetail.value = boardDto.value[num];
-  console.log(boardDetail.value.location)
+const openMapModal = async (id) => {
+  console.log(id)
+  const { data } = await axios.get(`/api/running/coodinate/${id}`);
+  coodinate.value = data;
+  console.log(data)
   isMapModal.value = true;
 }
 const closeMapModal = () => {
@@ -356,12 +355,18 @@ onBeforeRouteLeave((to, from, next) => {
 
 /* 모달 내용 */
 .modal-content {
+  display: flex;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 300px;
+  width: 100%;
+  height: 50%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
+}
+.map {
+  width: 100%;
+  height: 100%;
 }
 
 .nav-bar {
@@ -541,7 +546,7 @@ onBeforeRouteLeave((to, from, next) => {
   position: relative;
   overflow: visible;
 }
-.map {
+.map-icon {
   flex-shrink: 0;
   width: 48px;
   height: 48px;
