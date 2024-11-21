@@ -1,6 +1,15 @@
 DROP database IF EXISTS runleaf;
 CREATE DATABASE runleaf DEFAULT CHARACTER SET utf8mb4;
 use runleaf;
+CREATE TABLE `Member` (
+	`member_id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`username`	varchar(30)	NOT NULL,
+	`password`	varchar(100)	NOT NULL,
+	`nickname`	varchar(50)	default 'default',
+	`email`	varchar(50)	NOT NULL,
+	`phone`	varchar(30)	NOT NULL,
+    `role` varchar(20) NOT NULL
+);
 create table running_board (
     running_board_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
@@ -33,17 +42,23 @@ create table running_coordinate (
     created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
 );
-CREATE TABLE `Member` (
-	`id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`username`	varchar(30)	NOT NULL,
-	`password`	varchar(100)	NOT NULL,
-	`nickname`	varchar(50)	default 'default',
-	`email`	varchar(50)	NOT NULL,
-	`phone`	varchar(30)	NOT NULL,
-    `role` varchar(20) NOT NULL
+CREATE TABLE Comment (
+    comment_id INT NOT NULL AUTO_INCREMENT,
+    member_id INT NOT NULL,
+    parent_id INT NULL,
+    running_board_id INT NOT NULL,
+    content VARCHAR(255) NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modifided_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    writer VARCHAR(20) NOT NULL,
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (member_id) REFERENCES Member(member_id),
+    FOREIGN KEY (running_board_id) REFERENCES running_board(running_board_id),
+    FOREIGN KEY (parent_id) REFERENCES Comment(comment_id)
 );
+
 CREATE TABLE `member_file` (
-	`id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`member_file_id`	int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`file_path`	varchar(30)	NOT NULL,
 	`org_name`	varchar(100)	NOT NULL,
 	`system_name`	varchar(255)	NOT NULL,
