@@ -130,6 +130,10 @@ const closeModal = () => {
 }
 
 /* 링크 스타일 */
+.nav {
+  display: flex;
+  justify-content: center;
+}
 .nav-bar {
   display: flex;
   justify-content: center;

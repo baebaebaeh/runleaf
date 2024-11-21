@@ -49,19 +49,24 @@ function infinityScroll(e) {
 }
 
 onMounted(() => {
+  if (sessionStorage.getItem('token') == null) {
+    alert("로그인이후 사용하실 수 있습니다.");
+    router.push({name: 'login'});
+    return;
+  }
   getRunningBoardList();
 });
 const getRunningBoardList = async () => {
   isFetching = true;
   const token = sessionStorage.getItem('token');
   try {
-    console.log(boardSearchDto.value);
     const { data } = await axios.get("/api/running/myrun", {
       params: boardSearchDto.value,
       headers: {
         'authorization': `Bearer ${token}`,
       },
     });
+    console.log(data)
     if (data.length == 0) {
       hasMoreData = false;
     } else {
@@ -88,8 +93,7 @@ const getRunningBoardList = async () => {
       boardSearchDto.value.page += 1;
     }
   } catch (error) {
-    alert("로그인이후 사용하실 수 있습니다.");
-    router.push({name: 'home'});
+    
   } finally {
     isFetching = false;
   }
