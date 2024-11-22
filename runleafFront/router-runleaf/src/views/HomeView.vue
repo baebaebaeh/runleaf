@@ -359,7 +359,7 @@ onBeforeRouteLeave((to, from, next) => {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 100%;
+  width: 370px;
   height: 50%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;

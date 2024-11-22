@@ -83,7 +83,7 @@ const closeModal = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 20px 30px;
 }
 
 .menu-bar,
@@ -130,10 +130,6 @@ const closeModal = () => {
 }
 
 /* 링크 스타일 */
-.nav {
-  display: flex;
-  justify-content: center;
-}
 .nav-bar {
   display: flex;
   justify-content: center;

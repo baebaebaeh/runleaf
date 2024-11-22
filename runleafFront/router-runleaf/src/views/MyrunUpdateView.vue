@@ -55,8 +55,8 @@
   </div>
 
   <div>
+    <!-- 
     <div>memberId : <input type="text" v-model="runningDataStore.updateBoardDto.memberId"></div>
-
     <div>runningBoardId : <input type="text" v-model="runningDataStore.updateBoardDto.runningBoardId"></div>
     <div>startRunningTs : <input type="text" v-model="runningDataStore.updateBoardDto.startRunningTs"></div>
     <div>endRunningTs :<input type="text" v-model="runningDataStore.updateBoardDto.endRunningTs"></div>
@@ -67,6 +67,8 @@
     <div>mainImagePath :<input type="text" v-model="runningDataStore.updateBoardDto.mainImagePath"></div>
     <div>writer :<input type="text" v-model="runningDataStore.updateBoardDto.writer"></div>
     <div>boolean :<input type="text" v-model="runningDataStore.updateBoardDto.onBoard"></div>
+   
+     -->
     <!-- v-bind:style="{ display: 'none' }" -->
   </div>
 </template>

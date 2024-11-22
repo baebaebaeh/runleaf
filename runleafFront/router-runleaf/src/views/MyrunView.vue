@@ -51,7 +51,7 @@ function infinityScroll(e) {
 onMounted(() => {
   if (sessionStorage.getItem('token') == null) {
     alert("로그인이후 사용하실 수 있습니다.");
-    router.push({name: 'login'});
+    router.push({ name: 'login' });
     return;
   }
   getRunningBoardList();
@@ -93,7 +93,7 @@ const getRunningBoardList = async () => {
       boardSearchDto.value.page += 1;
     }
   } catch (error) {
-    
+
   } finally {
     isFetching = false;
   }
@@ -109,6 +109,17 @@ onBeforeRouteLeave((to, from, next) => {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  background: none;
+
+  -webkit-font-smoothing: antialiased;
+}
+
 .myrun,
 .myrun * {
   box-sizing: border-box;
