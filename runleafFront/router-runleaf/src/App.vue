@@ -1,12 +1,11 @@
 <template>
-  
   <TheHeaderNav />
   <div class="main-container">
     <div v-if="menuStore.isMenuVisible" class="side-bar-overlay" @click="menuStore.hideMenu"></div>
     <div class="side-bar" :class="{ 'side-bar-visible': menuStore.isMenuVisible }">
       <div class="member-container" v-if="authStore.isLoggedIn">
         <div class="profile-image">
-          <img :src="authStore.profileImage || defaultProfileImage" alt="Profile Image" />
+          <img :src="authStore.profileImage" alt="Profile Image" />
         </div>
         <div class="profile-info">
           <div class="username">{{ authStore.username }}</div>
@@ -17,40 +16,33 @@
         </div>
       </div>
       <div class="member-container" v-else>
-        <p>로그인이 필요합니다.</p>
+        <p>로그인이 필요합니다</p>
       </div>
       <div class="menu-container">
         <RouterLink class="menu-item" :to="{ name: 'home' }">
           <div class="menu-logo">
-            <img class="menu-img" src="@/assets/images/icons/home-img.svg" />
+            <img class="menu-img" src="@/assets/images/sidebar/home.png" />
           </div>
           <div class="menu-text">홈</div>
         </RouterLink>
-
-        <div class="menu-item">
-          <div class="menu-logo">
-            <img class="menu-img" src="@/assets/images/icons/plus-circle.svg" />
-          </div>
-          <div class="menu-text">글쓰기</div>
-        </div>
-
+        
         <RouterLink class="menu-item" :to="{ name: 'running' }">
           <div class="menu-logo">
-            <img class="menu-img" src="@/assets/images/icons/play.svg" />
+            <img class="menu-img" src="@/assets/images/sidebar/running.png" />
           </div>
           <div class="menu-text">달리기 시작</div>
         </RouterLink>
 
         <RouterLink class="menu-item" :to="{ name: 'myrun' }">
           <div class="menu-logo">
-            <img class="menu-img" src="@/assets/images/icons/myrun-img.svg" />
+            <img class="menu-img" src="@/assets/images/sidebar/myrun.png" />
           </div>
-          <div class="menu-text">내 달리기</div>
+          <div class="menu-text">나의 달리기</div>
         </RouterLink>
 
         <div class="menu-item">
           <div class="menu-logo">
-            <img class="menu-img" src="@/assets/images/icons/challenge-img.svg" />
+            <img class="menu-img" src="@/assets/images/sidebar/challenge.png" />
           </div>
           <div class="menu-text">챌린지</div>
         </div>
@@ -59,14 +51,14 @@
         <div v-if="authStore.isLoggedIn" class="menu-group">
           <RouterLink class="menu-item" :to="{ name: 'myInfo' }">
             <div class="menu-logo">
-              <img class="menu-img" src="@/assets/images/icons/myinfo-img.svg" />
+              <img class="menu-img" src="@/assets/images/sidebar/myinfo.png" />
             </div>
             <div class="menu-text">내 정보</div>
           </RouterLink>
 
           <div class="menu-item" @click="logout">
             <div class="menu-logo">
-              <img class="menu-img" src="@/assets/images/icons/logout.png" />
+              <img class="menu-img" src="@/assets/images/sidebar/logout.png" />
             </div>
             <div class="menu-text">로그아웃</div>
           </div>
@@ -76,14 +68,14 @@
         <div v-else class="menu-group">
           <RouterLink class="menu-item" :to="{ name: 'joinInfo' }">
             <div class="menu-logo">
-              <img class="menu-img" src="@/assets/images/icons/join.png" />
+              <img class="menu-img" src="@/assets/images/sidebar/join.png" />
             </div>
             <div class="menu-text">회원가입</div>
           </RouterLink>
 
           <RouterLink class="menu-item" :to="{ name: 'login' }">
             <div class="menu-logo">
-              <img class="menu-img" src="@/assets/images/icons/login.png" />
+              <img class="menu-img" src="@/assets/images/sidebar/login.png" />
             </div>
             <div class="menu-text">로그인</div>
           </RouterLink>
@@ -110,8 +102,6 @@ const menuStore = useMenuStore();
 
 router.push('/'); // 다음 경로로 이동
 
-const defaultProfileImage = '@/assets/images/icons/default-profile.png';
-
 const logout = () => {
   authStore.logout();
 };
@@ -133,7 +123,7 @@ router.afterEach(() => {
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
   position: fixed;
   top: 0;
@@ -165,7 +155,7 @@ router.afterEach(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 40px;
   border-bottom: dashed 1px  #cccccc;
 }
 
@@ -226,8 +216,8 @@ router.afterEach(() => {
 }
 
 .menu-img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 80%;
+  max-height: 80%;
 }
 
 .menu-text {

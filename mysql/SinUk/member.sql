@@ -7,13 +7,15 @@ CREATE TABLE member (
     phone varchar(30) NOT NULL,
     role varchar(20) NOT NULL
 );
+drop table member_file;
+
 
 -- 2. MemberFile 테이블 생성
 CREATE TABLE member_file (
     member_file_id int AUTO_INCREMENT PRIMARY KEY,
     file_path varchar(100) NOT NULL,
-    org_name varchar(30) NULL,
-    system_name varchar(50) NULL,
+    org_name varchar(50) NULL,
+    system_name varchar(100) NULL,
     member_id INT
 );
 

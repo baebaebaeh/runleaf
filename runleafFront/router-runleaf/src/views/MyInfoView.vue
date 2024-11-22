@@ -58,7 +58,6 @@ onMounted(() => {
     height: 600px;
     position: relative;
     overflow: hidden;
-    padding-top: 150px;
 }
 
 .frame-44 {
@@ -86,9 +85,7 @@ onMounted(() => {
 .edit-info {
     color: #919191;
     font-family: "Inter-Regular", sans-serif;
-    font-size: 19px;
-    line-height: 130%;
-    font-weight: 400;
+    font-size: 20px;
     text-align: right;
     margin-left: auto;
     position: relative;

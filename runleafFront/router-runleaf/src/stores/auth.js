@@ -2,11 +2,13 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter();
     const isLoggedIn = ref(false);
     const token = ref(null);
+    const errorMessage = ref('');
     // const username = ref('');
 
     // 로그인 처리
@@ -19,14 +21,16 @@ export const useAuthStore = defineStore('auth', () => {
             if (tokenValue) {
                 const accessToken = tokenValue.split(' ')[1]; // 'Bearer {token}' 형태에서 {token} 부분만 추출
                 sessionStorage.setItem('token', accessToken);  // 토큰을 sessionStorage에 저장
-                // const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));  // 토큰을 디코딩하여 사용자 정보 추출
-                // console.log(decodedToken.username)
-                // username.value = decodedToken.username;
 
                 isLoggedIn.value = true;  // 로그인 상태 업데이트
                 token.value = accessToken; // 토큰 저장
 
-                // 로그인 성공 후 메인 페이지로 리디렉션
+                Swal.fire({
+                    title: '로그인 성공',
+                    text: '환영합니다!',
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                });
                 router.push('/');
             } else {
                 router.push({ name: 'login' });

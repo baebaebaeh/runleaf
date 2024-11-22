@@ -24,13 +24,13 @@
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
 
-const store = useAuthStore();
+const authStore = useAuthStore();
 
 const username = ref('');
 const password = ref('');
 
 const login = function () {
-  store.login(username.value, password.value)
+  authStore.login(username.value, password.value)
 }
 </script>
 
@@ -39,12 +39,11 @@ const login = function () {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 180px; 
   height: 100vh;
 }
 
 .login-card {
-  padding: 30px; 
+  padding-top: 30%;
   width: 320px; 
   max-width: 450px;
 }
