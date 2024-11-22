@@ -23,9 +23,6 @@ CREATE TABLE member_file (
 -- 3. 외래 키 제약 조건 추가
 ALTER TABLE member_file
 ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(member_id);
-
-
-
 create table running_board (
     running_board_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
@@ -58,7 +55,7 @@ create table running_coordinate (
     created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
 );
-CREATE TABLE Comment (
+CREATE TABLE comment (
     comment_id INT NOT NULL AUTO_INCREMENT,
     member_id INT NOT NULL,
     parent_id INT NULL,
