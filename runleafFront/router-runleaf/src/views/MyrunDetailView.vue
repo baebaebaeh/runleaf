@@ -47,13 +47,13 @@
           <div class="div2">modifiedTs : {{ boardDetail.modifiedTs }}</div>
           <div class="div2">writer : {{ boardDetail.writer }}</div>
           <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
-          <!-- 
+          
           <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
             <div>latitude: {{ c.latitude }}</div>
             <div>longitude: {{ c.longitude }}</div>
             <div>createdTs: {{ c.createdTs }}</div>
           </div>
-          -->
+         
         </div>
 
 

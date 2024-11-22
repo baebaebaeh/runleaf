@@ -14,8 +14,18 @@ import kr.kro.runleaf.domain.RunningBoardImage;
 @Repository
 public interface CommentRepository {
 
-	int selectCommentList(int runningBoardId);
-
+	List<Comment> selectCommentByRunningBoardId(int runningBoardId);
+	
+	List<Comment> selectCommentByParentId(int parentId);
+	
+	Comment selectCommentByCommentId(int commentId);
+	
 	int insertComment(Comment comment);
+	
+	int updateComment(Comment comment);
+
+	int deleteCommentByCommentId(int commentId);
+
+
 	
 }
