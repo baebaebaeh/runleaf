@@ -43,7 +43,7 @@ const login = function () {
 }
 
 .login-card {
-  padding-top: 30%;
+  padding-top: 20%;
   width: 320px; 
   max-width: 450px;
 }

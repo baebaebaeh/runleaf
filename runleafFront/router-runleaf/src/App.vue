@@ -5,18 +5,18 @@
     <div class="side-bar" :class="{ 'side-bar-visible': menuStore.isMenuVisible }">
       <div class="member-container" v-if="authStore.isLoggedIn">
         <div class="profile-image">
-          <img :src="authStore.profileImage" alt="Profile Image" />
+          <img :src="`/api/uploads/${authStore.loginProfileImage}`" alt="Profile Image" />
         </div>
         <div class="profile-info">
-          <div class="username">{{ authStore.username }}</div>
+          <div class="username">{{ authStore.loginUsername }}</div>
           <div class="stats">
-            <span>팔로잉: {{ authStore.following }}</span>
             <span>팔로워: {{ authStore.followers }}</span>
+            <span>팔로잉: {{ authStore.following }}</span>
           </div>
         </div>
       </div>
       <div class="member-container" v-else>
-        <p>로그인이 필요합니다</p>
+        <p><RouterLink :to="{ name : 'login' }" class="need-login">로그인</RouterLink>이 필요합니다</p>
       </div>
       <div class="menu-container">
         <RouterLink class="menu-item" :to="{ name: 'home' }">
@@ -159,6 +159,16 @@ router.afterEach(() => {
   border-bottom: dashed 1px  #cccccc;
 }
 
+.need-login {
+  color: #adadad;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.need-login:hover {
+  color: #686868;
+}
+
 .profile-image img {
   width: 80px;
   height: 80px;
@@ -178,13 +188,14 @@ router.afterEach(() => {
 }
 
 .stats {
+  display: flex;
+  gap: 20px;
   margin-top: 5px;
   font-size: 14px;
   color: #666;
 }
 
 .stats span {
-  display: block;
   margin-top: 2px;
 }
 
@@ -204,7 +215,7 @@ router.afterEach(() => {
 }
 
 .menu-item:hover {
-  background: #e0e0e0;
+  background: #d3d3d3;
 }
 
 .menu-logo {

@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useMemberStore } from './member';
 import Swal from 'sweetalert2';
 
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter();
+    const memberStore = useMemberStore();
+
     const isLoggedIn = ref(false);
     const token = ref(null);
-    const errorMessage = ref('');
-    // const username = ref('');
+    const loginUsername = ref('');
+    const loginProfileImage = ref('');
 
     // 로그인 처리
     const login = async (username, password) => {
@@ -25,11 +28,19 @@ export const useAuthStore = defineStore('auth', () => {
                 isLoggedIn.value = true;  // 로그인 상태 업데이트
                 token.value = accessToken; // 토큰 저장
 
+                await memberStore.getMember();
+
+                const memberData = memberStore.memberInfoForm;
+                loginUsername.value = memberData.username;    
+                loginProfileImage.value = memberData.memberFileUrl;
+
                 Swal.fire({
                     title: '로그인 성공',
                     text: '환영합니다!',
                     icon: 'success',
-                    confirmButtonText: '확인',
+                    width: 300,
+                    timer: 1500,
+                    showConfirmButton: false, // 확인 버튼 제거
                 });
                 router.push('/');
             } else {
@@ -37,6 +48,13 @@ export const useAuthStore = defineStore('auth', () => {
             }
         } catch (err) {
             console.error('로그인 실패:', err);
+            Swal.fire({
+                title: '로그인 실패',
+                text: err.response?.data?.error || '아이디 또는 비밀번호가 잘못되었습니다.',
+                icon: 'error',
+                width: 300,
+                confirmButtonText: '확인',
+            });
             router.push({ name: 'login' });
         }
     };
@@ -45,7 +63,8 @@ export const useAuthStore = defineStore('auth', () => {
     const logout = () => {
         sessionStorage.removeItem('token');  // 토큰 삭제
         isLoggedIn.value = false;  // 로그인 상태 업데이트
-        // username.value = '';  // 사용자 이름 초기화
+        loginUsername.value = '';  // 사용자 이름 초기화
+        loginProfileImage.value = '';
         router.push('/');  // 로그인 페이지로 리디렉션
     };
 
@@ -59,11 +78,10 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    // 로그인 상태를 나타내는 computed 값 (UI에서 사용)
-    const getUserName = computed(() => username.value);
+    
 
     // 페이지 로드 시 로그인 상태 초기화
     initializeAuthState();
 
-    return { router, token, isLoggedIn, login, logout, getUserName };
+    return { router, token, isLoggedIn, loginUsername, loginProfileImage, login, logout };
 });

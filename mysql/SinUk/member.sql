@@ -19,6 +19,14 @@ CREATE TABLE member_file (
     member_id INT
 );
 
--- 3. 외래 키 제약 조건 추가
+-- 3. Follow 테이블 생성
+CREATE TABLE follow (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    follower_id INT NOT NULL,
+    following_id INT NOT NULL,
+    UNIQUE KEY unique_follow (follower_id, following_id)
+);
+
+-- 4. 외래 키 제약 조건 추가
 ALTER TABLE member_file
 ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(member_id);
