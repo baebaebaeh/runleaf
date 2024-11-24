@@ -18,10 +18,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> getCommentByRunningBoardId(int runningBoardId) {
 		List<Comment> list = commentRepository.selectCommentByRunningBoardId(runningBoardId);
-//		for (int i = 0; i < list.size(); i++) {
-//			List<Comment> childList = commentRepository.selectCommentByParentId(list.get(i).getParentId());
-//			list.get(i).setComment(childList);
-//		}
 		return list;
 	}
 
@@ -47,6 +43,12 @@ public class CommentServiceImpl implements CommentService {
 	public int deleteCommentByCommentId(int commentId) {
 		int count = commentRepository.deleteCommentByCommentId(commentId);
 		return count;
+	}
+
+	@Override
+	public List<Comment> getCommentByParentId(int commentId) {
+		List<Comment> list = commentRepository.selectCommentByParentId(commentId);
+		return list;
 	}
 
 	

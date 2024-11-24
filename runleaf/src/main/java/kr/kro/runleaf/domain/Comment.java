@@ -12,18 +12,12 @@ public class Comment {
 	private String content;
 	private LocalDateTime createdTs;
 	private LocalDateTime modifidedTs;
-	private List<Comment> replies;
+	private int replyCount;
 	
 
-	
-	@Override
-	public String toString() {
-		return "Comment [commentId=" + commentId + ", memberId=" + memberId + ", parentId=" + parentId
-				+ ", runningBoardId=" + runningBoardId + ", writer=" + writer + ", content=" + content + ", createdTs="
-				+ createdTs + ", modifidedTs=" + modifidedTs + ", replies=" + replies + "]";
-	}
+
 	public Comment(int commentId, int memberId, int parentId, int runningBoardId, String writer, String content,
-			LocalDateTime createdTs, LocalDateTime modifidedTs, List<Comment> replies) {
+			LocalDateTime createdTs, LocalDateTime modifidedTs, int replyCount) {
 		super();
 		this.commentId = commentId;
 		this.memberId = memberId;
@@ -33,7 +27,19 @@ public class Comment {
 		this.content = content;
 		this.createdTs = createdTs;
 		this.modifidedTs = modifidedTs;
-		this.replies = replies;
+		this.replyCount = replyCount;
+	}
+	@Override
+	public String toString() {
+		return "Comment [commentId=" + commentId + ", memberId=" + memberId + ", parentId=" + parentId
+				+ ", runningBoardId=" + runningBoardId + ", writer=" + writer + ", content=" + content + ", createdTs="
+				+ createdTs + ", modifidedTs=" + modifidedTs + ", replyCount=" + replyCount + "]";
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 	public LocalDateTime getCreatedTs() {
 		return createdTs;
@@ -58,12 +64,6 @@ public class Comment {
 	}
 	public void setRunningBoardId(int runningBoardId) {
 		this.runningBoardId = runningBoardId;
-	}
-	public List<Comment> getReplies() {
-		return replies;
-	}
-	public void setReplies(List<Comment> replies) {
-		this.replies = replies;
 	}
 	public int getParentId() {
 		return parentId;
@@ -95,12 +95,7 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public List<Comment> getComment() {
-		return replies;
-	}
-	public void setComment(List<Comment> comment) {
-		this.replies = comment;
-	}
+
 	public Comment() {
 		super();
 		// TODO Auto-generated constructor stub

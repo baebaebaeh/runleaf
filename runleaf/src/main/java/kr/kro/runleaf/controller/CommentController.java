@@ -41,8 +41,22 @@ public class CommentController {
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		ResponseEntity<?> responseEntity;
 		try {
-
 			List<Comment> list = commentService.getCommentByRunningBoardId(runningBoardId);
+			System.out.println("List를 " + list.size() + " 개 불러왔습니다");
+			responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("comment를 불러오는 도중 문제가 발생 했습니다.");
+			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return responseEntity;
+	}
+	@GetMapping("/reply/{id}")
+	public ResponseEntity<?> getRepltList(@PathVariable("id") int commentId,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
+		ResponseEntity<?> responseEntity;
+		try {
+			List<Comment> list = commentService.getCommentByParentId(commentId);
 			System.out.println("List를 " + list.size() + " 개 불러왔습니다");
 			responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (Exception e) {
@@ -54,12 +68,13 @@ public class CommentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> postComment(@ModelAttribute Comment comment,
+	public ResponseEntity<?> postComment(@RequestBody Comment comment,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		ResponseEntity<?> responseEntity;
 		String username = userDetails.getUsername();
 		comment.setWriter(username);
 		try {
+			System.out.println(comment);
 			int count = commentService.addComment(comment);
 			System.out.println("comment를 " + count + "개 등록했습니다.");
 			responseEntity = new ResponseEntity<>(count, HttpStatus.OK);

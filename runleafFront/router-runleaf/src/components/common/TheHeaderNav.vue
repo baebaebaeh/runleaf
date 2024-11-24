@@ -80,10 +80,14 @@ const closeModal = () => {
 
 /* 네비게이션 바 */
 .nav {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 30px;
+  z-index: 1000;
+  background-color: #ffffff;
 }
 
 .menu-bar,
