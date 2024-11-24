@@ -21,5 +21,7 @@ public interface CommentService {
 	int modifyComment(Comment comment);
 
 	int deleteCommentByCommentId(int commentId);
+
+	List<Comment> getCommentByParentId(int commentId);
 	
 }

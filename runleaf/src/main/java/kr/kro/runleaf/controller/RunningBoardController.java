@@ -64,7 +64,6 @@ public class RunningBoardController {
 	public ResponseEntity<RunningBoard> getRunningBoardDetail(@PathVariable("id") int runningBoardId) {
 		ResponseEntity<RunningBoard> responseEntity;
 		RunningBoard BoardDetail = runningBoardService.getRunningBoardById(runningBoardId);
-		System.out.println(BoardDetail);
 		responseEntity = new ResponseEntity<>(BoardDetail, HttpStatus.OK);
 		return responseEntity;
 	}

@@ -5,36 +5,21 @@
 
 <mapper namespace="kr.kro.runleaf.repository.CommentRepository">
     <!-- Result Map -->
-    <resultMap id="CommentResultMap" type="com.example.domain.Comment">
+    <resultMap id="CommentResultMap" type="Comment">
         <id property="commentId" column="comment_id" />
         <result property="memberId" column="member_id" />
         <result property="parentId" column="parent_id" />
         <result property="writer" column="writer" />
         <result property="runningBoardId" column="running_board_id" />
         <result property="content" column="content" />
-        <result property="createdDate" column="created_date" />
-        <result property="modifidedDate" column="modifided_date" />
+        <result property="createdTs" column="created_ts" />
+        <result property="modifidedTs" column="modifided_ts" />
         <collection property="replies" ofType="com.example.domain.Comment"
             select="getRepliesByParentId" column="comment_id" />
     </resultMap>
     
     <!-- 댓글 + 대댓글 가져오기 -->
-    <select id="getCommentsByRunningBoardId" resultMap="CommentResultMap">
-        WITH RECURSIVE comment_hierarchy AS (
-            SELECT 
-                comment_id,
-                member_id,
-                parent_id,
-                writer,
-                running_board_id,
-                content,
-                created_date,
-                modifided_date
-            FROM comment
-            WHERE running_board_id = #{runningBoardId} AND parent_id IS NULL
-            
-            UNION ALL
-            
+    <select id="selectCommentByRunningBoardId" resultType="Comment">
             SELECT 
                 c.comment_id,
                 c.member_id,
@@ -42,22 +27,13 @@
                 c.writer,
                 c.running_board_id,
                 c.content,
-                c.created_date,
-                c.modifided_date
+                c.created_ts,
+                c.modifided_ts,
+                (SELECT COUNT(*) FROM comment r WHERE r.parent_id = c.comment_id) AS replyCount
             FROM comment c
-            INNER JOIN comment_hierarchy ch ON c.parent_id = ch.comment_id
-        )
-        SELECT * 
-        FROM comment_hierarchy
-        ORDER BY parent_id, created_date;
-    </select>
-
-    <!-- 대댓글 가져오기 -->
-    <select id="getRepliesByParentId" resultMap="CommentResultMap">
-        SELECT * 
-        FROM comment
-        WHERE parent_id = #{parentId}
-        ORDER BY created_date;
+            WHERE c.running_board_id = #{runningBoardId}
+              AND c.parent_id IS NULL
+        	ORDER BY c.created_ts desc;
     </select>
 
 	<!-- 임시로 만들어놓음 -->
@@ -68,8 +44,8 @@
 				parent_id,
 				running_board_id,
 				content,
-				created_date,
-				modifided_date,
+				created_ts,
+				modifided_ts,
 				writer
 		FROM	comment
 		WHERE	parent_id = #{parentId}
@@ -83,32 +59,26 @@
                 writer,
                 running_board_id,
                 content,
-                created_date,
-                modifided_date
+                created_ts,
+                modifided_ts
           FROM	comment
          WHERE	comment_id = #{commentId}
 	</select>
 
 	<insert id="insertComment" parameterType="Comment">
 		INSERT INTO comment(
-			    comment_id,
                 member_id,
                 parent_id,
                 writer,
                 running_board_id,
-                content,
-                created_date,
-                modifided_date
+                content
 			   )
 		 VALUES (
-		 	#{commentId},
-		 	#{memberId},
-		 	#{parentId},
-		 	#{runningBoardId},
+		 	(SELECT member_id FROM member WHERE username = #{writer}),
+		 	NULLIF(#{parentId}, 0),
 		 	#{writer},
-		 	#{content},
-		 	#{createdDate},
-		 	#{modifidedDate}
+		 	#{runningBoardId},
+		 	#{content}
 		 )
 	</insert>
 

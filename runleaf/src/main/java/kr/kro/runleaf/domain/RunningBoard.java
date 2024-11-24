@@ -6,7 +6,7 @@ import java.util.List;
 public class RunningBoard {
 	private int runningBoardId;
 	private int memberId;
-	private int difficulty;
+	private String difficulty;
 	private LocalDateTime startRunningTs;
 	private LocalDateTime endRunningTs;
 	private double startLatitude;
@@ -32,7 +32,7 @@ public class RunningBoard {
 		this.location = location;
 	}
 
-	public RunningBoard(int runningBoardId, int memberId, int difficulty, LocalDateTime startRunningTs,
+	public RunningBoard(int runningBoardId, int memberId, String difficulty, LocalDateTime startRunningTs,
 			LocalDateTime endRunningTs, double startLatitude, double startLongitude, LocalDateTime createdTs,
 			LocalDateTime modifiedTs, String title, String content, String mainImagePath, String writer,
 			boolean onBoard, List<RunningBoardImage> runningBoardImage, List<Location> location) {
@@ -67,10 +67,10 @@ public class RunningBoard {
 	public void setMemberId(int memberId) {
 		this.memberId = memberId;
 	}
-	public int getDifficulty() {
+	public String getDifficulty() {
 		return difficulty;
 	}
-	public void setDifficulty(int difficulty) {
+	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
 	}
 	public LocalDateTime getStartRunningTs() {

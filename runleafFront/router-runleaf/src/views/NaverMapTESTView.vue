@@ -44,14 +44,6 @@ import { ref, onMounted } from "vue";
           strokeOpacity: 1,
         });
       });
-
-      window.naver.maps.Event.addListener(polyline, "mouseout", () => {
-        polyline.setOptions({
-          strokeColor: "#5347AA",
-          strokeStyle: "longdash",
-          strokeOpacity: 0.5,
-        });
-      });
     };
   });
 </script>

@@ -7,17 +7,19 @@
         <MapComponent class="map" :coodinate="gpsStore.locations" />
         <div class="content">
           <input class="regist-input" type="text" placeholder="여기에 제목을 입력하세요" v-model="boardDto.title" />
-          <input class="regist-input" type="text" placeholder="여기에 내용을 입력하세요" v-model="boardDto.content" />
-          <input class="regist-input" type="text" placeholder="여기에 난이도를 입력하세요" v-model="boardDto.difficulty" />
-          <input class="regist-input" type="text" placeholder="" v-model="boardDto.difficulty" />
-          <div>
-            <label for="visibility">공개 설정:</label>
-            <select v-model="boardDto.onBoard">
-              <option :value="true">공개</option>
-              <option :value="false">비공개</option>
-            </select>
-            <p>현재 설정: {{ boardDto.onBoard ? "공개" : "비공개" }}</p>
-          </div>
+          <textarea class="regist-content-input" type="text" placeholder="여기에 내용을 입력하세요"
+            v-model="boardDto.content"></textarea>
+          <select class="difficulty-select" v-model="boardDto.difficulty">
+            <option value="" disabled selected>난이도를 선택하세요</option>
+            <option value="쉬움">쉬움</option>
+            <option value="보통">보통</option>
+            <option value="어려움">어려움</option>
+          </select>
+          <select class="difficulty-select" v-model="boardDto.onBoard">
+            <option value="" disabled selected>공개여부를 선택하세요</option>
+            <option :value="true">공개</option>
+            <option :value="false">비공개</option>
+          </select>
         </div>
       </div>
       <div class="sub-image-container">
@@ -88,7 +90,7 @@ const boardDto = ref({
   content: '',
   mainImagePath: '1',
   writer: '',
-  onBoard: false,
+  onBoard: '',
 })
 let formData = new FormData();
 
@@ -125,7 +127,7 @@ const getFileName = async (files) => {
     const fileName = files[index];
     await base64(fileName, index);
   }
-}; 
+};
 
 const base64 = (file, index) => {
   // 비동기적으로 동작하기 위하여 promise를 return 해준다.
@@ -270,6 +272,40 @@ function getLocation() {
   font-weight: 400;
   position: relative;
   align-self: stretch;
+}
+
+.regist-content-input {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 20px;
+  height: 200px;
+  flex-wrap: wrap;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+.difficulty-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  /* 기본 드롭다운 화살표 제거 */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='gray' d='M0 0l10 10L20 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+.difficulty-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .sub-image-container {
