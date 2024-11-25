@@ -3,7 +3,9 @@ package kr.kro.runleaf.service;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -17,17 +19,21 @@ import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
 import kr.kro.runleaf.dto.MemberEditRequest;
 import kr.kro.runleaf.dto.MemberResponse;
+import kr.kro.runleaf.repository.FollowRepository;
 import kr.kro.runleaf.repository.MemberRepository;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
+	private final FollowRepository followRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+			FollowRepository followRepository) {
 		this.memberRepository = memberRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.followRepository = followRepository;
 	}
 
 	@Override
@@ -70,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return memberResponse;
 	}
-	
+
 	@Override
 	public int getMemberIdByUsername(String username) {
 		return memberRepository.getMemberId(username);
@@ -90,6 +96,52 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public List<MemberResponse> findFollowers(String username) {
+		System.out.println(username);
+		Member member = memberRepository.selectMemberByUsername(username);
+		int id = member.getMemberId();
+		List<Member> members = followRepository.selectFollowersByUsername(id);
+		List<MemberResponse> memberResponses = new ArrayList<>();
+		for (int i = 0; members != null && i < members.size(); i++) {
+			System.out.println(i);
+			System.out.println(members.size());
+			int childId = members.get(i).getMemberId();
+			
+			Member childMember = memberRepository.selectMemberByMemberId(childId);
+
+			MemberFile memberFile = memberRepository.selectMemberFileByMemberId(childId);
+			MemberResponse memberResponse = new MemberResponse(childMember);
+			String fileUrl = memberFile.getFilePath();
+			memberResponse.setMemberFileUrl(fileUrl);
+			memberResponses.add(memberResponse);
+		}
+		return memberResponses;
+	}
+
+	@Override
+	public List<MemberResponse> findFollowings(String username) {
+		System.out.println(username);
+		Member member = memberRepository.selectMemberByUsername(username);
+		int id = member.getMemberId();
+		List<Member> members = followRepository.selectFollowingsByUsername(id);
+		List<MemberResponse> memberResponses = new ArrayList<>();
+		for (int i = 0; members != null && i < members.size(); i++) {
+			System.out.println(i);
+			System.out.println(members.size());
+			int childId = members.get(i).getMemberId();
+
+			Member childMember = memberRepository.selectMemberByMemberId(childId);
+
+			MemberFile memberFile = memberRepository.selectMemberFileByMemberId(childId);
+			MemberResponse memberResponse = new MemberResponse(childMember);
+			String fileUrl = memberFile.getFilePath();
+			memberResponse.setMemberFileUrl(fileUrl);
+			memberResponses.add(memberResponse);
+		}
+		return memberResponses;
+	}
+
+	@Override
 	@Transactional
 	public void edit(MemberEditRequest editReqeust) {
 		memberRepository.updateMember(editReqeust);
@@ -106,7 +158,7 @@ public class MemberServiceImpl implements MemberService {
 		int memberId = memberRepository.getMemberId(username);
 
 		MemberFile memberFile = new MemberFile();
-		
+
 		memberFile.setMemberId(memberId);
 
 		String orgName;
@@ -135,13 +187,9 @@ public class MemberServiceImpl implements MemberService {
 		memberFile.setFilePath(subDir + "/" + systemName); // 파일 경로
 		memberFile.setOrgName(orgName); // 원본 파일명
 		memberFile.setSystemName(systemName); // 시스템 저장 파일명
-		
+
 		memberRepository.updateMemberFile(memberFile);
 		return memberFile.getFilePath();
 	}
-
-
-
-	
 
 }

@@ -37,6 +37,16 @@
 		FROM follow
 		WHERE follower_id = #{followerId} AND following_id = #{followingId}
 	</select>
-
+	
+	<select id="selectFollowersByUsername" parameterType="int" resultType="Member">
+		SELECT follower_id AS member_id
+		FROM follow
+		WHERE following_id = #{memberId}
+	</select>
+	<select id="selectFollowingsByUsername" parameterType="int" resultType="Member">
+		SELECT following_id AS member_id
+		FROM follow
+		WHERE follower_id = #{memberId}
+	</select>
 </mapper>
 

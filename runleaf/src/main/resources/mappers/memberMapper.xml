@@ -55,6 +55,13 @@
 		FROM member_file
 		WHERE member_id = #{member_id}
 	</select>
+	
+	<!-- memberid로 멤버찾기 -->
+	<select id="selectMemberByMemberId" parameterType="int" resultType="kr.kro.runleaf.domain.Member">
+		SELECT *
+		FROM member
+		WHERE member_id = #{member_id}
+	</select>
 
 	<!-- 회원 수정 -->
 	<update id="updateMember" parameterType="kr.kro.runleaf.dto.MemberEditRequest">

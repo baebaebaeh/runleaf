@@ -3,6 +3,8 @@ package kr.kro.runleaf.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import kr.kro.runleaf.domain.Member;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +25,8 @@ public interface FollowRepository {
 
     // 팔로우 여부 확인
     boolean isFollowing(@Param("followerId") int followerId, @Param("followingId") int followingId);
+
+	List<Member> selectFollowersByUsername(int memberId);
+
+	List<Member> selectFollowingsByUsername(int memberId);
 }

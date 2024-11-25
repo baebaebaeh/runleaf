@@ -15,7 +15,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  
   server: {
     proxy: {
       // 경로가 "/api" 로 시작하는 요청을 대상으로 proxy 설정
@@ -35,14 +34,14 @@ export default defineConfig({
     // host: '192.168.210.65',
     // port: 8000
     // host: '192.168.210.66',
-    // host: '192.168.219.111',
+    host: '192.168.219.111',
     // port: 80,
-    // port: 443,
-    // https: {
-    //   key: 'path/to/private.pem',
-    //   cert: 'path/to/certificate.pem',
-    //   ca: 'path/to/ca_bundle.pem',
-    // },
+    port: 443,
+    https: {
+      key: 'path/to/private.pem',
+      cert: 'path/to/certificate.pem',
+      ca: 'path/to/ca_bundle.pem',
+    },
   },
 
 })
