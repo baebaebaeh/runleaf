@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.Location;
+import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
 import kr.kro.runleaf.dto.RunningDataRequest;
@@ -94,6 +95,11 @@ public class RunningDataServiceImpl implements RunningDataService {
 	}
 	@Override
 	public void updateMember(RunningDataRequest runningDataRequest) {
+		Member member = memberRepository.selectMemberByUsername(runningDataRequest.getUsername());
+		double totalDist = member.getTotalDist() + runningDataRequest.getTotalDist();
+		double totalRunningSecond = member.getTotalRunningSecond() + runningDataRequest.getTotalRunningSecond();
+		runningDataRequest.setTotalDist(totalDist);
+		runningDataRequest.setTotalRunningSecond(totalRunningSecond);
 		memberRepository.updateDistAndRunningSecond(runningDataRequest);
 	}
 

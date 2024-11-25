@@ -81,7 +81,8 @@ CREATE TABLE comment (
     writer VARCHAR(20) NOT NULL,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (member_id) REFERENCES Member(member_id),
-    FOREIGN KEY (running_board_id) REFERENCES running_board(running_board_id),
+    FOREIGN KEY (running_board_id) REFERENCES running_board(running_board_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (parent_id) REFERENCES Comment(comment_id)
     ON DELETE CASCADE
 );

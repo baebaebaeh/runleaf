@@ -1,6 +1,6 @@
 <template>
   <div class="run-after2">
-    <div class="div">달리기 저장파트</div>
+    <div class="div">달리기 저장</div>
     <div class="form-container">
       <div class="path-container">
         <div class="div">뛴 경로</div>
@@ -72,7 +72,7 @@ const gpsStore = useGpsStore();
 const visibility = ref(false);
 
 const goRunningDataList = function () {
-  router.push({ name: 'myrun' });
+  router.push({ name: 'myInfo' });
 }
 const previews = ref([
   'preview0',
