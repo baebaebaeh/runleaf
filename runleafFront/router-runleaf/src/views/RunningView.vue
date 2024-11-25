@@ -145,14 +145,14 @@ const getLocation = () => {
       const latitude = position.coords.latitude;
       const accuracy = position.coords.accuracy; // Geolocation API에서 제공하는 accuracy
       const currentTimestamp = new Date().getTime();
-      if (!initialized.value) {
-        initialSamples.value.push({ latitude, longitude });
-        if (initialSamples.value.length >= 3) {
-          console.log("Initial 3 samples collected. Starting tracking...");
-          initialized.value = true;
-        }
-        return;
-      }
+      // if (!initialized.value) {
+      //   initialSamples.value.push({ latitude, longitude });
+      //   if (initialSamples.value.length >= 3) {
+      //     console.log("Initial 3 samples collected. Starting tracking...");
+      //     initialized.value = true;
+      //   }
+      //   return;
+      // }
 
       const dt = (currentTimestamp - timestamp.value) / 1000; // 시간 간격 계산
       const z = math.matrix([latitude, longitude]);
@@ -192,7 +192,7 @@ const getLocation = () => {
 // 타이머 관리
 const startLocationInterval = () => {
   if (gpsStore.intervalId) clearInterval(gpsStore.intervalId);
-  gpsStore.intervalId = setInterval(getLocation, 3000);
+  gpsStore.intervalId = setInterval(getLocation, 1000);
   gpsStore.intervalCnt = setInterval(() => {
     gpsStore.cnt += 1;
   }, 1000);

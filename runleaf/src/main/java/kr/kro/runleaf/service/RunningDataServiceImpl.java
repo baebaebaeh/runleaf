@@ -6,16 +6,21 @@ import org.springframework.stereotype.Service;
 import kr.kro.runleaf.domain.Board;
 import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.Location;
+import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
+import kr.kro.runleaf.dto.RunningDataRequest;
+import kr.kro.runleaf.repository.MemberRepository;
 import kr.kro.runleaf.repository.RunningBoardRepository;
 import kr.kro.runleaf.util.PageData;
 
 @Service
 public class RunningDataServiceImpl implements RunningDataService {
 	private final RunningBoardRepository runningBoardRepository;
-	public RunningDataServiceImpl(RunningBoardRepository runningDataRepository) {
+	private final MemberRepository memberRepository;
+	public RunningDataServiceImpl(RunningBoardRepository runningDataRepository, MemberRepository memberRepository) {
 		this.runningBoardRepository = runningDataRepository;
+		this.memberRepository = memberRepository;
 	}
 	@Override
 	public List<RunningBoard> getRunningBoardList(BoardSearch boardSearch) {
@@ -88,6 +93,14 @@ public class RunningDataServiceImpl implements RunningDataService {
 		int count = runningBoardRepository.deleteRunningBoard(runningBoardId);
 		return count;
 	}
-	
+	@Override
+	public void updateMember(RunningDataRequest runningDataRequest) {
+		Member member = memberRepository.selectMemberByUsername(runningDataRequest.getUsername());
+		double totalDist = member.getTotalDist() + runningDataRequest.getTotalDist();
+		double totalRunningSecond = member.getTotalRunningSecond() + runningDataRequest.getTotalRunningSecond();
+		runningDataRequest.setTotalDist(totalDist);
+		runningDataRequest.setTotalRunningSecond(totalRunningSecond);
+		memberRepository.updateDistAndRunningSecond(runningDataRequest);
+	}
 
 }

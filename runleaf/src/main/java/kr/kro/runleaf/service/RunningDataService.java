@@ -7,6 +7,7 @@ import kr.kro.runleaf.domain.BoardSearch;
 import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
+import kr.kro.runleaf.dto.RunningDataRequest;
 import kr.kro.runleaf.util.PageData;
 
 public interface RunningDataService {
@@ -34,5 +35,7 @@ public interface RunningDataService {
 	int deleteRunningBoardImage(int runningBoardId);
 
 	int deleteRunningBoard(int runningBoardId);
+
+	void updateMember(RunningDataRequest runningDataRequest);
 
 }

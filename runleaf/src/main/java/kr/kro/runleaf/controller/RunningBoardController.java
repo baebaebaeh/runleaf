@@ -30,6 +30,7 @@ import kr.kro.runleaf.domain.Location;
 import kr.kro.runleaf.domain.RunningBoard;
 import kr.kro.runleaf.domain.RunningBoardImage;
 import kr.kro.runleaf.dto.CustomUserDetails;
+import kr.kro.runleaf.dto.RunningDataRequest;
 import kr.kro.runleaf.jwt.JWTUtil;
 import kr.kro.runleaf.service.RunningDataService;
 
@@ -47,14 +48,18 @@ public class RunningBoardController {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<List<RunningBoard>> getRunningBoardList(@ModelAttribute BoardSearch boardSearch) {
+	public ResponseEntity<List<RunningBoard>> getRunningBoardList(
+			@ModelAttribute BoardSearch boardSearch) {
+//		String username = userDetails.getUsername();
 		ResponseEntity<List<RunningBoard>> responseEntity;
+//		boardSearch.setUsername(username);
 		List<RunningBoard> list = runningBoardService.getRunningBoardList(boardSearch);
 		responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		return responseEntity;
 	}
 	@GetMapping("/myrun")
-	public ResponseEntity<List<RunningBoard>> getRunningMyBoardList(@ModelAttribute BoardSearch boardSearch,
+	public ResponseEntity<List<RunningBoard>> getRunningMyBoardList(
+			@ModelAttribute BoardSearch boardSearch,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		boardSearch.setUsername(userDetails.getUsername());
 		ResponseEntity<List<RunningBoard>> responseEntity;
@@ -67,6 +72,7 @@ public class RunningBoardController {
 	public ResponseEntity<RunningBoard> getRunningBoardDetail(@PathVariable("id") int runningBoardId) {
 		ResponseEntity<RunningBoard> responseEntity;
 		RunningBoard BoardDetail = runningBoardService.getRunningBoardById(runningBoardId);
+		System.out.println(BoardDetail.getTitle());
 		responseEntity = new ResponseEntity<>(BoardDetail, HttpStatus.OK);
 		return responseEntity;
 	}
@@ -94,7 +100,7 @@ public class RunningBoardController {
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		ResponseEntity<Integer> responseEntity;
 
-		
+		String username = userDetails.getUsername();
 		
 		double totalDist = 0;
 		for (int i = 1; i < locations.size(); i++) {
@@ -119,14 +125,18 @@ public class RunningBoardController {
 		Duration totalRunningTs = Duration.between(runningBoard.getStartRunningTs(), runningBoard.getEndRunningTs());
         double totalRunningSecond = totalRunningTs.toSeconds();
         System.out.println(totalRunningSecond);
+        
+        
 		runningBoard.setTotalRunningSecond(totalRunningSecond);
 		runningBoard.setTotalDist(totalDist);
+		RunningDataRequest runningDataRequest = new RunningDataRequest(username, totalDist, totalRunningSecond);
+		runningBoardService.updateMember(runningDataRequest);
 		
 		
 		/**
 		 * RunningBoard 데이터베이스에 등록하는 부분
 		 */
-		runningBoard.setWriter(userDetails.getUsername());
+		runningBoard.setWriter(username);
 		try {
 			if (file == null) {
 				runningBoard.setMainImagePath("uploads/defaultimg/abcd.PNG");

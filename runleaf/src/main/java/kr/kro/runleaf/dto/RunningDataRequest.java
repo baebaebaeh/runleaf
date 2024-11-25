@@ -2,6 +2,8 @@ package kr.kro.runleaf.dto;
 
 public class RunningDataRequest {
 	
+	String username;
+	
 	double totalDist;
 	
 	double totalRunningSecond;
@@ -9,9 +11,18 @@ public class RunningDataRequest {
 	public RunningDataRequest() {
 	}
 
-	public RunningDataRequest(double totalDist, double totalRunningSecond) {
+	public RunningDataRequest(String username, double totalDist, double totalRunningSecond) {
+		super();
+		this.username = username;
 		this.totalDist = totalDist;
 		this.totalRunningSecond = totalRunningSecond;
+	}
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public double getTotalDist() {
