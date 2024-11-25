@@ -11,10 +11,10 @@
           <div class="username">{{ authStore.loginUsername }}</div>
           <div class="stats">
             <RouterLink class="follow" :to="{ name: 'follower' }">
-              팔로워 {{ followStore.followStats.followerCount }}
+              팔로워 {{ authStore.myFollowStats.followerCount }}
             </RouterLink>
             <RouterLink class="follow" :to="{ name: 'following' }">
-              팔로잉 {{ followStore.followStats.followingCount }}
+              팔로잉 {{ authStore.myFollowStats.followingCount }}
             </RouterLink>
           </div>
         </div>
@@ -115,6 +115,7 @@ const logout = () => {
 router.afterEach(() => {
   menuStore.hideMenu();
 });
+
 </script>
 
 <style scoped>
