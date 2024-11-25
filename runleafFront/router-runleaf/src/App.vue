@@ -10,8 +10,8 @@
         <div class="profile-info">
           <div class="username">{{ authStore.loginUsername }}</div>
           <div class="stats">
-            <span>팔로워: {{ authStore.followers }}</span>
-            <span>팔로잉: {{ authStore.following }}</span>
+            <span>팔로워 {{ followStore.followStats.followerCount }}</span>
+            <span>팔로잉 {{ followStore.followStats.followingCount }}</span>
           </div>
         </div>
       </div>
@@ -96,10 +96,12 @@ import TheHeaderNav from './components/common/TheHeaderNav.vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from './stores/auth';
 import { useMenuStore } from './stores/menu';
+import { useFollowStore } from './stores/follow';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
+const followStore = useFollowStore();
 
 
 const logout = () => {
