@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 export const useMemberStore = defineStore('member', () => {
 
@@ -15,8 +16,6 @@ export const useMemberStore = defineStore('member', () => {
     email: '',
     phone: '',
   });
-
-  // const memberImage = ref(null);
 
   const updateJoinForm = (member) => {
     memberJoinForm.value.username = member.username;
@@ -86,16 +85,28 @@ export const useMemberStore = defineStore('member', () => {
       const token = sessionStorage.getItem('token');
       const response = await axios.put('/api/member', memberEditForm.value, {
         headers: {
-          authorization: `Bearer ${token}`, // 토큰 추가
+          authorization: `Bearer ${token}`, 
         }
       });
       if (response.status === 200) {
-        alert('회원 정보가 수정되었습니다!');
-        router.push('/profile'); // 프로필 페이지로 이동
+        Swal.fire({
+          title: '성공!',
+          icon: 'success',
+          width: '300px',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#4caf50',
+      });
+        router.push('/profile'); 
       }
     } catch (error) {
       console.error('회원 정보 수정 실패:', error);
-      alert('회원 정보 수정 중 문제가 발생했습니다.');
+      Swal.fire({
+        title: '실패!',
+        icon: 'error',
+        width: '300px',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#f44336',
+    });
     }
   };
 
@@ -109,12 +120,10 @@ export const useMemberStore = defineStore('member', () => {
           authorization: `Bearer ${token}`,
       },
       });
-      // 서버에서 새로운 이미지 URL을 응답받아 상태를 업데이트
       memberInfoForm.memberFileUrl = response.data.filePath;
       return response.data;
     } catch (error) {
       console.error('이미지 업로드 에러:', error);
-      throw new Error('프로필 이미지 업로드에 실패했습니다.');
     }
   }
 

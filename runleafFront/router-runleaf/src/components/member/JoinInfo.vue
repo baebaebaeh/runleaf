@@ -116,9 +116,8 @@ const saveInfoAndNext = () => {
   display: flex;
   justify-content: center; 
   align-items: center;     
-  min-height: 100vh;       
   box-sizing: border-box;
-  padding-top: 100px;
+  padding-top: 5%;
 }
 
 .form-container {
@@ -126,8 +125,7 @@ const saveInfoAndNext = () => {
   flex-direction: column;
   align-items: flex-start;
   background: #ffffff;
-  padding-bottom: 320px; 
-  width: 440px; 
+  width: 320px; 
   max-width: 640px;
   box-sizing: border-box;
 }
@@ -167,7 +165,7 @@ const saveInfoAndNext = () => {
   width: 100%;
   height: 55px; 
   padding: 12px; 
-  font-size: 16px; 
+  font-size: 14px; 
   box-sizing: border-box;
   margin-top: 10px; /* 간격 증가 */
 }
