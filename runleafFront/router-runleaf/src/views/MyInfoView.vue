@@ -14,8 +14,19 @@
                     <span>팔로잉: {{ memberStore.memberInfoForm.following || 0 }}</span>
                 </div>
                 <div class="stats">
-                    <span>뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0}}</span>
-                    <span>뛴 시간: {{ memberStore.memberInfoForm.totalRunningSecond }}</span>
+                    <span>뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0 }}m</span>
+                    <span v-if="memberStore.memberInfoForm.totalRunningSecond < 60" class="div3">뛴시간 : {{
+                        memberStore.memberInfoForm.totalRunningSecond }}초
+                    </span>
+                    <span v-if="memberStore.memberInfoForm.totalRunningSecond >= 60 && memberStore.memberInfoForm.totalRunningSecond < 3600"
+                        class="div3">
+                        뛴시간 : {{ Math.floor(memberStore.memberInfoForm.totalRunningSecond / 60) }}분 {{ memberStore.memberInfoForm.totalRunningSecond
+                        % 60 }}초
+                    </span>
+                    <span v-if="memberStore.memberInfoForm.totalRunningSecond >= 3600" class="div3">뛴시간 : {{
+                        Math.floor(memberStore.memberInfoForm.totalRunningSecond / 3600) }}시간 {{
+                            Math.floor(memberStore.memberInfoForm.totalRunningSecond %
+                        3600 / 60) }}분 {{ memberStore.memberInfoForm.totalRunningSecond % 60 }}초 </span>
                 </div>
                 <div v-if="isOtherProfile">
                     <button v-if="!followStore.isFollowing" @click="handleFollow" class="follow-btn">팔로우</button>
@@ -171,7 +182,8 @@ onMounted(() => {
     color: #666;
 }
 
-.follow-btn, .unfollow-btn {
+.follow-btn,
+.unfollow-btn {
     padding: 8px 16px;
     font-size: 14px;
     border: none;
@@ -180,16 +192,19 @@ onMounted(() => {
 }
 
 .follow-btn {
-    background-color: #a1ffa5; /* 녹색 */
+    background-color: #a1ffa5;
+    /* 녹색 */
     color: white;
 }
 
 .unfollow-btn {
-    background-color: #dddddd; /* 빨간색 */
+    background-color: #dddddd;
+    /* 빨간색 */
     color: white;
 }
 
-.follow-btn:hover, .unfollow-btn:hover {
+.follow-btn:hover,
+.unfollow-btn:hover {
     opacity: 0.9;
 }
 
