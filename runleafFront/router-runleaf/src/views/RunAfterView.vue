@@ -45,7 +45,7 @@
       </div>
     </div>
   </div>
-
+<!-- 
   <div>
     <div>memberId : <input type="text" v-model="boardDto.memberId"></div>
     <div>startRunningTs : <input type="text" v-model="boardDto.startRunningTs"></div>
@@ -57,8 +57,8 @@
     <div>mainImagePath :<input type="text" v-model="boardDto.mainImagePath"></div>
     <div>writer :<input type="text" v-model="boardDto.writer"></div>
     <div>boolean :<input type="text" v-model="boardDto.onBoard"></div>
-    <!-- v-bind:style="{ display: 'none' }" -->
   </div>
+   -->
 </template>
 
 <script setup>

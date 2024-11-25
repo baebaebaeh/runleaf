@@ -88,7 +88,7 @@ public class CommentController {
 
 	// id는 commentId
 	@PutMapping("{id}")
-	public ResponseEntity<?> putComment(@PathVariable int commentId, @RequestBody Comment comment,
+	public ResponseEntity<?> putComment(@PathVariable("id") int commentId, @RequestBody Comment comment,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		// TODO: process PUT request
 		String username = userDetails.getUsername();
@@ -113,8 +113,8 @@ public class CommentController {
 		return responseEntity;
 	}
 
-	@DeleteMapping("{id}")
-	public ResponseEntity<?> deleteMapping(@PathVariable int commentId,
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteMapping(@PathVariable("id") int commentId,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		String username = userDetails.getUsername();
 		ResponseEntity<?> responseEntity;
@@ -133,6 +133,7 @@ public class CommentController {
 			}
 			System.out.println("commet가 " + comment + "개 변경되었습니다");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("comment 삭제중 오류가 발생했습니다.");
 			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

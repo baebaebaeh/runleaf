@@ -66,6 +66,8 @@
 				main_image_path,
 				writer,
 				on_board,
+				total_running_second,
+				ROUND(total_dist, 1) AS total_dist,
 				ST_Distance_Sphere(
 					POINT(b.start_longitude, b.start_latitude),
 					POINT(#{longitude}, #{latitude})
@@ -89,22 +91,24 @@
 	</select>
 	
 	
-	<select id="selectRunningBoardById" resultMap="RunningBoard"
+	<select id="selectRunningBoardById" resultType="RunningBoard"
 			parameterType="int" >
-		SELECT 	r.running_board_id AS r_running_board_id, 
-				r.member_id,
-				r.difficulty,
-				r.start_running_ts,
-				r.end_running_ts,	
-				r.start_latitude,
-				r.start_longitude,
-				r.created_ts,
-				r.modified_ts,
-				r.title,
-				r.content,
-				r.main_image_path,
-				r.writer,
-				r.on_board
+		SELECT 	running_board_id,
+				member_id,
+				difficulty,
+				start_running_ts,
+				end_running_ts,	
+				start_latitude,
+				start_longitude,
+				created_ts,
+				modified_ts,
+				title,
+				content,
+				main_image_path,
+				writer,
+				on_board,
+				total_running_second,
+				ROUND(total_dist, 1) AS total_dist
 				<!-- 
 				i.running_board_image_id,
 				i.running_board_id AS i_running_board_id,
@@ -112,11 +116,8 @@
 				i.system_name,
 				i.path
 				 -->
-		FROM running_board r
-		<!-- 
-		JOIN running_board_image i on r.running_board_id = i.running_board_id
-		 -->
-		WHERE r.running_board_id = #{runningBoardId}
+		FROM running_board
+		WHERE running_board_id = #{runningBoardId}
 	</select>
 	
 	<insert id="insertLocation" parameterType="Location">
@@ -146,7 +147,9 @@
 		    content,
 		    main_image_path,
 		    writer,
-		    on_board
+		    on_board,
+		    total_dist,
+		    total_running_second
 		)
 		VALUES (
 			#{memberId},
@@ -159,7 +162,9 @@
 		    #{content},
 		    #{mainImagePath},
 		    #{writer},
-		    #{onBoard}
+		    #{onBoard},
+		    #{totalDist},
+		    #{totalRunningSecond}
 		)
 	</insert>
 	

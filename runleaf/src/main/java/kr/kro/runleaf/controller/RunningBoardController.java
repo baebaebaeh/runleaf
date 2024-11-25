@@ -2,6 +2,8 @@ package kr.kro.runleaf.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +39,7 @@ import kr.kro.runleaf.service.RunningDataService;
 public class RunningBoardController {
 	private final RunningDataService runningBoardService;
 	private final JWTUtil jwtUtil;
+	private final double EARTH_RADIUS = 6371000.0;
 
 	public RunningBoardController(RunningDataService runningDataService, JWTUtil jwtUtil) {
 		this.runningBoardService = runningDataService;
@@ -90,6 +93,36 @@ public class RunningBoardController {
 			@RequestPart(value = "file", required = false) List<MultipartFile> file,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		ResponseEntity<Integer> responseEntity;
+
+		
+		
+		double totalDist = 0;
+		for (int i = 1; i < locations.size(); i++) {
+			double lat1Rad = Math.toRadians(locations.get(i - 1).getLatitude());
+			double lon1Rad = Math.toRadians(locations.get(i - 1).getLongitude());
+			double lat2Rad = Math.toRadians(locations.get(i).getLatitude());
+			double lon2Rad = Math.toRadians(locations.get(i).getLongitude());
+			
+			// 위도와 경도의 차이 계산
+			double deltaLat = lat2Rad - lat1Rad;
+			double deltaLon = lon2Rad - lon1Rad;
+			
+			// 하버사인 공식 적용
+			double a = Math.pow(Math.sin(deltaLat / 2), 2)
+					+ Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.pow(Math.sin(deltaLon / 2), 2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			
+			// 거리 계산
+			totalDist += EARTH_RADIUS * c;
+		}
+		
+		Duration totalRunningTs = Duration.between(runningBoard.getStartRunningTs(), runningBoard.getEndRunningTs());
+        double totalRunningSecond = totalRunningTs.toSeconds();
+        System.out.println(totalRunningSecond);
+		runningBoard.setTotalRunningSecond(totalRunningSecond);
+		runningBoard.setTotalDist(totalDist);
+		
+		
 		/**
 		 * RunningBoard 데이터베이스에 등록하는 부분
 		 */
@@ -109,19 +142,24 @@ public class RunningBoardController {
 				responseEntity = new ResponseEntity<>(numberOfChange, HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			System.out.println("runningBoard저장할때 문제가 생겼습니다.");
 		}
 
-		/**
-		 * RunningBoardImage 데이터베이스에 등록하는 부분
-		 */
+		
+
+		
+		
+		
 		for (int index = 0; locations != null && index < locations.size(); index++) {
 			Location location = locations.get(index);
 			location.setRunningBoardId(runningBoard.getRunningBoardId());
 			int count = runningBoardService.addLocation(location);
 		}
 
+		
+		
 		for (int index = 0; file != null && index < file.size(); index++) {
 			String subDir = "uploads" + new SimpleDateFormat("/yyyy/MM/dd/HH/").format(new Date());
 //			String uploadDir = "/Users/baehanjin/SSAFY/" + subDir;

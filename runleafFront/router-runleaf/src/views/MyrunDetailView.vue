@@ -34,8 +34,21 @@
 
         <div class="content">
           <div class="div2">제목 : {{ boardDetail.title }}</div>
-          <div class="div2">내용 : {{ boardDetail.content }}</div>
           <div class="div2">난이도 : {{ boardDetail.difficulty }}</div>
+          <div class="div2">뛴거리 : {{ boardDetail.totalDist }}m</div>
+          <div v-if="boardDetail.totalRunningSecond < 60" class="div3">
+              뛴시간 : {{ boardDetail.totalRunningSecond }}초
+            </div>
+            <div v-if="boardDetail.totalRunningSecond >= 60 && boardDetail.totalRunningSecond < 3600 " class="div3">
+              뛴시간 : {{ Math.floor(boardDetail.totalRunningSecond / 60) }}분 
+              {{ boardDetail.totalRunningSecond % 60 }}초
+            </div>
+            <div v-if="boardDetail.totalRunningSecond >= 3600 " class="div3">
+              뛴시간 : {{ Math.floor(boardDetail.totalRunningSecond / 3600) }}시간 
+              {{ Math.floor(boardDetail.totalRunningSecond % 3600 / 60) }}분 
+              {{ boardDetail.totalRunningSecond % 60 }}초
+            </div>
+          <div class="div2">내용 : {{ boardDetail.content }}</div>
           <!-- <div class="div2">onBoard : {{ boardDetail.onBoard }}</div>
           <div class="div2">startRunningTs : {{ boardDetail.startRunningTs }}</div>
           <div class="div2">endRunningTs : {{ boardDetail.endRunningTs }}</div>
@@ -177,6 +190,7 @@ const insertCommet = async () => {
       'authorization': `Bearer ${token}`,
     }
   })
+  
   openCommentModal()
 };
 const isOffChange = () => {
@@ -285,6 +299,7 @@ const deleteBoard = async () => {
 const findDetailById = async () => {
   const { data } = await axios.get(`/api/running/board/${id}`);
   boardDetail.value = data;
+  console.log(boardDetail.value.totalDist)
   console.log(data);
 }
 const findDetailImageById = async () => {
