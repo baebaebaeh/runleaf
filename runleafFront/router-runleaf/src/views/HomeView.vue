@@ -4,7 +4,8 @@
       <div class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
         <!-- 이미지 관련 파트 -->
         <div class="main-image">
-          <RouterLink class="div3" :to="{ name : 'otherInfo', params : { username : runningBoard.writer } }">{{ runningBoard.writer }}</RouterLink>
+          <RouterLink class="div3" :to="{ name: 'otherInfo', params: { username: runningBoard.writer } }">{{
+            runningBoard.writer }}</RouterLink>
           <div class="div">{{ runningBoard.title }}</div>
 
           <!-- 이미지 있을때 캐러셀 표시 -->
@@ -33,21 +34,40 @@
           <div class="content">
             <div class="div3">난이도 : {{ runningBoard.difficulty }}</div>
             <div class="div3">뛴거리 : {{ runningBoard.totalDist }}m</div>
-            <div v-if="runningBoard.totalRunningSecond < 60" class="div3">뛴시간 : {{ runningBoard.totalRunningSecond }}초
+            <div v-if="runningBoard.totalRunningSecond < 60" class="div3">
+              뛴시간 : {{ runningBoard.totalRunningSecond }}초
             </div>
             <div v-if="runningBoard.totalRunningSecond >= 60 && runningBoard.totalRunningSecond < 3600" class="div3">
-              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 60) }}분 {{ runningBoard.totalRunningSecond % 60 }}초
+              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 60) }}분 
+              {{ runningBoard.totalRunningSecond % 60 }}초
             </div>
-            <div v-if="runningBoard.totalRunningSecond >= 3600" class="div3">뛴시간 : {{
-              Math.floor(runningBoard.totalRunningSecond / 3600) }}시간 {{ Math.floor(runningBoard.totalRunningSecond %
-                3600 / 60) }}분 {{ runningBoard.totalRunningSecond % 60 }}초 </div>
-            <div class="div2">{{ runningBoard.content }}</div>
+            <div v-if="runningBoard.totalRunningSecond >= 3600" class="div3">
+              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 3600) }}시간 
+              {{ Math.floor(runningBoard.totalRunningSecond % 3600 / 60) }}분 
+              {{ runningBoard.totalRunningSecond % 60 }}초
+            </div>
+            <div class="div2">
+              {{ runningBoard.content }}
+            </div>
           </div>
           <div class="commentmap">
             <img class="message-square" src="@/assets/images/icons/message-square.svg"
               @click="openCommentModal(index)" />
             <img class="map-icon" src="@/assets/images/icons/map.svg"
               @click="openMapModal(boardDto[index].runningBoardId)" />
+            <RouterLink v-if="boardDto[index].writer === authStore.loginUsername"
+              @click="tempSaveBoard(runningBoard.runningBoardId)" :to="{
+                name: 'myrunUpdate',
+                params: {
+                  id: runningBoard.runningBoardId,
+                }
+              }">
+              <img class="edit-board" src="@/assets/images/icons/edit-board.png" />
+            </RouterLink>
+            <button v-if="boardDto[index].writer === authStore.loginUsername"
+              @click="deleteBoard(runningBoard.runningBoardId)">
+              <img class="delete-board" src="@/assets/images/icons/delete-board.png" />
+            </button>
           </div>
         </div>
       </div>
@@ -68,7 +88,8 @@
           </div>
           <div class="comment-buttons">
             <button @click="isOnChange(i)">답글 달기</button>
-            <button v-if="authStore.loginUsername === comment.writer" class="delete-btn" @click="deleteComment(comment.commentId)">삭제</button>
+            <button v-if="authStore.loginUsername === comment.writer" class="delete-btn"
+              @click="deleteComment(comment.commentId)">삭제</button>
           </div>
           <button v-if="comment.replyCount != 0" @click="isOnReply(i)">
             답글 {{ comment.replyCount }}개 더보기
@@ -78,7 +99,8 @@
             <h3>{{ reply.content }}</h3>
             <!-- <button v-if="authStore.loginUsername === comment.writer" @click="deleteComment()"> -->
             <div class="reply-buttons">
-              <button v-if="authStore.loginUsername === reply.writer" class="delete-btn" @click="deleteComment(reply.commentId)">삭제</button>
+              <button v-if="authStore.loginUsername === reply.writer" class="delete-btn"
+                @click="deleteComment(reply.commentId)">삭제</button>
             </div>
           </div>
         </div>
@@ -107,7 +129,9 @@ import { useGpsStore } from '@/stores/gpsStore.js';
 import { useAuthStore } from '@/stores/auth.js'
 import MapComponent from '@/views/NaverMapTESTView.vue'
 // ======================= 임포트 =======================
-
+onUnmounted(() => {
+  document.body.style.overflow = "auto"; // 스크롤 복구
+})
 // ======================= 변수선언 =======================
 const authStore = useAuthStore();
 const username = authStore.loginUsername;
@@ -144,6 +168,7 @@ const initOrderString = () => {
 initOrderString();
 // ======================= 지도모달 로직 =======================
 const openMapModal = async (id) => {
+  document.body.style.overflow = "hidden"; // 스크롤 막기
   console.log(id)
   const { data } = await axios.get(`/api/running/coodinate/${id}`);
   coodinate.value = data;
@@ -151,6 +176,7 @@ const openMapModal = async (id) => {
   isMapModal.value = true;
 }
 const closeMapModal = () => {
+  document.body.style.overflow = "auto"; // 스크롤 복구
   isMapModal.value = false;
 }
 
@@ -158,6 +184,7 @@ const closeMapModal = () => {
 
 // ======================= 댓글모달 로직 =======================
 const openCommentModal = async (index) => {
+  document.body.style.overflow = "hidden"; // 스크롤 막기
   const id = boardDto.value[index].runningBoardId;
   tempCommentIdx.value = index;
   console.log(id);
@@ -167,6 +194,7 @@ const openCommentModal = async (index) => {
   isCommentModal.value = true;
 }
 const closeCommentModal = () => {
+  document.body.style.overflow = "auto"; // 스크롤 복구
   isCommentModal.value = false;
 }
 const isOnChange = (i) => {
@@ -182,7 +210,7 @@ const insertCommet = async () => {
       'authorization': `Bearer ${token}`,
     }
   })
-  openCommentModal(tempCommentIdx.value)
+  await openCommentModal(tempCommentIdx.value)
   commentDto.value.content = '';
   const id = comments.value[tempReplyIdx.value].commentId;
   const { data } = await axios.get(`/api/comment/reply/${id}`)
@@ -460,7 +488,7 @@ onBeforeRouteLeave((to, from, next) => {
   padding-right: 20px;
   border-radius: 10px;
   width: 370px;
-  height: 50%;
+  height: 80%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   overflow-y: auto;
@@ -515,7 +543,7 @@ onBeforeRouteLeave((to, from, next) => {
 }
 
 .frame-50 button:hover {
-  background-color: #0056b3;
+  background-color: #c3c3c3;
 }
 
 .frame-50 input[type="text"] {
@@ -598,7 +626,7 @@ onBeforeRouteLeave((to, from, next) => {
   padding: 5px 10px;
   font-size: 12px;
   font-weight: 600;
-  color: #007bff;
+  color: #c3c3c3;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -618,7 +646,7 @@ onBeforeRouteLeave((to, from, next) => {
 }
 
 .delete-btn {
-  background-color: #ff4d4d;
+  background-color: #c3c3c3;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -629,7 +657,7 @@ onBeforeRouteLeave((to, from, next) => {
 }
 
 .delete-btn:hover {
-  background-color: #cc0000;
+  background-color: #c3c3c3;
 }
 
 
@@ -782,7 +810,7 @@ onBeforeRouteLeave((to, from, next) => {
   display: flex;
   flex-direction: column;
   gap: var(--var-sds-size-space-400, 16px);
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
@@ -870,6 +898,22 @@ onBeforeRouteLeave((to, from, next) => {
   flex-shrink: 0;
   width: 48px;
   height: 48px;
+  position: relative;
+  overflow: visible;
+}
+
+.edit-board {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  overflow: visible;
+}
+
+.delete-board {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   position: relative;
   overflow: visible;
 }

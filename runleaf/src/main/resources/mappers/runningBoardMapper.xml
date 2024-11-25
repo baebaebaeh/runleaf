@@ -125,12 +125,14 @@
 			running_board_id,
 			latitude,
 			longitude,
+			accuracy,
 			created_Ts
 		)
 		VALUES (
 			#{runningBoardId},
 			#{latitude},
 			#{longitude},
+			#{accuracy},
 			#{createdTs}
 		)
 	</insert>
