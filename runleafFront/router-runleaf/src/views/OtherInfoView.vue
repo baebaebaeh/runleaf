@@ -255,7 +255,7 @@ const unfollowMember = async () => {
     try {
         await followStore.unfollowUser(route.params.username);
         followStats.value.followerCount--;
-        authStore.myFollowStats.followerCount--;
+        authStore.myFollowStats.followingCount--;
     } catch (error) {
         console.error('언팔로우 실패:', error);
     }
@@ -559,7 +559,7 @@ const tempSaveBoard = async (id) => {
     gap: 15px;
     align-items: center;
     justify-content: flex-start;
-    height: 600px;
+    height: 500px;
     position: relative;
     overflow: hidden;
     padding-top: 10%;

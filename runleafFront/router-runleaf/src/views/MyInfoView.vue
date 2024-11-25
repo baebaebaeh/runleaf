@@ -547,7 +547,7 @@ const tempSaveBoard = async (id) => {
     gap: 15px;
     align-items: center;
     justify-content: flex-start;
-    height: 600px;
+    height: 500px;
     position: relative;
     overflow: hidden;
     padding-top: 10%;
@@ -641,6 +641,10 @@ const tempSaveBoard = async (id) => {
 .stats span {
     font-size: 14px;
     color: #666;
+}
+
+.total-img {
+    width: 20px;
 }
 
 .info-section {
