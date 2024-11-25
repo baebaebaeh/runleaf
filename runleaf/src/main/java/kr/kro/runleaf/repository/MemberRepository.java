@@ -3,6 +3,7 @@ package kr.kro.runleaf.repository;
 import kr.kro.runleaf.domain.Member;
 import kr.kro.runleaf.domain.MemberFile;
 import kr.kro.runleaf.dto.MemberEditRequest;
+import kr.kro.runleaf.dto.RunningDataRequest;
 
 public interface MemberRepository {
 	
@@ -19,6 +20,8 @@ public interface MemberRepository {
 	MemberFile selectMemberFileByMemberId(int memberId);
 
 	void updateMember(MemberEditRequest editRequest);
+
+	void updateDistAndRunningSecond(RunningDataRequest runningDataRequest);
 
 	void updateMemberFile(MemberFile memberFile);
 

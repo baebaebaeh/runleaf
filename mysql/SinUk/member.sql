@@ -1,13 +1,18 @@
+drop table member;
+drop table member_file;
+
 -- 1. Member 테이블 생성
 CREATE TABLE member (
     member_id int AUTO_INCREMENT PRIMARY KEY,
     username varchar(30) NOT NULL UNIQUE,
     password varchar(100) NOT NULL,
-    email varchar(50) NOT NULL,
-    phone varchar(30) NOT NULL,
+    email varchar(100) NOT NULL,
+    phone varchar(20) NOT NULL,
+    total_dist DOUBLE DEFAULT 0,          
+    total_running_second DOUBLE DEFAULT 0,
     role varchar(20) NOT NULL
 );
-drop table member_file;
+
 
 
 -- 2. MemberFile 테이블 생성

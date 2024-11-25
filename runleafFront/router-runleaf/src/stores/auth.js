@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
                 await memberStore.getMember();
 
                 const memberData = memberStore.memberInfoForm;
-                loginUsername.value = memberData.username;    
+                loginUsername.value = memberData.username;
                 loginProfileImage.value = memberData.memberFileUrl;
 
                 Swal.fire({
@@ -69,16 +69,34 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     // 로그인 상태를 초기화 (새로고침 시에도 상태 유지)
-    const initializeAuthState = () => {
+    const initializeAuthState = async () => {
         const storedToken = sessionStorage.getItem('token');
         if (storedToken) {
             token.value = storedToken;
             isLoggedIn.value = true;
-            // 여기서 서버에 요청을 보내어 사용자 정보를 가져올 수 있습니다.
+            try {
+                const response = await axios.get('/api/member', {
+                    headers: {
+                        Authorization: `Bearer ${storedToken}`,
+                    },
+                });
+
+                const memberData = response.data; // 서버에서 받아온 사용자 정보
+                loginUsername.value = memberData.username;
+                loginProfileImage.value = memberData.memberFileUrl;
+            } catch (err) {
+                console.error('사용자 정보 가져오기 실패:', err);
+                Swal.fire({
+                    title: '로그인 정보 확인 실패',
+                    text: '다시 로그인 해주세요.',
+                    icon: 'error',
+                    width: 300,
+                    confirmButtonText: '확인',
+                });
+                logout(); // 로그인 상태 초기화
+            }
         }
     };
-
-    
 
     // 페이지 로드 시 로그인 상태 초기화
     initializeAuthState();

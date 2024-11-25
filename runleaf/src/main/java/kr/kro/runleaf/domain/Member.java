@@ -21,9 +21,11 @@ public class Member {
 	
 	private MemberFile memberFile;
 	
+	private double totalDist;
+
+	private double totalRunningSecond;
+	
 	private String role;
-	
-	
 	
 	public int getMemberId() {
 		return memberId;
@@ -67,10 +69,24 @@ public class Member {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
+	
+	public double getTotalDist() {
+		return totalDist;
+	}
+	public void setTotalDist(double totalDist) {
+		this.totalDist = totalDist;
+	}
+	public double getTotalRunningSecond() {
+		return totalRunningSecond;
+	}
+	public void setTotalRunningSecond(double totalRunningSecond) {
+		this.totalRunningSecond = totalRunningSecond;
+	}
+	
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", username=" + username + ", password=" + password
-				+ ", email=" + email + ", phone=" + phone + ", memberFile=" + memberFile + ", role=" + role + "]";
+		return "Member [memberId=" + memberId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", phone=" + phone + ", memberFile=" + memberFile + ", totalDist=" + totalDist
+				+ ", totalRunningSecond=" + totalRunningSecond + ", role=" + role + "]";
 	}
 }
