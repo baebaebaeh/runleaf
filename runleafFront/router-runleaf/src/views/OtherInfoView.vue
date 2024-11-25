@@ -7,8 +7,8 @@
             <div class="profile-details">
                 <div class="username">{{ memberData.username }}</div>
                 <div class="stats">
-                    <span>팔로워: {{ memberData.followers || 0 }}</span>
-                    <span>팔로잉: {{ memberData.following || 0 }}</span>
+                    <span>팔로워: {{ followStats.follower || 0 }}</span>
+                    <span>팔로잉: {{ followStats.followingCount || 0 }}</span>
                 </div>
                 <div class="stats">
                     <span>뛴거리: {{ memberData.totalDist || 0 }}</span>
