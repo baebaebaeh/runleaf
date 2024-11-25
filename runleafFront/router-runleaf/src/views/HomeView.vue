@@ -4,7 +4,9 @@
       <div class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
         <!-- 이미지 관련 파트 -->
         <div class="main-image">
-          <div class="div">제목 : {{ runningBoard.title }}</div>
+          <button class="div3">{{ runningBoard.writer }}</button>
+          <div class="div">{{ runningBoard.title }}</div>
+
 
           <!-- 이미지 있을때 캐러셀 표시 -->
           <div v-if="boardDto[index].runningBoardImage.length != 0" class="carousel" @touchstart="startTouch"
@@ -31,6 +33,15 @@
 
           <div class="content">
             <div class="div3">난이도 : {{ runningBoard.difficulty }}</div>
+            <div class="div3">뛴거리 : {{ runningBoard.totalDist }}m</div>
+            <div v-if="runningBoard.totalRunningSecond < 60" class="div3">뛴시간 : {{ runningBoard.totalRunningSecond }}초
+            </div>
+            <div v-if="runningBoard.totalRunningSecond >= 60 && runningBoard.totalRunningSecond < 3600" class="div3">
+              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 60) }}분 {{ runningBoard.totalRunningSecond % 60 }}초
+            </div>
+            <div v-if="runningBoard.totalRunningSecond >= 3600" class="div3">뛴시간 : {{
+              Math.floor(runningBoard.totalRunningSecond / 3600) }}시간 {{ Math.floor(runningBoard.totalRunningSecond %
+                3600 / 60) }}분 {{ runningBoard.totalRunningSecond % 60 }}초 </div>
             <div class="div2">{{ runningBoard.content }}</div>
           </div>
           <div class="commentmap">
@@ -56,15 +67,20 @@
             <h3>작성자 : {{ comment.writer }}</h3>
             <h3>{{ comment.content }}</h3>
           </div>
-          <button @click="isOnChange(i)">
-            답글 달기
-          </button>
+          <div class="comment-buttons">
+            <button @click="isOnChange(i)">답글 달기</button>
+            <button class="delete-btn" @click="deleteComment(comment.commentId)">삭제</button>
+          </div>
           <button v-if="comment.replyCount != 0" @click="isOnReply(i)">
             답글 {{ comment.replyCount }}개 더보기
           </button>
           <div class="reply-css" v-for="(reply, i) in comments[i].replys">
             <h3>작성자 : {{ reply.writer }}</h3>
             <h3>{{ reply.content }}</h3>
+            <!-- <button v-if="authStore.loginUsername === comment.writer" @click="deleteComment()"> -->
+            <div class="reply-buttons">
+              <button class="delete-btn" @click="deleteComment(reply.commentId)">삭제</button>
+            </div>
           </div>
         </div>
         <div class="frame-50">
@@ -89,10 +105,13 @@ import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { onBeforeRouteLeave, RouterLink } from 'vue-router'
 import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
+import { useAuthStore } from '@/stores/auth.js'
 import MapComponent from '@/views/NaverMapTESTView.vue'
 // ======================= 임포트 =======================
 
 // ======================= 변수선언 =======================
+const authStore = useAuthStore();
+const username = authStore.loginUsername;
 const gpsStore = useGpsStore();
 const boardDto = ref([])
 const isOn = ref({
@@ -163,6 +182,7 @@ const insertCommet = async () => {
       'authorization': `Bearer ${token}`,
     }
   })
+  commentDto.value.content = '';
   openCommentModal(tempIdx.value)
 };
 const isOffChange = () => {
@@ -178,6 +198,25 @@ const isOnReply = async (i) => {
     comments.value[i].isOnReply = true;
   }
   comments.value[i].replys = data;
+
+}
+
+
+const deleteComment = async (id) => {
+  console.log(id);
+  const confirmed = confirm("정말로 삭제하시겠습니까?");
+  if (confirmed) {
+    const token = sessionStorage.getItem('token');
+    await axios.delete(`/api/comment/${id}`, {
+      headers: {
+        'authorization': `Bearer ${token}`,
+      },
+    });
+    openCommentModal(tempIdx.value)
+    return
+  } else {
+    return
+  }
 }
 // ======================= 댓글모달 로직 =======================
 
@@ -305,7 +344,9 @@ const getRunningBoardList = async () => {
           writer: runningBoard.writer,
           onBoard: runningBoard.onBoard,
           runningBoardImage: runningBoard.runningBoardImage,
-          location: runningBoard.location
+          location: runningBoard.location,
+          totalDist: runningBoard.totalDist,
+          totalRunningSecond: runningBoard.totalRunningSecond,
         })
         console.log(boardDto.value[0].runningBoardImage);
       });
@@ -456,7 +497,7 @@ onBeforeRouteLeave((to, from, next) => {
 }
 
 .frame-49 button:hover {
-  color: #0056b3;
+  color: #c3c3c3;
 }
 
 .frame-50 {
@@ -526,6 +567,7 @@ onBeforeRouteLeave((to, from, next) => {
     transform: translateY(0);
   }
 }
+
 .comment-css {
   padding: 10px 15px;
   border: 1px solid #ddd;
@@ -543,21 +585,24 @@ onBeforeRouteLeave((to, from, next) => {
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   background-color: #ffffff;
-  margin: 5px 0 10px 20px; /* 대댓글은 안쪽으로 들여쓰기 */
+  margin: 5px 0 10px 20px;
+  /* 대댓글은 안쪽으로 들여쓰기 */
   font-size: 13px;
   font-weight: 400;
   color: #555;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.comment-css h3, .reply-css h3 {
+.comment-css h3,
+.reply-css h3 {
   margin: 5px 0;
   font-size: 14px;
   font-weight: 600;
   color: #222;
 }
 
-.comment-css button, .reply-css button {
+.comment-css button,
+.reply-css button {
   margin-top: 10px;
   padding: 5px 10px;
   font-size: 12px;
@@ -569,9 +614,41 @@ onBeforeRouteLeave((to, from, next) => {
   text-decoration: underline;
 }
 
-.comment-css button:hover, .reply-css button:hover {
+.comment-css button:hover,
+.reply-css button:hover {
   color: #0056b3;
 }
+
+.comment-buttons,
+.reply-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+
+
+
+
+
+
+
+
 
 .reply-css::before {
   content: '';

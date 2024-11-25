@@ -13,6 +13,19 @@
           <img class="image" :src="`/api/uploads/${runningBoard.mainImagePath}`" />
           <div class="content">
             <div class="div3">난이도 : {{ runningBoard.difficulty }}</div>
+            <div class="div3">뛴거리 : {{ runningBoard.totalDist }}</div>
+            <div v-if="runningBoard.totalRunningSecond < 60" class="div3">
+              뛴시간 : {{ runningBoard.totalRunningSecond }}초
+            </div>
+            <div v-if="runningBoard.totalRunningSecond >= 60 && runningBoard.totalRunningSecond < 3600 " class="div3">
+              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 60) }}분 
+              {{ runningBoard.totalRunningSecond % 60 }}초
+            </div>
+            <div v-if="runningBoard.totalRunningSecond >= 3600 " class="div3">
+              뛴시간 : {{ Math.floor(runningBoard.totalRunningSecond / 3600) }}시간 
+              {{ Math.floor(runningBoard.totalRunningSecond % 3600 / 60) }}분 
+              {{ runningBoard.totalRunningSecond % 60 }}초
+            </div>
             <div class="div2">{{ runningBoard.content }}</div>
           </div>
         </div>
@@ -86,7 +99,10 @@ const getRunningBoardList = async () => {
           mainImagePath: runningBoard.mainImagePath,
           writer: runningBoard.writer,
           onBoard: runningBoard.onBoard,
-          runningBoardImage: runningBoard.runningBoardImage
+          runningBoardImage: runningBoard.runningBoardImage,
+          totalDist: runningBoard.totalDist,
+          totalRunningSecond: runningBoard.totalRunningSecond,
+
         })
       });
       boardSearchDto.value.page += 1;

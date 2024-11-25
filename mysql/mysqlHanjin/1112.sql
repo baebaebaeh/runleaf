@@ -31,6 +31,7 @@ create table running_board (
     difficulty varchar(30) NOT NULL,
     start_running_ts TIMESTAMP,
     end_running_ts TIMESTAMP,
+    total_running_second double,
     start_latitude DOUBLE,
     start_longitude DOUBLE,
     created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,7 +40,8 @@ create table running_board (
     content VARCHAR(255),
     main_image_path VARCHAR(255),
     writer VARCHAR(50),
-    on_board TINYINT(1) DEFAULT 0
+    on_board TINYINT(1) DEFAULT 0,
+    total_dist double NOT NULL
 );
 create table running_board_image (
 	running_board_image_id int AUTO_INCREMENT PRIMARY KEY,
@@ -70,6 +72,7 @@ CREATE TABLE comment (
     FOREIGN KEY (member_id) REFERENCES Member(member_id),
     FOREIGN KEY (running_board_id) REFERENCES running_board(running_board_id),
     FOREIGN KEY (parent_id) REFERENCES Comment(comment_id)
+    ON DELETE CASCADE
 );
 
 
