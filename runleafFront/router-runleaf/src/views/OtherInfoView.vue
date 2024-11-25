@@ -19,9 +19,11 @@
                     <span>팔로잉 {{ followStats.followingCount || 0 }}</span>
                 </div>
                 <div class="stats">
+                    <img class="total-img" src="`@/assets/images/info/total-dist.png`">
                     <span>뛴거리  {{ memberData.totalDist || 0 }}m</span>
                 </div>
                 <div class="stats">
+                    <img class="total-img" src="`@/assets/images/info/total-running-second.png`">
                     <div v-if="memberData.totalRunningSecond < 60" class="div3">
                         뛴시간  {{ memberData.totalRunningSecond }}초
                     </div>
@@ -215,8 +217,12 @@ const authStore = useAuthStore();
 
 const memberData = ref({});
 const isFollowing = computed(() => followStore.isFollowing);
-const followStats = computed(() => followStore.followStats);
 const isDifferentMember = computed(() => authStore.loginUsername !== route.params.username);
+
+const followStats = ref({
+        followingCount: 0,
+        followerCount: 0,
+    });
 // ======================= 변수선언 =======================
 
 const fetchMemberData = async (username) => {
@@ -232,7 +238,8 @@ const fetchMemberData = async (username) => {
 const followMember = async () => {
     try {
         await followStore.followUser(route.params.username);
-        followStats.value.followerCount += 1; // 로컬 상태 업데이트
+        followStats.value.followerCount++;
+        authStore.myFollowStats.followerCount++;
     } catch (error) {
         console.error('팔로우 실패:', error);
     }
@@ -241,7 +248,8 @@ const followMember = async () => {
 const unfollowMember = async () => {
     try {
         await followStore.unfollowUser(route.params.username);
-        followStats.value.followerCount -= 1; // 로컬 상태 업데이트
+        followStats.value.followerCount--;
+        authStore.myFollowStats.followingCount--;
     } catch (error) {
         console.error('언팔로우 실패:', error);
     }
@@ -250,10 +258,8 @@ const unfollowMember = async () => {
 onMounted(async () => {
     await fetchMemberData(route.params.username);
     await followStore.getFollowStats(route.params.username); // 팔로워/팔로잉 수 가져오기
+    followStats.value = { ...followStore.followStats };
     await getRunningBoardList();
-    console.log("현재 로그인한 사용자:", authStore.loginUsername);
-    console.log("프로필 사용자:", route.params.username);
-    console.log("isDifferentMember:", isDifferentMember.value);
 });
 
 
@@ -633,7 +639,7 @@ const tempSaveBoard = async (id) => {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .stats span {
@@ -667,6 +673,10 @@ const tempSaveBoard = async (id) => {
 .unfollow-btn:hover {
     background-color: #cdcdcd;
     color: white;
+}
+
+.total-img {
+    width: 20px;
 }
 
 .info-section {

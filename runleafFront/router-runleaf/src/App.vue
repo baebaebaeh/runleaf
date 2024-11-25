@@ -10,8 +10,8 @@
         <div class="profile-info">
           <div class="username">{{ authStore.loginUsername }}</div>
           <div class="stats">
-            <span>팔로워 {{ followStore.followStats.followerCount }}</span>
-            <span>팔로잉 {{ followStore.followStats.followingCount }}</span>
+            <span>팔로워 {{ authStore.myFollowStats.followerCount }}</span>
+            <span>팔로잉 {{ authStore.myFollowStats.followingCount }}</span>
           </div>
         </div>
       </div>
@@ -111,6 +111,7 @@ const logout = () => {
 router.afterEach(() => {
   menuStore.hideMenu();
 });
+
 </script>
 
 <style scoped>

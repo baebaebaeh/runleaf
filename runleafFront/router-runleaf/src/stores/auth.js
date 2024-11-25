@@ -4,15 +4,21 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from './member';
 import Swal from 'sweetalert2';
+import { useFollowStore } from './follow';
 
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter();
     const memberStore = useMemberStore();
+    const followStore = useFollowStore();
 
     const isLoggedIn = ref(false);
     const token = ref(null);
     const loginUsername = ref('');
     const loginProfileImage = ref('');
+    const myFollowStats = ref({
+        followingCount: 0,
+        followerCount: 0,
+    });
 
     // 로그인 처리
     const login = async (username, password) => {
@@ -33,6 +39,9 @@ export const useAuthStore = defineStore('auth', () => {
                 const memberData = memberStore.memberInfoForm;
                 loginUsername.value = memberData.username;
                 loginProfileImage.value = memberData.memberFileUrl;
+
+                await followStore.getFollowStats();
+                myFollowStats.value = followStore.followStats;
 
                 Swal.fire({
                     title: '로그인 성공',
@@ -84,6 +93,9 @@ export const useAuthStore = defineStore('auth', () => {
                 const memberData = response.data; // 서버에서 받아온 사용자 정보
                 loginUsername.value = memberData.username;
                 loginProfileImage.value = memberData.memberFileUrl;
+
+                await followStore.getFollowStats(loginUsername.value);
+                myFollowStats.value = followStore.followStats;
             } catch (err) {
                 console.error('사용자 정보 가져오기 실패:', err);
                 Swal.fire({
@@ -101,5 +113,5 @@ export const useAuthStore = defineStore('auth', () => {
     // 페이지 로드 시 로그인 상태 초기화
     initializeAuthState();
 
-    return { router, token, isLoggedIn, loginUsername, loginProfileImage, login, logout };
+    return { router, token, isLoggedIn, loginUsername, loginProfileImage, myFollowStats, login, logout };
 });
