@@ -60,7 +60,10 @@ const fetchMemberDataList = async (username) => {
         console.error('사용자 정보 가져오기 실패:', error);
     }
 };
-
+watch (() => authStore.loginUsername, (newValue, oldValue) => {
+    fetchMemberDataList(newValue);
+    console.log(newValue)
+})
 onMounted(async () => {
     await fetchMemberDataList(authStore.loginUsername);
 });
