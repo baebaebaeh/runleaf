@@ -14,7 +14,8 @@
                     <span>팔로잉: {{ memberStore.memberInfoForm.following || 0 }}</span>
                 </div>
                 <div class="stats">
-                    <span>뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0 }}m</span>
+                    <span v-if="memberStore.memberInfoForm.totalDist < 1000">뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0 }}m</span>
+                    <span v-if="memberStore.memberInfoForm.totalDist >= 1000">뛴 거리:  {{ Math.floor(memberStore.memberInfoForm.totalDist / 1000) || 0 }}km {{ memberStore.memberInfoForm.totalDist % 1000 || 0 }}m</span>
                 </div>
                 <div class="stats">
                     <span v-if="memberStore.memberInfoForm.totalRunningSecond < 60" class="div3">

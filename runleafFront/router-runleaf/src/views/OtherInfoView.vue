@@ -41,11 +41,6 @@
                         {{ memberData.totalRunningSecond % 60 }}초
                     </div>
                 </div>
-                <!-- 현재 사용자와 다른 사용자일 경우 팔로우/언팔로우 버튼 표시 -->
-                <div v-if="isDifferentMember" class="follow-buttons">
-                    <button v-if="!isFollowing" @click="followMember" class="follow-btn">팔로우</button>
-                    <button v-if="isFollowing" @click="unfollowMember" class="unfollow-btn">언팔로우</button>
-                </div>
             </div>
         </div>
         <div class="info-section">
