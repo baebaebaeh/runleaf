@@ -17,21 +17,19 @@
 		WHERE follower_id = #{followerId} AND following_id = #{followingId}
 	</delete>
 
-	<!-- 팔로워 목록 -->
-	<select id="selectFollowers" resultType="map">
-		SELECT u.id, u.username
-		FROM follow f
-		JOIN user u ON f.follower_id = u.id
-		WHERE f.following_id = #{userId}
-	</select>
+	<!-- 팔로잉 수 조회 -->
+    <select id="getFollowingCount" resultType="int">
+        SELECT COUNT(*)
+        FROM follow
+        WHERE follower_id = #{memberId}
+    </select>
 
-	<!-- 팔로잉 목록 -->
-	<select id="selectFollowing" resultType="map">
-		SELECT u.id, u.username
-		FROM follow f
-		JOIN user u ON f.following_id = u.id
-		WHERE f.follower_id = #{userId}
-	</select>
+    <!-- 팔로워 수 조회 -->
+    <select id="getFollowerCount" resultType="int">
+        SELECT COUNT(*)
+        FROM follow
+        WHERE following_id = #{memberId}
+    </select>
 
 	<!-- 팔로우 여부 확인 -->
 	<select id="isFollowing" parameterType="map" resultType="boolean">

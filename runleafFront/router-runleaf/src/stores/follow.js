@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { ref } from 'vue';
-import { to } from 'mathjs';
 
 export const useFollowStore = defineStore('follow', () => {
     const isFollowing = ref(false);
+    const followStats = ref({
+        followingCount: 0,
+        followerCount: 0,
+    });
 
     // 팔로우 상태 확인
     const checkFollowStatus = async (username) => {
@@ -64,6 +67,16 @@ const unfollowUser = async (username) => {
     }
 };
 
+const getFollowStats = async (username) => {
+    try {
+        const response = await axios.get(`/api/follow/${username}/stats`);
+        followStats.value = response.data; // { followingCount: 10, followerCount: 20 }
+    } catch (error) {
+        console.error('팔로잉/팔로워 수 가져오기 실패:', error);
+        followStats.value = { followingCount: 0, followerCount: 0 };
+    }
+};
 
-    return { isFollowing, checkFollowStatus, followUser, unfollowUser };
+
+    return { isFollowing, followStats, checkFollowStatus, followUser, unfollowUser, getFollowStats };
 });

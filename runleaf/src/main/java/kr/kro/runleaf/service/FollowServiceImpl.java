@@ -1,5 +1,6 @@
 package kr.kro.runleaf.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +28,15 @@ public class FollowServiceImpl implements FollowService {
     	followRepository.deleteFollow(followerId, followingId);
     }
 
-    public List<Map<String, Object>> getFollowers(int memberId) {
-        return followRepository.selectFollowers(memberId);
-    }
+    public Map<String, Integer> getFollowStats(int memberId) {
+        int followingCount = followRepository.getFollowingCount(memberId);
+        int followerCount = followRepository.getFollowerCount(memberId);
 
-    public List<Map<String, Object>> getFollowing(int memberId) {
-        return followRepository.selectFollowing(memberId);
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("followingCount", followingCount);
+        stats.put("followerCount", followerCount);
+
+        return stats;
     }
 
     public boolean isFollowing(int followerId, int followingId) {

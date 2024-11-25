@@ -5,10 +5,18 @@
                 <img class="vector" :src="`/api/uploads/${memberData.memberFileUrl}`" alt="프로필 이미지" />
             </div>
             <div class="profile-details">
-                <div class="username">{{ memberData.username }}</div>
+                <div class="profile-header">
+                    <div class="username">{{ memberData.username }}</div>
+                    <!-- 현재 사용자와 다른 사용자일 경우 팔로우/언팔로우 버튼 표시 -->
+                    <div v-if="isDifferentMember" class="follow-buttons">
+                        <button v-if="!isFollowing" @click="followMember" class="follow-btn">팔로우</button>
+                        <button v-if="isFollowing" @click="unfollowMember" class="unfollow-btn">팔로잉</button>
+                    </div>
+
+                </div>
                 <div class="stats">
-                    <span>팔로워 : {{ memberData.followers || 0 }}</span>
-                    <span>팔로잉 : {{ memberData.following || 0 }}</span>
+                    <span>팔로워 {{ followStats.followerCount || 0 }}</span>
+                    <span>팔로잉 {{ followStats.followingCount || 0 }}</span>
                 </div>
 
 
@@ -219,13 +227,13 @@ const authStore = useAuthStore();
 
 const memberData = ref({});
 const isFollowing = computed(() => followStore.isFollowing);
+const followStats = computed(() => followStore.followStats);
 const isDifferentMember = computed(() => authStore.username !== route.params.username);
 // ======================= 변수선언 =======================
 
 const fetchMemberData = async (username) => {
     try {
         const response = await axios.get(`/api/member/${username}`);
-        console.log(response)
         memberData.value = response.data;
         await followStore.checkFollowStatus(username); // 팔로우 상태 확인
     } catch (error) {
@@ -236,6 +244,7 @@ const fetchMemberData = async (username) => {
 const followMember = async () => {
     try {
         await followStore.followUser(route.params.username);
+        followStats.value.followerCount += 1; // 로컬 상태 업데이트
     } catch (error) {
         console.error('팔로우 실패:', error);
     }
@@ -244,6 +253,7 @@ const followMember = async () => {
 const unfollowMember = async () => {
     try {
         await followStore.unfollowUser(route.params.username);
+        followStats.value.followerCount -= 1; // 로컬 상태 업데이트
     } catch (error) {
         console.error('언팔로우 실패:', error);
     }
@@ -251,6 +261,7 @@ const unfollowMember = async () => {
 
 onMounted(async () => {
     await fetchMemberData(route.params.username);
+    await followStore.getFollowStats(route.params.username); // 팔로워/팔로잉 수 가져오기
     await getRunningBoardList();
 });
 
@@ -585,9 +596,9 @@ const tempSaveBoard = async (id) => {
 .profile-section {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
-    width: 85%;
+    width: 100%;
     max-width: 400px;
     margin-top: 20px;
     gap: 20px;
@@ -619,17 +630,33 @@ const tempSaveBoard = async (id) => {
     gap: 10px;
 }
 
+.profile-header {
+    display: flex;
+    align-items: flex-start; /* 버튼과 텍스트를 위로 정렬 */
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
 .username {
     font-size: 20px;
     font-weight: bold;
     color: #333;
+    flex-shrink: 0; /* username이 줄어들지 않도록 설정 */
+}
+
+.follow-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 5px; /* 버튼 간 간격 */
+    margin-top: -5px; /* 버튼을 위로 이동 */
 }
 
 .stats {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 15px;
-    /* 팔로워와 팔로잉 간 간격 */
 }
 
 .stats span {
@@ -639,28 +666,30 @@ const tempSaveBoard = async (id) => {
 
 .follow-btn,
 .unfollow-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 3px 6px; /* 버튼 크기 줄이기 */
+    font-size: 12px; /* 글자 크기 줄이기 */
+    line-height: 1; /* 텍스트 높이를 줄여 버튼 크기 축소 */
 }
 
 .follow-btn {
-    background-color: #a1ffa5;
-    /* 녹색 */
+    background-color: #cdcdcd;
+    color: white;
+    transition: background-color 0.3s ease; /* 호버 시 부드러운 전환 효과 */
+}
+
+.follow-btn:hover {
+    background-color: #7f9fff;
     color: white;
 }
 
 .unfollow-btn {
-    background-color: #dddddd;
-    /* 빨간색 */
+    background-color: #7f9fff;
     color: white;
 }
 
-.follow-btn:hover,
 .unfollow-btn:hover {
-    opacity: 0.9;
+    background-color: #cdcdcd;
+    color: white;
 }
 
 .info-section {
