@@ -26,5 +26,7 @@ public interface MemberRepository {
 
 	void updateMemberFile(MemberFile memberFile);
 
+	Member selectMemberByMemberId(int memberId);
+
 //	void deleteMember(int id);
 }

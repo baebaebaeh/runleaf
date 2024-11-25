@@ -144,9 +144,9 @@ const getLocation = () => {
       const longitude = position.coords.longitude;
       const latitude = position.coords.latitude;
       const accuracy = position.coords.accuracy; // Geolocation API에서 제공하는 accuracy
-      if (accuracy > 28) {
-        return;
-      }
+      // if (accuracy > 28) {
+      //   return;
+      // }
       const currentTimestamp = new Date().getTime();
       // if (!initialized.value) {
       //   initialSamples.value.push({ latitude, longitude });

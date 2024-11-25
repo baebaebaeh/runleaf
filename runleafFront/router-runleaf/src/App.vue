@@ -10,8 +10,12 @@
         <div class="profile-info">
           <div class="username">{{ authStore.loginUsername }}</div>
           <div class="stats">
-            <span>팔로워 {{ authStore.myFollowStats.followerCount }}</span>
-            <span>팔로잉 {{ authStore.myFollowStats.followingCount }}</span>
+            <RouterLink class="follow" :to="{ name: 'follower' }">
+              팔로워 {{ authStore.myFollowStats.followerCount }}
+            </RouterLink>
+            <RouterLink class="follow" :to="{ name: 'following' }">
+              팔로잉 {{ authStore.myFollowStats.followingCount }}
+            </RouterLink>
           </div>
         </div>
       </div>
@@ -198,8 +202,9 @@ router.afterEach(() => {
   color: #666;
 }
 
-.stats span {
+.follow {
   margin-top: 2px;
+  color: #666;
 }
 
 .menu-container {

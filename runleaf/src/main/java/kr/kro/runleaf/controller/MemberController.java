@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -122,6 +123,28 @@ public class MemberController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(memberResponse);
+	}
+	
+	
+	// 회원 조회
+	@GetMapping("/follower/{username}")
+	public ResponseEntity<List<MemberResponse>> findFollowers(@PathVariable("username") String username) {
+		
+		List<MemberResponse> memberResponses = memberService.findFollowers(username);
+		if (memberResponses == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(memberResponses);
+	}
+	
+	@GetMapping("/following/{username}")
+	public ResponseEntity<List<MemberResponse>> findFollowings(@PathVariable("username") String username) {
+		
+		List<MemberResponse> memberResponses = memberService.findFollowings(username);
+		if (memberResponses == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(memberResponses);
 	}
 
 	// 회원 수정
