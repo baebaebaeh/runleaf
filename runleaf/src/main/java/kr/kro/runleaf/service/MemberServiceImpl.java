@@ -36,6 +36,8 @@ public class MemberServiceImpl implements MemberService {
 
 		member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
 		member.setRole("ROLE_MEMBER");
+		member.setTotalDist(0);
+		member.setTotalRunningSecond(0);
 		memberRepository.insertMember(member);
 
 		// 회원 이미지

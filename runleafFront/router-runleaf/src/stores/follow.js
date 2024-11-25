@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { ref } from 'vue';
 
 export const useFollowStore = defineStore('follow', () => {
     const isFollowing = ref(false);

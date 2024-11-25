@@ -49,7 +49,9 @@ export const useMemberStore = defineStore('member', () => {
     username: '',
     email: '',
     phone: '',
-    memberFileUrl: 'uploads/default/profile-default.png'
+    memberFileUrl: 'uploads/default/profile-default.png',
+    totalDist: '',
+    totalRunningSecond: '',
   });
   
   const getMember = async () => {
