@@ -3,7 +3,8 @@
         <div>
             팔로워 목록
         </div>
-        <RouterLink  v-for="(member, i) in memberDataList" :key="i" :to="{ name: 'otherInfo', params: { username: member.username } }" class="profile-section">
+        <RouterLink v-for="(member, i) in memberDataList" :key="i"
+            :to="{ name: 'otherInfo', params: { username: member.username } }" class="profile-section">
             <div class="profile">
                 <img class="vector" :src="`/api/uploads/${member.memberFileUrl}`" alt="프로필 이미지" />
             </div>
@@ -60,14 +61,16 @@ const fetchMemberDataList = async (username) => {
         console.error('사용자 정보 가져오기 실패:', error);
     }
 };
-
-onMounted(async () => {
-    await fetchMemberDataList(authStore.loginUsername);
+watch(() => authStore.loginUsername, (newValue, oldValue) => {
+    fetchMemberDataList(newValue);
+    console.log(newValue)
+})
+onMounted(() => {
+    fetchMemberDataList(authStore.loginUsername);
 });
 </script>
 
 <style scoped>
-
 .container {
     background: #ffffff;
     display: flex;
@@ -80,6 +83,7 @@ onMounted(async () => {
     padding-top: 10%;
     margin-left: 50px;
 }
+
 .profile-section {
     display: flex;
     flex-direction: row;
