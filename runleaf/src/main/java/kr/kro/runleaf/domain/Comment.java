@@ -1,55 +1,93 @@
  package kr.kro.runleaf.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Comment {
-	private int comment_id;
-	private int user_id;
-	private String parent_id;
-	private String running_board_id;
+	private int commentId;
+	private int memberId;
+	private int parentId;
+	private int runningBoardId;
+	private String writer;
 	private String content;
-	private String created_date;
-	private String modifided_date;
-	private List<Comment> comment;
-	public Comment() {
+	private LocalDateTime createdTs;
+	private LocalDateTime modifidedTs;
+	private int replyCount;
+	
+
+
+	public Comment(int commentId, int memberId, int parentId, int runningBoardId, String writer, String content,
+			LocalDateTime createdTs, LocalDateTime modifidedTs, int replyCount) {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Comment(int comment_id, int user_id, String parent_id, String running_board_id, String content,
-			String created_date, String modifided_date, List<Comment> comment) {
-		super();
-		this.comment_id = comment_id;
-		this.user_id = user_id;
-		this.parent_id = parent_id;
-		this.running_board_id = running_board_id;
+		this.commentId = commentId;
+		this.memberId = memberId;
+		this.parentId = parentId;
+		this.runningBoardId = runningBoardId;
+		this.writer = writer;
 		this.content = content;
-		this.created_date = created_date;
-		this.modifided_date = modifided_date;
-		this.comment = comment;
+		this.createdTs = createdTs;
+		this.modifidedTs = modifidedTs;
+		this.replyCount = replyCount;
 	}
-	public int getComment_id() {
-		return comment_id;
+	@Override
+	public String toString() {
+		return "Comment [commentId=" + commentId + ", memberId=" + memberId + ", parentId=" + parentId
+				+ ", runningBoardId=" + runningBoardId + ", writer=" + writer + ", content=" + content + ", createdTs="
+				+ createdTs + ", modifidedTs=" + modifidedTs + ", replyCount=" + replyCount + "]";
 	}
-	public void setComment_id(int comment_id) {
-		this.comment_id = comment_id;
+	public int getReplyCount() {
+		return replyCount;
 	}
-	public int getUser_id() {
-		return user_id;
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public LocalDateTime getCreatedTs() {
+		return createdTs;
 	}
-	public String getParent_id() {
-		return parent_id;
+	public void setCreatedTs(LocalDateTime createdTs) {
+		this.createdTs = createdTs;
 	}
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
+	public LocalDateTime getModifidedTs() {
+		return modifidedTs;
 	}
-	public String getRunning_board_id() {
-		return running_board_id;
+	public void setModifidedTs(LocalDateTime modifidedTs) {
+		this.modifidedTs = modifidedTs;
 	}
-	public void setRunning_board_id(String running_board_id) {
-		this.running_board_id = running_board_id;
+	public int getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
+	public int getRunningBoardId() {
+		return runningBoardId;
+	}
+	public void setRunningBoardId(int runningBoardId) {
+		this.runningBoardId = runningBoardId;
+	}
+	public int getParentId() {
+		return parentId;
+	}
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+	public int getCommentId() {
+		return commentId;
+	}
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
+	public int getUserId() {
+		return memberId;
+	}
+	public void setUserId(int userId) {
+		this.memberId = userId;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getContent() {
 		return content;
@@ -57,30 +95,13 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCreated_date() {
-		return created_date;
+
+	public Comment() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setCreated_date(String created_date) {
-		this.created_date = created_date;
-	}
-	public String getModifided_date() {
-		return modifided_date;
-	}
-	public void setModifided_date(String modifided_date) {
-		this.modifided_date = modifided_date;
-	}
-	public List<Comment> getComment() {
-		return comment;
-	}
-	public void setComment(List<Comment> comment) {
-		this.comment = comment;
-	}
-	@Override
-	public String toString() {
-		return "Comment [comment_id=" + comment_id + ", user_id=" + user_id + ", parent_id=" + parent_id
-				+ ", running_board_id=" + running_board_id + ", content=" + content + ", created_date=" + created_date
-				+ ", modifided_date=" + modifided_date + ", comment=" + comment + "]";
-	}
+	
+	
 	
 	
 }

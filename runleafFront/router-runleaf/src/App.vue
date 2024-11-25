@@ -100,7 +100,6 @@ const router = useRouter();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
 
-router.push('/'); // 다음 경로로 이동
 
 const logout = () => {
   authStore.logout();

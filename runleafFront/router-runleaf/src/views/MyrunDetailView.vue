@@ -1,6 +1,4 @@
 <template>
-
-
   <div class="feed-container">
     <div class="div">피드 디테일</div>
     <div class="feed">
@@ -38,7 +36,7 @@
           <div class="div2">제목 : {{ boardDetail.title }}</div>
           <div class="div2">내용 : {{ boardDetail.content }}</div>
           <div class="div2">난이도 : {{ boardDetail.difficulty }}</div>
-          <div class="div2">onBoard : {{ boardDetail.onBoard }}</div>
+          <!-- <div class="div2">onBoard : {{ boardDetail.onBoard }}</div>
           <div class="div2">startRunningTs : {{ boardDetail.startRunningTs }}</div>
           <div class="div2">endRunningTs : {{ boardDetail.endRunningTs }}</div>
           <div class="div2">startLatitude : {{ boardDetail.startLatitude }}</div>
@@ -46,14 +44,14 @@
           <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
           <div class="div2">modifiedTs : {{ boardDetail.modifiedTs }}</div>
           <div class="div2">writer : {{ boardDetail.writer }}</div>
-          <div class="div2">createdTs : {{ boardDetail.createdTs }}</div>
-          <!-- 
-          <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
+          <div class="div2">createdTs : {{ boardDetail.createdTs }}</div> -->
+
+          <!-- <div class="div2" v-for="(c, index) in coodinate" :key="c.runningCoodinateId">
             <div>latitude: {{ c.latitude }}</div>
             <div>longitude: {{ c.longitude }}</div>
             <div>createdTs: {{ c.createdTs }}</div>
-          </div>
-          -->
+          </div> -->
+
         </div>
 
 
@@ -68,17 +66,50 @@
           }">
             <img class="edit-board" src="@/assets/images/icons/edit-board.png" />
           </RouterLink>
+          <button @click="openCommentModal()">
+            <img class="delete-board" src="@/assets/images/icons/message-square.svg" />
+          </button>
           <button @click="deleteBoard()">
             <img class="delete-board" src="@/assets/images/icons/delete-board.png" />
           </button>
         </div>
-
       </div>
     </div>
+
+
+    <div v-if="isCommentModal" class="modal-overlay" @click.self="closeCommentModal">
+      <div class="modal-content">
+        <div class="frame-49" v-for="(comment, i) in comments">
+          <div class="comment-css">
+            <h3>작성자 : {{ comment.writer }}</h3>
+            <h3>{{ comment.content }}</h3>
+          </div>
+          <button @click="isOnChange(i)">
+            답글 달기
+          </button>
+          <button v-if="comment.replyCount != 0" @click="isOnReply(i)">
+            답글 {{ comment.replyCount }}개 더보기
+          </button>
+          <div class="reply-css" v-for="(reply, i) in comments[i].replys">
+            {{ reply.content }}
+          </div>
+        </div>
+        <div class="frame-50">
+          <div v-if="isOn.isReply">
+            <button @click="isOffChange()">
+              {{ isOn.writer }}님에게 답글다는중
+            </button>
+          </div>
+          <input name="commentId" type="text" v-model="commentDto.content" />
+          <input name="commentId" type="text" v-model="commentDto.runningBoardId" hidden />
+          <input name="commentId" type="text" v-model="commentDto.parentId" hidden />
+          <button @click="insertCommet()">등록</button>
+        </div>
+      </div>
+    </div>
+
+
   </div>
-
-
-
 </template>
 
 <script setup>
@@ -109,7 +140,60 @@ const currentIndex = ref(0);
 const startX = ref(0); // 터치 또는 드래그 시작 위치
 const deltaX = ref(0); // 이동 거리
 const isDragging = ref(false); // 드래그 상태
+const isCommentModal = ref(false);
+const comments = ref([])
+const commentDto = ref({
+  parentId: 0,
+  runningBoardId: 0,
+  content: '',
+})
+const isOn = ref({
+  isReply: false,
+  writer: '',
+});
 // ======================= 변수 선언 끝 =======================
+
+
+// ======================= 댓글모달 로직 =======================
+const openCommentModal = async () => {
+  const { data } = await axios.get(`/api/comment/${id}`);
+  comments.value = data;
+  commentDto.value.runningBoardId = id;
+  isCommentModal.value = true;
+}
+const closeCommentModal = () => {
+  isCommentModal.value = false;
+}
+const isOnChange = (i) => {
+  isOn.value.isReply = true;
+  isOn.value.writer = comments.value[i].writer;
+  commentDto.value.parentId = comments.value[i].commentId;
+  console.log(comments.value[i].commentId);
+}
+const insertCommet = async () => {
+  const token = sessionStorage.getItem('token');
+  const { data } = await axios.post(`/api/comment`, commentDto.value, {
+    headers: {
+      'authorization': `Bearer ${token}`,
+    }
+  })
+  openCommentModal()
+};
+const isOffChange = () => {
+  isOn.value.isReply = false;
+  commentDto.value.parentId = 0;
+}
+const isOnReply = async (i) => {
+  const id = comments.value[i].commentId;
+  const { data } = await axios.get(`/api/comment/reply/${id}`)
+  if (comments.value[i].isOnReply) {
+    comments.value[i].isOnReply = false;
+  } else {
+    comments.value[i].isOnReply = true;
+  }
+  comments.value[i].replys = data;
+}
+// ======================= 댓글모달 로직 =======================
 
 
 
@@ -472,4 +556,208 @@ watch(() => coodinate,
 }
 
 /* ======================= 기본 css ======================= */
+
+
+
+/* ======================= 모달관련 css ======================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* 항상 위에 보이도록 설정 */
+}
+
+/* 모달 내용 */
+.modal-content {
+  display: flex;
+  background-color: #f9f9f9;
+  /* 밝은 회색 배경 */
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
+  width: 370px;
+  height: 50%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow-y: auto;
+  /* 댓글이 많을 때 스크롤 활성화 */
+}
+
+.frame-49 {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  border-radius: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.frame-49 div h3 {
+  text-align: left;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.frame-49 button:hover {
+  color: #0056b3;
+}
+
+.frame-50 {
+  background-color: #f9f9f9;
+  /* 배경색 추가 */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  position: sticky;
+  bottom: 0;
+  padding-bottom: 20px;
+}
+
+.frame-50 button {
+  background-color: #c3c3c3;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.frame-50 button:hover {
+  background-color: #0056b3;
+}
+
+.frame-50 input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.frame-50 input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.frame-49 button {
+  margin-top: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #000000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.modal-overlay .modal-content {
+  animation: fadeIn 0.1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comment-css {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.reply-css {
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: 5px 0 10px 20px;
+  /* 대댓글은 안쪽으로 들여쓰기 */
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.comment-css h3,
+.reply-css h3 {
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.comment-css button,
+.reply-css button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #007bff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.comment-css button:hover,
+.reply-css button:hover {
+  color: #0056b3;
+}
+
+.reply-css::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 100%;
+  background-color: #ddd;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.frame-49 {
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ======================= 모달관련 css ======================= */
 </style>

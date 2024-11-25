@@ -23,13 +23,10 @@ CREATE TABLE member_file (
 -- 3. 외래 키 제약 조건 추가
 ALTER TABLE member_file
 ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(member_id);
-
-
-
 create table running_board (
     running_board_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
-    difficulty INT NOT NULL,
+    difficulty varchar(30) NOT NULL,
     start_running_ts TIMESTAMP,
     end_running_ts TIMESTAMP,
     start_latitude DOUBLE,
@@ -58,21 +55,20 @@ create table running_coordinate (
     created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
 );
-CREATE TABLE Comment (
+CREATE TABLE comment (
     comment_id INT NOT NULL AUTO_INCREMENT,
     member_id INT NOT NULL,
     parent_id INT NULL,
     running_board_id INT NOT NULL,
     content VARCHAR(255) NULL,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modifided_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modifided_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     writer VARCHAR(20) NOT NULL,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (member_id) REFERENCES Member(member_id),
     FOREIGN KEY (running_board_id) REFERENCES running_board(running_board_id),
     FOREIGN KEY (parent_id) REFERENCES Comment(comment_id)
 );
-
 
 
 
@@ -87,5 +83,9 @@ select *
 from running_board_image;
 select *
 from running_coordinate;
+select *
+from running_coordinate;
+select *
+from comment;
 -- ALTER USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
 -- CREATE USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';

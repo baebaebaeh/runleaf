@@ -11,10 +11,17 @@ import kr.kro.runleaf.domain.RunningBoardImage;
 import kr.kro.runleaf.util.PageData;
 
 public interface CommentService {
+	
+	Comment getCommentByCommentId(int commentId);
 
-	int getCommentList(int runningBoardId);
+	List<Comment> getCommentByRunningBoardId(int runningBoardId);
 
 	int addComment(Comment comment);
 
+	int modifyComment(Comment comment);
 
+	int deleteCommentByCommentId(int commentId);
+
+	List<Comment> getCommentByParentId(int commentId);
+	
 }

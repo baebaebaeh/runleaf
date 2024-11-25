@@ -9,13 +9,12 @@
         }
       }">
         <div class="main-image">
-          <div class="div">제목 : {{ runningBoard.title }}</div>
+          <div class="div">{{ runningBoard.title }}</div>
           <img class="image" :src="`/api/uploads/${runningBoard.mainImagePath}`" />
           <div class="content">
-            <div class="div2">내용 : {{ runningBoard.content }}</div>
-            <div class="div2">난이도 : {{ runningBoard.difficulty }}</div>
+            <div class="div3">난이도 : {{ runningBoard.difficulty }}</div>
+            <div class="div2">{{ runningBoard.content }}</div>
           </div>
-
         </div>
       </RouterLink>
     </div>
@@ -153,7 +152,7 @@ onBeforeRouteLeave((to, from, next) => {
   color: #000000;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 140%;
   font-weight: 400;
   position: relative;
@@ -227,7 +226,18 @@ onBeforeRouteLeave((to, from, next) => {
   color: #000000;
   text-align: left;
   font-family: "Inter-Regular", sans-serif;
-  font-size: 24px;
+  font-size: 18px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+}
+
+.div3 {
+  color: #5a5a5a;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
   line-height: 140%;
   font-weight: 400;
   position: relative;

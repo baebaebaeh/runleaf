@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   
@@ -44,4 +44,5 @@ export default defineConfig({
     //   ca: 'path/to/ca_bundle.pem',
     // },
   },
+
 })
