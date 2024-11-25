@@ -10,10 +10,11 @@
             <div class="profile-details">
                 <div class="username">{{ memberStore.memberInfoForm.username }}</div>
                 <div class="stats">
-                    <span>팔로워: {{ memberStore.memberInfoForm.followers || 0 }}</span>
-                    <span>팔로잉: {{ memberStore.memberInfoForm.following || 0 }}</span>
+                    <span>팔로워: {{ authStore.myFollowStats.followerCount || 0 }}</span>
+                    <span>팔로잉: {{ authStore.myFollowStats.followingCount || 0 }}</span>
                 </div>
                 <div class="stats">
+                    <img class="total-img" src="`@/assets/images/info/total-dist.png`">
                     <span v-if="memberStore.memberInfoForm.totalDist < 1000">
                         뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0 }}m
                     </span>
@@ -23,6 +24,7 @@
                     </span>
                 </div>
                 <div class="stats">
+                    <img class="total-img" src="`@/assets/images/info/total-running-second.png`">
                     <span v-if="memberStore.memberInfoForm.totalRunningSecond < 60" class="div3">
                         뛴시간 : {{ memberStore.memberInfoForm.totalRunningSecond }}초
                     </span>

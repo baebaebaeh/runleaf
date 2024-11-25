@@ -245,7 +245,7 @@ const followMember = async () => {
     try {
         await followStore.followUser(route.params.username);
         followStats.value.followerCount++;
-        authStore.myFollowStats.followerCount++;
+        authStore.myFollowStats.followingCount++;
     } catch (error) {
         console.error('팔로우 실패:', error);
     }
@@ -255,7 +255,7 @@ const unfollowMember = async () => {
     try {
         await followStore.unfollowUser(route.params.username);
         followStats.value.followerCount--;
-        authStore.myFollowStats.followingCount--;
+        authStore.myFollowStats.followerCount--;
     } catch (error) {
         console.error('언팔로우 실패:', error);
     }
@@ -827,7 +827,6 @@ const tempSaveBoard = async (id) => {
     display: flex;
     flex-direction: row;
     gap: 15px;
-    /* 팔로워와 팔로잉 간 간격 */
 }
 
 .stats span {
@@ -852,25 +851,20 @@ const tempSaveBoard = async (id) => {
     width: 100%;
     padding: 10px 0;
     border-bottom: 1px solid #e3dfdf;
-    /* 하단 구분선 */
 }
 
 .label {
     font-size: 16px;
     font-weight: 400;
     color: #000000;
-    /* 더 명확한 색상 */
 }
 
 .value {
     font-size: 16px;
     font-weight: 400;
     color: #858585;
-    /* 부드러운 색상 */
     text-align: right;
-    /* 오른쪽 정렬 */
     word-break: break-all;
-    /* 텍스트가 너무 길 경우 줄바꿈 */
 }
 
 .carousel {

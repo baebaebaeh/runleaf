@@ -105,7 +105,6 @@ import { useFollowStore } from './stores/follow';
 const router = useRouter();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
-const followStore = useFollowStore();
 
 
 const logout = () => {
