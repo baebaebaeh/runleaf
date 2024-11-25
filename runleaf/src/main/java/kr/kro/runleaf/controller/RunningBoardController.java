@@ -48,14 +48,18 @@ public class RunningBoardController {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<List<RunningBoard>> getRunningBoardList(@ModelAttribute BoardSearch boardSearch) {
+	public ResponseEntity<List<RunningBoard>> getRunningBoardList(
+			@ModelAttribute BoardSearch boardSearch) {
+//		String username = userDetails.getUsername();
 		ResponseEntity<List<RunningBoard>> responseEntity;
+//		boardSearch.setUsername(username);
 		List<RunningBoard> list = runningBoardService.getRunningBoardList(boardSearch);
 		responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		return responseEntity;
 	}
 	@GetMapping("/myrun")
-	public ResponseEntity<List<RunningBoard>> getRunningMyBoardList(@ModelAttribute BoardSearch boardSearch,
+	public ResponseEntity<List<RunningBoard>> getRunningMyBoardList(
+			@ModelAttribute BoardSearch boardSearch,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		boardSearch.setUsername(userDetails.getUsername());
 		ResponseEntity<List<RunningBoard>> responseEntity;
@@ -68,6 +72,7 @@ public class RunningBoardController {
 	public ResponseEntity<RunningBoard> getRunningBoardDetail(@PathVariable("id") int runningBoardId) {
 		ResponseEntity<RunningBoard> responseEntity;
 		RunningBoard BoardDetail = runningBoardService.getRunningBoardById(runningBoardId);
+		System.out.println(BoardDetail.getTitle());
 		responseEntity = new ResponseEntity<>(BoardDetail, HttpStatus.OK);
 		return responseEntity;
 	}

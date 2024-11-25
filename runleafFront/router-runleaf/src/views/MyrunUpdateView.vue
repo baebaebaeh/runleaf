@@ -1,6 +1,6 @@
 <template>
   <div class="run-after2">
-    <div class="div">달리기 저장파트</div>
+    <div class="div">달리기 수정</div>
     <div class="form-container">
       <div class="content">
         <input class="regist-input" type="text" placeholder="여기에 제목을 입력하세요"
@@ -89,7 +89,7 @@ const gpsStore = useGpsStore();
 const id = Number(route.params.id);
 const existingPhoto = ref(false);
 const goRunningDataList = function () {
-  router.push({ name: 'myrun' });
+  router.push({ name: 'myInfo' });
 }
 const previews = ref([])
 const boardDto = ref({
