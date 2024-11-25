@@ -6,7 +6,7 @@
         <br />
         {{ Math.floor(gpsStore.cnt / 3600) }} : {{ Math.floor(gpsStore.cnt / 60) % 60 }} : {{ gpsStore.cnt % 60 }}
       </div>
-      <!-- <div>
+      <div>
         {{ tempx }}
       </div>
       <div>
@@ -14,7 +14,7 @@
       </div>
       <div>
         {{ acc }}
-      </div> -->
+      </div>
       <img @click="startLocationInterval" class="play-circle" src="`@/assets/images/icons/play-circle.svg`"
         v-if="!gpsStore.isRunning || gpsStore.isPause" />
       <img @click="pauseLocationInterval" class="pause-circle" src="`@/assets/images/icons/pause-circle.svg`"
@@ -120,7 +120,7 @@ const kalmanFilter = (z, dt, accuracy) => {
 const adjustMeasurementNoise = (accuracy) => {
   let noiseScale;
 
-  if (accuracy <= 14) {
+  if (accuracy <= 15) {
     // 신뢰도가 높은 경우
     noiseScale = 1; // 최소 노이즈
   } else if (accuracy <= 20) {
@@ -174,7 +174,8 @@ const getLocation = () => {
       gpsStore.addLocation({
         longitude: filtered.longitude,
         latitude: filtered.latitude,
-        speed: filtered.speed,
+        accuracy: accuracy,
+        // speed: filtered.speed,
         createdTs: new Date().toISOString(),
       });
 

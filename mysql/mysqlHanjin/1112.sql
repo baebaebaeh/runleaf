@@ -69,6 +69,7 @@ create table running_coordinate (
     running_board_id int,
     latitude DOUBLE,
     longitude DOUBLE,
+    accuracy DOUBLE,
     created_Ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(running_board_id) REFERENCES running_board(running_board_id)
 );
@@ -106,5 +107,20 @@ select *
 from running_coordinate;
 select *
 from comment;
+DELETE FROM running_coordinate
+WHERE running_board_id = 6;
+insert into running_coordinate (
+	running_board_id,
+    latitude,
+    longitude,
+    accuracy,
+    created_Ts
+) values (
+	6,
+    36.35936888722058,
+    127.30088573093977,
+    15.25533090712357,
+    '2024-11-25T12:02:53'
+);
 -- ALTER USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
 -- CREATE USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';

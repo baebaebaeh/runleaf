@@ -15,20 +15,22 @@
                 </div>
                 <div class="stats">
                     <span>뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0 }}m</span>
-                    <span v-if="memberStore.memberInfoForm.totalRunningSecond < 60" class="div3">뛴시간 : {{
-                        memberStore.memberInfoForm.totalRunningSecond }}초
+                </div>
+                <div class="stats">
+                    <span v-if="memberStore.memberInfoForm.totalRunningSecond < 60" class="div3">
+                        뛴시간 : {{ memberStore.memberInfoForm.totalRunningSecond }}초
                     </span>
                     <span
                         v-if="memberStore.memberInfoForm.totalRunningSecond >= 60 && memberStore.memberInfoForm.totalRunningSecond < 3600"
                         class="div3">
-                        뛴시간 : {{ Math.floor(memberStore.memberInfoForm.totalRunningSecond / 60) }}분 {{
-                            memberStore.memberInfoForm.totalRunningSecond
-                            % 60 }}초
+                        뛴시간 : {{ Math.floor(memberStore.memberInfoForm.totalRunningSecond / 60) }}분
+                        {{ memberStore.memberInfoForm.totalRunningSecond % 60 }}초
                     </span>
-                    <span v-if="memberStore.memberInfoForm.totalRunningSecond >= 3600" class="div3">뛴시간 : {{
-                        Math.floor(memberStore.memberInfoForm.totalRunningSecond / 3600) }}시간 {{
-                            Math.floor(memberStore.memberInfoForm.totalRunningSecond %
-                                3600 / 60) }}분 {{ memberStore.memberInfoForm.totalRunningSecond % 60 }}초 </span>
+                    <span v-if="memberStore.memberInfoForm.totalRunningSecond >= 3600" class="div3">
+                        뛴시간 : {{ Math.floor(memberStore.memberInfoForm.totalRunningSecond / 3600) }}시간
+                        {{ Math.floor(memberStore.memberInfoForm.totalRunningSecond % 3600 / 60) }}분
+                        {{ memberStore.memberInfoForm.totalRunningSecond % 60 }}초
+                    </span>
                 </div>
             </div>
         </div>
@@ -100,15 +102,17 @@
                             @click="openCommentModal(index)" />
                         <img class="map-icon" src="@/assets/images/icons/map.svg"
                             @click="openMapModal(runningBoard.runningBoardId)" />
-                        <RouterLink @click="tempSaveBoard(runningBoard.runningBoardId)" :to="{
-                            name: 'myrunUpdate',
-                            params: {
-                                id: runningBoard.runningBoardId,
-                            }
-                        }">
+                        <RouterLink v-if="boardDto[index].writer === authStore.loginUsername"
+                            @click="tempSaveBoard(runningBoard.runningBoardId)" :to="{
+                                name: 'myrunUpdate',
+                                params: {
+                                    id: runningBoard.runningBoardId,
+                                }
+                            }">
                             <img class="edit-board" src="@/assets/images/icons/edit-board.png" />
                         </RouterLink>
-                        <button @click="deleteBoard(runningBoard.runningBoardId)">
+                        <button v-if="boardDto[index].writer === authStore.loginUsername"
+                            @click="deleteBoard(runningBoard.runningBoardId)">
                             <img class="delete-board" src="@/assets/images/icons/delete-board.png" />
                         </button>
                     </div>
@@ -175,6 +179,8 @@ import { useGpsStore } from '@/stores/gpsStore.js';
 import MapComponent from '@/views/NaverMapTESTView.vue'
 import { useRunningDataStore } from '@/stores/runningDataStore';
 // ======================= 임포트 =======================
+const router = useRouter();
+const runningDataStore = useRunningDataStore();
 const memberStore = useMemberStore();
 const followStore = useFollowStore();
 const authStore = useAuthStore();
@@ -182,17 +188,9 @@ const authStore = useAuthStore();
 onMounted(() => {
     memberStore.getMember();
 })
-
-
-
-
-
-
-
-
-
-
-
+onUnmounted(() => {
+  document.body.style.overflow = "auto"; // 스크롤 복구
+})
 
 
 
@@ -237,6 +235,7 @@ const initOrderString = () => {
 initOrderString();
 // ======================= 지도모달 로직 =======================
 const openMapModal = async (id) => {
+    document.body.style.overflow = "hidden"; // 스크롤 막기
     console.log(id)
     const { data } = await axios.get(`/api/running/coodinate/${id}`);
     coodinate.value = data;
@@ -244,6 +243,7 @@ const openMapModal = async (id) => {
     isMapModal.value = true;
 }
 const closeMapModal = () => {
+    document.body.style.overflow = "auto"; // 스크롤 복구
     isMapModal.value = false;
 }
 
@@ -251,6 +251,7 @@ const closeMapModal = () => {
 
 // ======================= 댓글모달 로직 =======================
 const openCommentModal = async (index) => {
+    document.body.style.overflow = "hidden"; // 스크롤 막기
     const id = boardDto.value[index].runningBoardId;
     tempCommentIdx.value = index;
     console.log(id);
@@ -260,6 +261,7 @@ const openCommentModal = async (index) => {
     isCommentModal.value = true;
 }
 const closeCommentModal = () => {
+    document.body.style.overflow = "auto"; // 스크롤 복구
     isOffChange();
     isCommentModal.value = false;
 
@@ -1082,7 +1084,7 @@ const tempSaveBoard = async (id) => {
     display: flex;
     flex-direction: column;
     gap: var(--var-sds-size-space-400, 16px);
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;

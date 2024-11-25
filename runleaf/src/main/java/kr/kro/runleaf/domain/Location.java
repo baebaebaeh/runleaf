@@ -7,20 +7,32 @@ public class Location {
 	private int runningBoardId;
 	private double latitude;
 	private double longitude;
+	private double accuracy;
 	private LocalDateTime createdTs;
 	public Location() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Location(int runningCoodinateId, int runningBoardId, double latitude, double longitude,
+	
+	public Location(int runningCoodinateId, int runningBoardId, double latitude, double longitude, double accuracy,
 			LocalDateTime createdTs) {
 		super();
 		this.runningCoodinateId = runningCoodinateId;
 		this.runningBoardId = runningBoardId;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.accuracy = accuracy;
 		this.createdTs = createdTs;
 	}
+
+	public double getAccuracy() {
+		return accuracy;
+	}
+
+	public void setAccuracy(double accuracy) {
+		this.accuracy = accuracy;
+	}
+
 	public int getRunningCoodinateId() {
 		return runningCoodinateId;
 	}

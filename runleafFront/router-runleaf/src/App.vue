@@ -32,21 +32,22 @@
           </div>
           <div class="menu-text">달리기 시작</div>
         </RouterLink>
-
+<!-- 
         <RouterLink class="menu-item" :to="{ name: 'myrun' }">
           <div class="menu-logo">
             <img class="menu-img" src="@/assets/images/sidebar/myrun.png" />
           </div>
           <div class="menu-text">나의 달리기</div>
         </RouterLink>
-
+         -->
+<!--         
         <div class="menu-item">
           <div class="menu-logo">
             <img class="menu-img" src="@/assets/images/sidebar/challenge.png" />
           </div>
           <div class="menu-text">챌린지</div>
         </div>
-
+         -->
         <!-- 로그인 후 -->
         <div v-if="authStore.isLoggedIn" class="menu-group">
           <RouterLink class="menu-item" :to="{ name: 'myInfo' }">
