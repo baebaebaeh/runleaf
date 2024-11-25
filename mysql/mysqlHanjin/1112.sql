@@ -27,7 +27,9 @@ CREATE TABLE follow (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     follower_id INT NOT NULL,
     following_id INT NOT NULL,
-    UNIQUE KEY unique_follow (follower_id, following_id)
+    UNIQUE KEY unique_follow (follower_id, following_id),
+    FOREIGN KEY (follower_id) REFERENCES member(member_id) ON DELETE CASCADE,
+    FOREIGN KEY (following_id) REFERENCES member(member_id) ON DELETE CASCADE
 );
 
 -- 4. 외래 키 제약 조건 추가

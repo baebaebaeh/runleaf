@@ -17,10 +17,6 @@
                     <span>뛴 거리: {{ memberStore.memberInfoForm.totalDist || 0}}</span>
                     <span>뛴 시간: {{ memberStore.memberInfoForm.totalRunningSecond }}</span>
                 </div>
-                <div v-if="isOtherProfile">
-                    <button v-if="!followStore.isFollowing" @click="handleFollow" class="follow-btn">팔로우</button>
-                    <button v-else @click="handleUnfollow" class="unfollow-btn">언팔로우</button>
-                </div>
             </div>
         </div>
         <div class="info-section">
@@ -46,23 +42,8 @@ const memberStore = useMemberStore();
 const followStore = useFollowStore();
 const authStore = useAuthStore();
 
-const username = computed(() => memberStore.memberInfoForm.username); // 프로필 사용자 ID
-const currentUsername = computed(() => authStore.loginUsername); // 현재 로그인 사용자 ID
-const isOtherProfile = computed(() => username.value !== currentUsername.value); // 다른 사람 프로필인지 확인
-
-const handleFollow = async () => {
-    await followStore.followUser(currentUsername.value, username.value);
-};
-
-const handleUnfollow = async () => {
-    await followStore.unfollowMember(currentUsername.value, username.value);
-};
-
 onMounted(() => {
     memberStore.getMember();
-    if (isOtherProfile.value) {
-        followStore.checkFollowStatus(currentUsername.value, username.value);
-    }
 })
 
 </script>
@@ -169,28 +150,6 @@ onMounted(() => {
 .stats span {
     font-size: 14px;
     color: #666;
-}
-
-.follow-btn, .unfollow-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.follow-btn {
-    background-color: #a1ffa5; /* 녹색 */
-    color: white;
-}
-
-.unfollow-btn {
-    background-color: #dddddd; /* 빨간색 */
-    color: white;
-}
-
-.follow-btn:hover, .unfollow-btn:hover {
-    opacity: 0.9;
 }
 
 .info-section {
