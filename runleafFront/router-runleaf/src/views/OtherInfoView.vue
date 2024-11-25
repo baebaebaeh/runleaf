@@ -18,33 +18,23 @@
                     <span>팔로워 {{ followStats.followerCount || 0 }}</span>
                     <span>팔로잉 {{ followStats.followingCount || 0 }}</span>
                 </div>
-
-
-
-
-
                 <div class="stats">
-                    <span>뛴거리 : {{ memberData.totalDist || 0 }}m</span>
+                    <span>뛴거리  {{ memberData.totalDist || 0 }}m</span>
                 </div>
                 <div class="stats">
                     <div v-if="memberData.totalRunningSecond < 60" class="div3">
-                        뛴시간 : {{ memberData.totalRunningSecond }}초
+                        뛴시간  {{ memberData.totalRunningSecond }}초
                     </div>
                     <div v-if="memberData.totalRunningSecond >= 60 && memberData.totalRunningSecond < 3600"
                         class="div3">
-                        뛴시간 : {{ Math.floor(memberData.totalRunningSecond / 60) }}분
+                        뛴시간  {{ Math.floor(memberData.totalRunningSecond / 60) }}분
                         {{ memberData.totalRunningSecond % 60 }}초
                     </div>
                     <div v-if="memberData.totalRunningSecond >= 3600" class="div3">
-                        뛴시간 : {{ Math.floor(memberData.totalRunningSecond / 3600) }}시간
+                        뛴시간  {{ Math.floor(memberData.totalRunningSecond / 3600) }}시간
                         {{ Math.floor(memberData.totalRunningSecond % 3600 / 60) }}분
                         {{ memberData.totalRunningSecond % 60 }}초
                     </div>
-                </div>
-                <!-- 현재 사용자와 다른 사용자일 경우 팔로우/언팔로우 버튼 표시 -->
-                <div v-if="isDifferentMember" class="follow-buttons">
-                    <button v-if="!isFollowing" @click="followMember" class="follow-btn">팔로우</button>
-                    <button v-if="isFollowing" @click="unfollowMember" class="unfollow-btn">언팔로우</button>
                 </div>
             </div>
         </div>
@@ -183,13 +173,11 @@
 // ======================= 임포트 =======================
 import { useAuthStore } from '@/stores/auth';
 import { useFollowStore } from '@/stores/follow';
-import { useMemberStore } from '@/stores/member';
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import { onBeforeRouteLeave, RouterLink, useRoute, useRouter } from 'vue-router'
 import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
 import MapComponent from '@/views/NaverMapTESTView.vue'
-import { useRunningDataStore } from '@/stores/runningDataStore';
 // ======================= 임포트 ======================
 // ======================= 변수선언 =======================
 const gpsStore = useGpsStore();
@@ -228,7 +216,7 @@ const authStore = useAuthStore();
 const memberData = ref({});
 const isFollowing = computed(() => followStore.isFollowing);
 const followStats = computed(() => followStore.followStats);
-const isDifferentMember = computed(() => authStore.username !== route.params.username);
+const isDifferentMember = computed(() => authStore.loginUsername !== route.params.username);
 // ======================= 변수선언 =======================
 
 const fetchMemberData = async (username) => {
@@ -263,6 +251,9 @@ onMounted(async () => {
     await fetchMemberData(route.params.username);
     await followStore.getFollowStats(route.params.username); // 팔로워/팔로잉 수 가져오기
     await getRunningBoardList();
+    console.log("현재 로그인한 사용자:", authStore.loginUsername);
+    console.log("프로필 사용자:", route.params.username);
+    console.log("isDifferentMember:", isDifferentMember.value);
 });
 
 
@@ -546,13 +537,7 @@ const tempSaveBoard = async (id) => {
     runningDataStore.coodinate = coodinate.data;
 }
 // ======================= 보드 수정삭제조회 끝 =======================
-
-
-
-
-
 </script>
-
 
 <style scoped>
 .container {
@@ -566,18 +551,6 @@ const tempSaveBoard = async (id) => {
     position: relative;
     overflow: hidden;
     padding-top: 10%;
-}
-
-.title {
-    color: #000000;
-    font-family: "Inter-SemiBold", sans-serif;
-    font-size: 25px;
-    line-height: 130%;
-    font-weight: 600;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
 }
 
 .edit-info {
@@ -632,9 +605,9 @@ const tempSaveBoard = async (id) => {
 
 .profile-header {
     display: flex;
-    align-items: flex-start; /* 버튼과 텍스트를 위로 정렬 */
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 50px;
     width: 100%;
 }
 
@@ -642,14 +615,18 @@ const tempSaveBoard = async (id) => {
     font-size: 20px;
     font-weight: bold;
     color: #333;
-    flex-shrink: 0; /* username이 줄어들지 않도록 설정 */
+    flex-shrink: 0;
 }
 
 .follow-buttons {
     display: flex;
-    flex-direction: row;
-    gap: 5px; /* 버튼 간 간격 */
-    margin-top: -5px; /* 버튼을 위로 이동 */
+}
+
+.follow-buttons .follow-btn,
+.follow-buttons .unfollow-btn {
+    font-size: 10px;
+    margin-top: -20px; /* 버튼을 위로 이동 */
+    position: relative; /* 필요 시 위치 속성 변경 */
 }
 
 .stats {
@@ -660,21 +637,21 @@ const tempSaveBoard = async (id) => {
 }
 
 .stats span {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
 }
 
 .follow-btn,
 .unfollow-btn {
-    padding: 3px 6px; /* 버튼 크기 줄이기 */
-    font-size: 12px; /* 글자 크기 줄이기 */
-    line-height: 1; /* 텍스트 높이를 줄여 버튼 크기 축소 */
+    padding: 3px 6px;
+    font-size: 8px;
+    line-height: 1;
 }
 
 .follow-btn {
+    
     background-color: #cdcdcd;
     color: white;
-    transition: background-color 0.3s ease; /* 호버 시 부드러운 전환 효과 */
 }
 
 .follow-btn:hover {
@@ -770,18 +747,6 @@ const tempSaveBoard = async (id) => {
     width: 85%;
     max-width: 400px;
     position: relative;
-}
-
-.title {
-    color: #000000;
-    font-family: "Inter-SemiBold", sans-serif;
-    font-size: 25px;
-    line-height: 130%;
-    font-weight: 600;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
 }
 
 .edit-info {
@@ -939,20 +904,6 @@ const tempSaveBoard = async (id) => {
 .carousel-button.next {
     right: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .modal-overlay {
     position: fixed;
@@ -1150,15 +1101,6 @@ const tempSaveBoard = async (id) => {
 .delete-btn:hover {
     background-color: #cc0000;
 }
-
-
-
-
-
-
-
-
-
 
 .reply-css::before {
     content: '';
@@ -1364,7 +1306,6 @@ const tempSaveBoard = async (id) => {
     align-self: stretch;
 }
 
-
 .commentmap {
     border-width: 1px;
     display: flex;
@@ -1392,8 +1333,6 @@ const tempSaveBoard = async (id) => {
     position: relative;
     overflow: visible;
 }
-
-
 
 .upordel {
     padding: 5px;
