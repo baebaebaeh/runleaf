@@ -43,14 +43,14 @@
       </div>
     </div>
     <div class="share-container">
-      <div class="share">
+      <button @click="uploadFile" class="share">
         <div class="share2">
           <img class="share3" src="`@/assets/images/icons/share.svg`" />
         </div>
         <div class="frame">
-          <button @click="uploadFile" class="div">저장하기</button>
+          <div class="div">저장하기</div>
         </div>
-      </div>
+      </button>
     </div>
   </div>
 
