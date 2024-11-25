@@ -68,7 +68,7 @@
           </div>
           <div class="comment-buttons">
             <button @click="isOnChange(i)">답글 달기</button>
-            <button class="delete-btn" @click="deleteComment(comment.commentId)">삭제</button>
+            <button v-if="authStore.loginUsername === comment.writer" class="delete-btn" @click="deleteComment(comment.commentId)">삭제</button>
           </div>
           <button v-if="comment.replyCount != 0" @click="isOnReply(i)">
             답글 {{ comment.replyCount }}개 더보기
@@ -78,7 +78,7 @@
             <h3>{{ reply.content }}</h3>
             <!-- <button v-if="authStore.loginUsername === comment.writer" @click="deleteComment()"> -->
             <div class="reply-buttons">
-              <button class="delete-btn" @click="deleteComment(reply.commentId)">삭제</button>
+              <button v-if="authStore.loginUsername === reply.writer" class="delete-btn" @click="deleteComment(reply.commentId)">삭제</button>
             </div>
           </div>
         </div>
@@ -128,7 +128,8 @@ const coodinate = ref([])
 const isMapModal = ref(false);
 const isCommentModal = ref(false);
 const orderString = ref()
-const tempIdx = ref();
+const tempCommentIdx = ref();
+const tempReplyIdx = ref();
 let isFetching = false;
 let hasMoreData = true;
 // ======================= 변수선언 =======================
@@ -158,7 +159,7 @@ const closeMapModal = () => {
 // ======================= 댓글모달 로직 =======================
 const openCommentModal = async (index) => {
   const id = boardDto.value[index].runningBoardId;
-  tempIdx.value = index;
+  tempCommentIdx.value = index;
   console.log(id);
   const { data } = await axios.get(`/api/comment/${id}`);
   comments.value = data;
@@ -176,13 +177,16 @@ const isOnChange = (i) => {
 }
 const insertCommet = async () => {
   const token = sessionStorage.getItem('token');
-  const { data } = await axios.post(`/api/comment`, commentDto.value, {
+  await axios.post(`/api/comment`, commentDto.value, {
     headers: {
       'authorization': `Bearer ${token}`,
     }
   })
+  openCommentModal(tempCommentIdx.value)
   commentDto.value.content = '';
-  openCommentModal(tempIdx.value)
+  const id = comments.value[tempReplyIdx.value].commentId;
+  const { data } = await axios.get(`/api/comment/reply/${id}`)
+  comments.value[tempReplyIdx.value].replys = data;
 };
 const isOffChange = () => {
   isOn.value.isReply = false;
@@ -191,6 +195,8 @@ const isOffChange = () => {
 const isOnReply = async (i) => {
   const id = comments.value[i].commentId;
   const { data } = await axios.get(`/api/comment/reply/${id}`)
+  tempReplyIdx.value = i;
+  isOnChange(i)
   if (comments.value[i].isOnReply) {
     comments.value[i].isOnReply = false;
   } else {
@@ -211,7 +217,7 @@ const deleteComment = async (id) => {
         'authorization': `Bearer ${token}`,
       },
     });
-    openCommentModal(tempIdx.value)
+    openCommentModal(tempCommentIdx.value)
     return
   } else {
     return

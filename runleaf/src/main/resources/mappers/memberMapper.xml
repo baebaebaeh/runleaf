@@ -32,7 +32,7 @@
 	<!-- 회원 조회(username) -->
 	<select id="selectMemberByUsername" parameterType="String"
 		resultType="kr.kro.runleaf.domain.Member">
-		SELECT member_id, username, password, email, phone, total_dist, total_running_second, role
+		SELECT member_id, username, password, email, phone, ROUND(total_dist, 1) AS total_dist, total_running_second, role
 		FROM member
 		WHERE username = #{username}
 	</select>
