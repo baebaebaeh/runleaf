@@ -6,7 +6,7 @@
         <br />
         {{ Math.floor(gpsStore.cnt / 3600) }} : {{ Math.floor(gpsStore.cnt / 60) % 60 }} : {{ gpsStore.cnt % 60 }}
       </div>
-      <div>
+      <!-- <div>
         {{ tempx }}
       </div>
       <div>
@@ -14,7 +14,7 @@
       </div>
       <div>
         {{ acc }}
-      </div>
+      </div> -->
       <img @click="startLocationInterval" class="play-circle" src="`@/assets/images/icons/play-circle.svg`"
         v-if="!gpsStore.isRunning || gpsStore.isPause" />
       <img @click="pauseLocationInterval" class="pause-circle" src="`@/assets/images/icons/pause-circle.svg`"
@@ -118,7 +118,19 @@ const kalmanFilter = (z, dt, accuracy) => {
 
 // 노이즈 행렬 조정 함수
 const adjustMeasurementNoise = (accuracy) => {
-  const noiseScale = Math.max(accuracy / 10, 1); // Accuracy를 기반으로 노이즈 비율 계산
+  let noiseScale;
+
+  if (accuracy <= 14) {
+    // 신뢰도가 높은 경우
+    noiseScale = 1; // 최소 노이즈
+  } else if (accuracy <= 20) {
+    // 오차가 약간 있는 경우
+    noiseScale = (accuracy - 14) / 6 + 1; // 1 ~ 2 사이의 값
+  } else {
+    // 오차가 큰 경우
+    noiseScale = Math.min(accuracy / 10, 5); // 노이즈를 너무 크게 하지 않음 (최대 5)
+  }
+
   return math.matrix([
     [noiseScale, 0],
     [0, noiseScale],
@@ -180,7 +192,7 @@ const getLocation = () => {
 // 타이머 관리
 const startLocationInterval = () => {
   if (gpsStore.intervalId) clearInterval(gpsStore.intervalId);
-  gpsStore.intervalId = setInterval(getLocation, 1000);
+  gpsStore.intervalId = setInterval(getLocation, 3000);
   gpsStore.intervalCnt = setInterval(() => {
     gpsStore.cnt += 1;
   }, 1000);
