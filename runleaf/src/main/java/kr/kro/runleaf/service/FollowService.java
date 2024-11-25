@@ -5,9 +5,9 @@ import java.util.Map;
 
 public interface FollowService {
 
-	public void followUser(int followerId, int followingId);
+	public void follow(int followerId, int followingId);
 
-	public void unfollowUser(int followerId, int followingId);
+	public void unfollow(int followerId, int followingId);
 
 	public List<Map<String, Object>> getFollowers(int memberId);
 

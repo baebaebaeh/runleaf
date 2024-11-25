@@ -12,13 +12,17 @@ public interface MemberService {
 
 	boolean join(Member member);
 
-	MemberResponse findOne(String username);
+	MemberResponse findMe(String username);
+	
+	int getMemberIdByUsername(String username);
 
 	void edit(MemberEditRequest editRequest);
 
 	boolean existsByUsername(String username);
 
 	String editProfile(MultipartFile file, String username) throws IllegalStateException, IOException;
+
+	MemberResponse findOne(String username);
 
 	//	void remove(int memberId);
 }

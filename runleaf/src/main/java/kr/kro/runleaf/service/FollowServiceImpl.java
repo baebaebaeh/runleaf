@@ -18,12 +18,12 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Transactional
-    public void followUser(int followerId, int followingId) {
+    public void follow(int followerId, int followingId) {
 		followRepository.insertFollow(followerId, followingId);
     }
 
     @Transactional
-    public void unfollowUser(int followerId, int followingId) {
+    public void unfollow(int followerId, int followingId) {
     	followRepository.deleteFollow(followerId, followingId);
     }
 

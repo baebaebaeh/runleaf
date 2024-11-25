@@ -12,7 +12,7 @@ import MyInfoView from '@/views/MyInfoView.vue'
 import EditMember from '@/components/member/EditMember.vue'
 import MyrunUpdateView from '@/views/MyrunUpdateView.vue'
 import NaverMapTESTView from '@/views/NaverMapTESTView.vue'
-import MemberInfo from '@/components/member/MemberInfo.vue'
+import OtherInfoView from '@/views/OtherInfoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,9 +101,9 @@ const router = createRouter({
       component: EditMember
     },
     {
-      path: '/memberinfo',
-      name: 'memberInfo',
-      component: MemberInfo
+      path: '/otherinfo/:username',
+      name: 'otherInfo',
+      component: OtherInfoView
     },
   ],
 });

@@ -4,9 +4,8 @@
       <div class="feed" v-for="(runningBoard, index) in boardDto" :key="runningBoard.runningBoardId">
         <!-- 이미지 관련 파트 -->
         <div class="main-image">
-          <button class="div3">{{ runningBoard.writer }}</button>
+          <RouterLink class="div3" :to="{ name : 'otherInfo', params : { username : runningBoard.writer } }">{{ runningBoard.writer }}</RouterLink>
           <div class="div">{{ runningBoard.title }}</div>
-
 
           <!-- 이미지 있을때 캐러셀 표시 -->
           <div v-if="boardDto[index].runningBoardImage.length != 0" class="carousel" @touchstart="startTouch"
@@ -435,20 +434,6 @@ onBeforeRouteLeave((to, from, next) => {
 .carousel-button.next {
   right: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .modal-overlay {
   position: fixed;

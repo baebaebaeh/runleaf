@@ -1,58 +1,71 @@
 package kr.kro.runleaf.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.kro.runleaf.service.FollowService;
+import kr.kro.runleaf.service.MemberService;
 
 @RestController
 @RequestMapping("/follow")
 public class FollowController {
 
     private final FollowService followService;
+    private final MemberService memberService;
+    
+    public FollowController(FollowService followService, MemberService memberService) {
+		this.followService = followService;
+		this.memberService = memberService;
+	}
 
-    public FollowController(FollowService followService) {
-        this.followService = followService;
+	// 팔로우 상태 확인
+    @GetMapping("/{username}/status")
+    public ResponseEntity<Map<String, Boolean>> checkFollowingStatus(@PathVariable String username) {
+    	String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+       
+    	int followerId = memberService.getMemberIdByUsername(loggedInUsername);
+        int followingId = memberService.getMemberIdByUsername(username);
+
+        boolean isFollowing = followService.isFollowing(followerId, followingId);
+
+        System.out.println(isFollowing);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isFollowing", isFollowing);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<String> followUser(@RequestBody Map<String, Integer> payload) {
-        int followerId = payload.get("followerId");
-        int followingId = payload.get("followingId");
-        followService.followUser(followerId, followingId);
-        return ResponseEntity.ok("팔로우 성공");
+    // 팔로우 요청
+    @PostMapping("/{username}")
+    public ResponseEntity<Void> follow(
+            @PathVariable String username) {
+    	String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        int followerId = memberService.getMemberIdByUsername(loggedInUsername);
+        int followingId = memberService.getMemberIdByUsername(username);
+
+        followService.follow(followerId, followingId);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> unfollowUser(@RequestBody Map<String, Integer> payload) {
-    	int followerId = payload.get("followerId");
-    	int followingId = payload.get("followingId");
-        followService.unfollowUser(followerId, followingId);
-        return ResponseEntity.ok("팔로우 취소 성공");
-    }
+    // 언팔로우 요청
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> unfollow(
+            @PathVariable String username) {
+    	String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    @GetMapping("/followers/{memberId}")
-    public ResponseEntity<List<Map<String, Object>>> getFollowers(@PathVariable int memberId) {
-        return ResponseEntity.ok(followService.getFollowers(memberId));
-    }
+    	int followerId = memberService.getMemberIdByUsername(loggedInUsername);
+    	int followingId = memberService.getMemberIdByUsername(username);
 
-    @GetMapping("/following/{memberId}")
-    public ResponseEntity<List<Map<String, Object>>> getFollowing(@PathVariable int memberId) {
-        return ResponseEntity.ok(followService.getFollowing(memberId));
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<Boolean> isFollowing(@RequestParam int followerId, @RequestParam int followingId) {
-        return ResponseEntity.ok(followService.isFollowing(followerId, followingId));
+        followService.unfollow(followerId, followingId);
+        return ResponseEntity.noContent().build();
     }
 }

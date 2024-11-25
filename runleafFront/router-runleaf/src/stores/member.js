@@ -28,8 +28,16 @@ export const useMemberStore = defineStore('member', () => {
   const addFile = (file) => {
     formData.append("file", file);
   };
+
+   // formData 초기화 함수
+   const resetFormData = () => {
+    formData.delete('file');
+    formData.delete('member');
+  };
   
   const submitJoinForm = async () => {
+    resetFormData();
+    
     formData.append('member', new Blob([JSON.stringify(memberJoinForm.value)], { type: 'application/json' }));
     try {
       const response = await axios.post('/api/join', formData);
@@ -37,13 +45,27 @@ export const useMemberStore = defineStore('member', () => {
       if (response.status === 200) {
         alert('회원가입이 완료되었습니다!');
         router.push('/');
+
+        resetJoinForm();
       }
     } catch (error) {
       console.error('회원가입 실패:', error);
       alert('회원가입 중 문제가 발생했습니다.');
       router.push('/join')
+
+      resetJoinForm();
     }
   }
+
+   // 회원가입 폼 초기화 함수
+   const resetJoinForm = () => {
+    memberJoinForm.value = {
+      username: '',
+      password: '',
+      email: '',
+      phone: '',
+    };
+  };
   
   const memberInfoForm = ref({
     username: '',

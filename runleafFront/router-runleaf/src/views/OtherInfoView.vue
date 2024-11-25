@@ -1,63 +1,87 @@
 <template>
     <div class="container">
-        <div class="frame-44">
-            <RouterLink :to="{ name: 'editMember' }" class="edit-info">변경</RouterLink>
-        </div>
         <div class="profile-section">
             <div class="profile">
-                <img class="vector" :src="`/api/uploads/${memberStore.memberInfoForm.memberFileUrl}`" />
+                <img class="vector" :src="`/api/uploads/${memberData.memberFileUrl}`" alt="프로필 이미지" />
             </div>
             <div class="profile-details">
-                <div class="username">{{ memberStore.memberInfoForm.username }}</div>
+                <div class="username">{{ memberData.username }}</div>
                 <div class="stats">
-                    <span>팔로워: {{ memberStore.memberInfoForm.followers || 0 }}</span>
-                    <span>팔로잉: {{ memberStore.memberInfoForm.following || 0 }}</span>
+                    <span>팔로워: {{ memberData.followers || 0 }}</span>
+                    <span>팔로잉: {{ memberData.following || 0 }}</span>
                 </div>
-                <div v-if="isOtherProfile">
-                    <button v-if="!followStore.isFollowing" @click="handleFollow" class="follow-btn">팔로우</button>
-                    <button v-else @click="handleUnfollow" class="unfollow-btn">언팔로우</button>
+                <div class="stats">
+                    <span>뛴거리: {{ memberData.totalDist || 0 }}</span>
+                    <span>뛴시간: {{ memberData.totalRunningSecond || 0 }}</span>
+                </div>
+
+                <!-- 현재 사용자와 다른 사용자일 경우 팔로우/언팔로우 버튼 표시 -->
+                <div v-if="isDifferentMember" class="follow-buttons">
+                    <button v-if="!isFollowing" @click="followMember" class="follow-btn">팔로우</button>
+                    <button v-if="isFollowing" @click="unfollowMember" class="unfollow-btn">언팔로우</button>
                 </div>
             </div>
         </div>
         <div class="info-section">
             <div class="info-detail">
                 <div class="label">이메일</div>
-                <div class="value">{{ memberStore.memberInfoForm.email }}</div>
+                <div class="value">{{ memberData.email }}</div>
             </div>
             <div class="info-detail">
                 <div class="label">연락처</div>
-                <div class="value">{{ memberStore.memberInfoForm.phone }}</div>
+                <div class="value">{{ memberData.phone }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/auth';
+import { onMounted, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+import { useAuthStore } from '@/stores/auth'; // 현재 로그인 사용자 정보 가져오기
 import { useFollowStore } from '@/stores/follow';
-import { useMemberStore } from '@/stores/member';
-import { computed, onMounted } from 'vue';
 
-const memberStore = useMemberStore();
+const route = useRoute();
 const followStore = useFollowStore();
 const authStore = useAuthStore();
 
-const username = computed(() => memberStore.memberInfoForm.username); // 프로필 사용자 ID
-const currentUsername = computed(() => authStore.loginUsername); // 현재 로그인 사용자 ID
+const memberData = ref({});
+const isFollowing = computed(() => followStore.isFollowing);
+const isDifferentMember = computed(() => authStore.username !== route.params.username);
 
-const handleFollow = async () => {
-    await followStore.followUser(currentUsername.value, username.value);
+const fetchMemberData = async (username) => {
+    try {
+        const response = await axios.get(`/api/member/${username}`);
+        console.log(response)
+        memberData.value = response.data;
+        await followStore.checkFollowStatus(username); // 팔로우 상태 확인
+    } catch (error) {
+        console.error('사용자 정보 가져오기 실패:', error);
+    }
 };
 
-const handleUnfollow = async () => {
-    await followStore.unfollowMember(currentUsername.value, username.value);
+const followMember = async () => {
+    try {
+        await followStore.followUser(route.params.username);
+    } catch (error) {
+        console.error('팔로우 실패:', error);
+    }
+};
+
+const unfollowMember = async () => {
+    try {
+        await followStore.unfollowUser(route.params.username);
+    } catch (error) {
+        console.error('언팔로우 실패:', error);
+    }
 };
 
 onMounted(() => {
-    memberStore.getMember();
-})
-
+    fetchMemberData(route.params.username);
+});
 </script>
+
 
 <style scoped>
 .container {
@@ -71,16 +95,6 @@ onMounted(() => {
     position: relative;
     overflow: hidden;
     padding-top: 10%;
-}
-
-.frame-44 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 85%;
-    max-width: 400px;
-    position: relative;
 }
 
 .title {
@@ -163,7 +177,8 @@ onMounted(() => {
     color: #666;
 }
 
-.follow-btn, .unfollow-btn {
+.follow-btn,
+.unfollow-btn {
     padding: 8px 16px;
     font-size: 14px;
     border: none;
@@ -172,16 +187,19 @@ onMounted(() => {
 }
 
 .follow-btn {
-    background-color: #a1ffa5; /* 녹색 */
+    background-color: #a1ffa5;
+    /* 녹색 */
     color: white;
 }
 
 .unfollow-btn {
-    background-color: #dddddd; /* 빨간색 */
+    background-color: #dddddd;
+    /* 빨간색 */
     color: white;
 }
 
-.follow-btn:hover, .unfollow-btn:hover {
+.follow-btn:hover,
+.unfollow-btn:hover {
     opacity: 0.9;
 }
 
@@ -221,5 +239,23 @@ onMounted(() => {
     /* 오른쪽 정렬 */
     word-break: break-all;
     /* 텍스트가 너무 길 경우 줄바꿈 */
+}
+
+.follow-buttons {
+    margin-top: 20px;
+}
+
+.follow-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+.follow-buttons button:hover {
+    background-color: #007bff;
+    color: white;
 }
 </style>

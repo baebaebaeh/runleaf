@@ -36,6 +36,7 @@
 		FROM member
 		WHERE username = #{username}
 	</select>
+	
 
 	<!-- 회원번호 조회 -->
 	<select id="getMemberId" parameterType="String" resultType="int">

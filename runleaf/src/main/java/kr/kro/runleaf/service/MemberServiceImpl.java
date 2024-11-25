@@ -58,8 +58,26 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberResponse findOne(String username) {
+	public MemberResponse findMe(String username) {
 
+		Member member = memberRepository.selectMemberByUsername(username);
+
+		MemberFile memberFile = memberRepository.selectMemberFileByMemberId(member.getMemberId()); // 파일이 없을 경우 null 처리
+
+		MemberResponse memberResponse = new MemberResponse(member);
+		String fileUrl = memberFile.getFilePath();
+		memberResponse.setMemberFileUrl(fileUrl);
+
+		return memberResponse;
+	}
+	
+	@Override
+	public int getMemberIdByUsername(String username) {
+		return memberRepository.getMemberId(username);
+	}
+
+	@Override
+	public MemberResponse findOne(String username) {
 		Member member = memberRepository.selectMemberByUsername(username);
 
 		MemberFile memberFile = memberRepository.selectMemberFileByMemberId(member.getMemberId()); // 파일이 없을 경우 null 처리
@@ -121,4 +139,9 @@ public class MemberServiceImpl implements MemberService {
 		memberRepository.updateMemberFile(memberFile);
 		return memberFile.getFilePath();
 	}
+
+
+
+	
+
 }
