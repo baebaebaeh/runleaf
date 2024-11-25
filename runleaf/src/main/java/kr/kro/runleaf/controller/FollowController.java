@@ -68,4 +68,13 @@ public class FollowController {
         followService.unfollow(followerId, followingId);
         return ResponseEntity.noContent().build();
     }
+    
+    // 팔로워, 팔로잉 조회
+    @GetMapping("/{username}/stats")
+    public ResponseEntity<Map<String, Integer>> getFollowStats(@PathVariable String username) {
+    	int memberId = memberService.getMemberIdByUsername(username);
+    	
+        Map<String, Integer> stats = followService.getFollowStats(memberId);
+        return ResponseEntity.ok(stats);
+    }
 }
