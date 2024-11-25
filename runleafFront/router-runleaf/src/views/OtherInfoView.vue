@@ -19,19 +19,25 @@
                     <span>팔로잉 {{ followStats.followingCount || 0 }}</span>
                 </div>
                 <div class="stats">
-                    <span>뛴거리  {{ memberData.totalDist || 0 }}m</span>
+                    <span v-if="memberData.totalDist < 1000">
+                        뛴 거리: {{ memberData.totalDist || 0 }}m
+                    </span>
+                    <span v-if="memberData.totalDist >= 1000">
+                        뛴 거리: {{ Math.floor(memberData.totalDist / 1000) || 0 }}km
+                        {{ memberData.totalDist % 1000 || 0 }}m
+                    </span>
                 </div>
                 <div class="stats">
                     <div v-if="memberData.totalRunningSecond < 60" class="div3">
-                        뛴시간  {{ memberData.totalRunningSecond }}초
+                        뛴시간 {{ memberData.totalRunningSecond }}초
                     </div>
                     <div v-if="memberData.totalRunningSecond >= 60 && memberData.totalRunningSecond < 3600"
                         class="div3">
-                        뛴시간  {{ Math.floor(memberData.totalRunningSecond / 60) }}분
+                        뛴시간 {{ Math.floor(memberData.totalRunningSecond / 60) }}분
                         {{ memberData.totalRunningSecond % 60 }}초
                     </div>
                     <div v-if="memberData.totalRunningSecond >= 3600" class="div3">
-                        뛴시간  {{ Math.floor(memberData.totalRunningSecond / 3600) }}시간
+                        뛴시간 {{ Math.floor(memberData.totalRunningSecond / 3600) }}시간
                         {{ Math.floor(memberData.totalRunningSecond % 3600 / 60) }}분
                         {{ memberData.totalRunningSecond % 60 }}초
                     </div>
@@ -625,8 +631,10 @@ const tempSaveBoard = async (id) => {
 .follow-buttons .follow-btn,
 .follow-buttons .unfollow-btn {
     font-size: 10px;
-    margin-top: -20px; /* 버튼을 위로 이동 */
-    position: relative; /* 필요 시 위치 속성 변경 */
+    margin-top: -20px;
+    /* 버튼을 위로 이동 */
+    position: relative;
+    /* 필요 시 위치 속성 변경 */
 }
 
 .stats {
@@ -649,7 +657,7 @@ const tempSaveBoard = async (id) => {
 }
 
 .follow-btn {
-    
+
     background-color: #cdcdcd;
     color: white;
 }

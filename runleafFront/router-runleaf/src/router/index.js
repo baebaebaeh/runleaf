@@ -13,10 +13,23 @@ import EditMember from '@/components/member/EditMember.vue'
 import MyrunUpdateView from '@/views/MyrunUpdateView.vue'
 import NaverMapTESTView from '@/views/NaverMapTESTView.vue'
 import OtherInfoView from '@/views/OtherInfoView.vue'
+import FollowerListView from '@/views/FollowerListView.vue'
+import FollowingListView from '@/views/FollowingListView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/follower',
+      name: 'follower',
+      component: FollowerListView,
+    },
+    {
+      path: '/following',
+      name: 'following',
+      component: FollowingListView,
+    },
+
     {
       path: '/',
       name: 'home',
