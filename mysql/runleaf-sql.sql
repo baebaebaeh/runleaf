@@ -12,7 +12,6 @@ CREATE TABLE member (
     total_running_second DOUBLE DEFAULT 0,
     role varchar(20) NOT NULL
 );
-drop table member;
 -- 2. MemberFile 테이블 생성
 CREATE TABLE member_file (
     member_file_id int AUTO_INCREMENT PRIMARY KEY,
@@ -21,7 +20,6 @@ CREATE TABLE member_file (
     system_name varchar(100) NULL,
     member_id INT
 );
-drop table member_file;
 -- 3. Follow 테이블 생성
 CREATE TABLE follow (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +29,6 @@ CREATE TABLE follow (
     FOREIGN KEY (follower_id) REFERENCES member(member_id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES member(member_id) ON DELETE CASCADE
 );
-drop table follow;
 -- 4. 외래 키 제약 조건 추가
 ALTER TABLE member_file
 ADD CONSTRAINT fk_member_file_member FOREIGN KEY (member_id) REFERENCES member(member_id);
@@ -106,20 +103,5 @@ select *
 from running_coordinate;
 select *
 from comment;
-DELETE FROM running_coordinate
-WHERE running_board_id = 6;
-insert into running_coordinate (
-	running_board_id,
-    latitude,
-    longitude,
-    accuracy,
-    created_Ts
-) values (
-	6,
-    36.35936888722058,
-    127.30088573093977,
-    15.25533090712357,
-    '2024-11-25T12:02:53'
-);
 -- ALTER USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
 -- CREATE USER 'ssafy'@'localhost' IDENTIFIED BY 'ssafy';
