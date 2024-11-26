@@ -6,15 +6,6 @@
         <br />
         {{ Math.floor(gpsStore.cnt / 3600) }} : {{ Math.floor(gpsStore.cnt / 60) % 60 }} : {{ gpsStore.cnt % 60 }}
       </div>
-      <div>
-        {{ tempx }}
-      </div>
-      <div>
-        {{ tempy }}
-      </div>
-      <div>
-        {{ acc }}
-      </div>
       <img @click="startLocationInterval" class="play-circle" src="`@/assets/images/icons/play-circle.svg`"
         v-if="!gpsStore.isRunning || gpsStore.isPause" />
       <img @click="pauseLocationInterval" class="pause-circle" src="`@/assets/images/icons/pause-circle.svg`"

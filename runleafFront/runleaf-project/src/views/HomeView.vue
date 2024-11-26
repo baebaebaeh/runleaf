@@ -128,11 +128,13 @@ import axios from 'axios';
 import { useGpsStore } from '@/stores/gpsStore.js';
 import { useAuthStore } from '@/stores/auth.js'
 import MapComponent from '@/views/NaverMapTESTView.vue'
+import { useRunningDataStore } from '@/stores/runningDataStore';
 // ======================= 임포트 =======================
 onUnmounted(() => {
   document.body.style.overflow = "auto"; // 스크롤 복구
 })
 // ======================= 변수선언 =======================
+const runningDataStore = useRunningDataStore();
 const authStore = useAuthStore();
 const username = authStore.loginUsername;
 const gpsStore = useGpsStore();
@@ -410,6 +412,41 @@ onBeforeRouteLeave((to, from, next) => {
   next(); // 이동을 계속함
 });
 // ======================= 스크롤 관련 로직 =======================
+
+
+// ======================= 보드 수정삭제조회 =======================
+const deleteBoard = async (id) => {
+    await tempSaveBoard(id);
+    const confirmed = confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) {
+        const token = sessionStorage.getItem('token');
+        await axios.delete(`/api/running/${id}`, {
+            data: runningDataStore.updateBoardImageDto,
+            headers: {
+                'authorization': `Bearer ${token}`,
+            },
+        });
+        router.push({ name: 'myInfo' }).then(() => {
+            window.location.reload();
+        });
+        return
+    } else {
+        return
+    }
+}
+const tempSaveBoard = async (id) => {
+    console.log(id)
+    const board = await axios.get(`/api/running/board/${id}`);
+    const image = await axios.get(`/api/running/image/${id}`);
+    const coodinate = await axios.get(`/api/running/coodinate/${id}`);
+    console.log(board.data)
+    console.log(image.data)
+    console.log(coodinate.data)
+    runningDataStore.updateBoardDto = board.data;
+    runningDataStore.updateBoardImageDto = image.data;
+    runningDataStore.coodinate = coodinate.data;
+}
+// ======================= 보드 수정삭제조회 끝 =======================
 </script>
 
 <style scoped>

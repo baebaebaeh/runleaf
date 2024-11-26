@@ -101,11 +101,12 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from './stores/auth';
 import { useMenuStore } from './stores/menu';
 import { useFollowStore } from './stores/follow';
+import { onMounted } from 'vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
-
+const followStore = useFollowStore();
 
 const logout = () => {
   authStore.logout();
@@ -115,6 +116,11 @@ router.afterEach(() => {
   menuStore.hideMenu();
 });
 
+onMounted(async () => {
+  if (authStore.isLoggedIn) {
+    await followStore.getFollowStats(authStore.loginUsername);
+  }
+});
 </script>
 
 <style scoped>

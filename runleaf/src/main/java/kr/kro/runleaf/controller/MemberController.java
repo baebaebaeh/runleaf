@@ -77,13 +77,14 @@ public class MemberController {
 				savedFile = new File(dir, systemName);
 				file.transferTo(savedFile);
 			}
-
+			
 			// 파일 정보 세팅
 			memberFile.setFilePath(subDir + "/" + systemName); // 파일 경로
 			memberFile.setOrgName(orgName); // 원본 파일명
 			memberFile.setSystemName(systemName); // 시스템 저장 파일명
 			member.setMemberFile(memberFile);
-
+			System.out.println(memberFile);
+			
 			if (memberService.join(member)) {
 				return ResponseEntity.ok("회원가입이 완료되었습니다!");
 			}

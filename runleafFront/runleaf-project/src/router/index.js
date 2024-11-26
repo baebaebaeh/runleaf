@@ -4,8 +4,6 @@ import JoinInfo from '@/components/member/JoinInfo.vue'
 import JoinProfile from '@/components/member/JoinProfile.vue'
 import LoginView from '@/views/LoginView.vue'
 import HomeView from '@/views/HomeView.vue'
-import MyrunView from '@/views/MyrunView.vue'
-import MyrunDetailView from '@/views/MyrunDetailView.vue'
 import RunningView from '@/views/RunningView.vue'
 import RunAfterView from '@/views/RunAfterView.vue'
 import MyInfoView from '@/views/MyInfoView.vue'
@@ -34,23 +32,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      children: [
-        {
-          path: '',
-          name: 'test',
-          component: NaverMapTESTView,
-        },
-      ]
-    },
-    {
-      path: '/myrun',
-      name: 'myrun',
-      component: MyrunView,
-    },
-    {
-      path: '/detail/:id',
-      name: 'myrunDetail',
-      component: MyrunDetailView,
       children: [
         {
           path: '',

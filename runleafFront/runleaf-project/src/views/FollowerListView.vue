@@ -65,9 +65,13 @@ watch(() => authStore.loginUsername, (newValue, oldValue) => {
     fetchMemberDataList(newValue);
     console.log(newValue)
 })
+
 onMounted(() => {
-    fetchMemberDataList(authStore.loginUsername);
+    if (authStore.isLoggedIn) {
+        fetchMemberDataList(authStore.loginUsername);
+    }
 });
+
 </script>
 
 <style scoped>
